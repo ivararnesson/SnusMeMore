@@ -1,5 +1,10 @@
-using Umbraco.Cms.Core.Models.PublishedContent;
+
 using Umbraco.Cms.Core.Web;
+using Umbraco.Cms.Core.Models.PublishedContent;
+using Umbraco.Cms.Web.Common.PublishedModels;
+using System;
+using Umbraco.Cms.Core;
+using static Umbraco.Cms.Core.Constants.HttpContext;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -50,7 +55,7 @@ app.UseUmbraco()
         u.UseWebsiteEndpoints();
     });
 
-app.MapGet("api/content/{guid:guid}", (Guid guid, IUmbracoContextAccessor umbracoContextAccessor) =>
+app.MapGet("api/content/navbar/{guid:guid}", (Guid guid, IUmbracoContextAccessor umbracoContextAccessor) =>
 {
     var umbracoContext = umbracoContextAccessor.GetRequiredUmbracoContext();
     var content = umbracoContext.Content.GetById(guid);
@@ -69,6 +74,32 @@ app.MapGet("api/content/{guid:guid}", (Guid guid, IUmbracoContextAccessor umbrac
         OptionThree = content.Value<string>("optionThree"),
         ShoppingCart = content.Value<string>("shoppingCart"),
     };
+
+    return Results.Ok(result);
+});
+
+app.MapGet("api/content/snusitems/{guid:guid}", (Guid guid, IUmbracoContextAccessor umbracoContextAccessor) =>
+{
+    var umbracoContext = umbracoContextAccessor.GetRequiredUmbracoContext();
+    var content = umbracoContext.Content.GetById(guid);
+
+    if (content == null)
+    {
+        return Results.NotFound();
+    }
+
+    var selection = content
+            .ChildrenOfType("SnusItem")
+            .Where(x => x.IsVisible())
+            .OrderByDescending(x => x.CreateDate);
+
+    var result = selection.Select(x => new
+    {
+        SnusName = x.Value<string>("snusName"),
+        Description = x.Value<string>("description"),
+        Price = x.Value<string>("price"),
+        ImageUrl = x.Value<string>("imageUrl")
+    }).ToList();
 
     return Results.Ok(result);
 });
