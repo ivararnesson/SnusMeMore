@@ -1,0 +1,29 @@
+.master--nav-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.master--nav-ul {
+  display: flex;
+  list-style: none;
+}
+
+.master--nav-li-btn, .master--nav-btn {
+  border: none;
+  background-color: white;
+  padding: 1rem;
+  margin: 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.master--li-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100vw;
+}
+
+.master--nav-li-btn:hover, .master--nav-btn:hover {
+  color: blue;
+}/*# sourceMappingURL=master.css.map */
