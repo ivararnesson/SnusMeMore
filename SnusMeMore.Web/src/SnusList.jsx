@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 import SnusCard from './SnusCard'
+import config from '../config.js'
 
 const SnusList = () => {
     const [snusItems, setSnusItems] = useState()
 
     useEffect(() => {
-        fetch('https://localhost:44311/api/content/snusitems/b6fa2545-2966-42ee-adae-a72e7eb941cf')
+        fetch(config.umbracoURL + '/api/content/snusitems/' + config.snusListID)
         .then(respons => respons.json())
         .then(result => {
             setSnusItems(result)

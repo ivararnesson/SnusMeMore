@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react'
 import "./assets/CSS/master.css"
 import SnusList from './SnusList'
-
+import config from '../config'
 
 
 function App() {
   const [documentModel, setDocumentModel] = useState("")
 
   const getDocumentValues = async () => {
-    fetch("https://localhost:44311/api/content/navbar/cf233671-9951-42ce-894b-b8a7d8a9aaeb")
+    fetch(config.umbracoURL + '/api/content/navbar/' + config.mainPageID)
     .then(respons => respons.json())
     .then(result => {
       setDocumentModel(result) 

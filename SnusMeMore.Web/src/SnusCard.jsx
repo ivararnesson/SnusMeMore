@@ -1,4 +1,7 @@
 const SnusCard = ({ snus }) => {
+    const handleAddToCart = () => {
+        
+    }
 
     return (
         <div>
@@ -7,7 +10,7 @@ const SnusCard = ({ snus }) => {
                 <h2>{snus.snusName}</h2>
                 <p>{snus.description}</p>
                 <p>{snus.price} sek</p>
-                <button>Add to cart</button>
+                <button onClick={handleAddToCart}>Add to cart</button>
             </div>
         </div>
     )
