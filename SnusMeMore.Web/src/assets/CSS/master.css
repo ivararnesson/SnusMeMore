@@ -1,12 +1,22 @@
+@charset "UTF-8";
 .master--nav-container {
   display: flex;
   align-items: center;
   width: 100%;
+  background-color: aquamarine;
+}
+
+h1 {
+  padding-left: 0.5rem;
 }
 
 .master--nav-ul {
   display: flex;
   list-style: none;
+  align-items: center; /* Vertikalt centrera alla listobjekt */
+  margin: 0;
+  padding: 0;
+  white-space: nowrap; /* Förhindra att texten bryts */
 }
 
 .master--nav-li-btn, .master--nav-btn {
@@ -20,10 +30,50 @@
 
 .master--li-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
+  align-items: center; /* Vertikalt centrera alla objekt */
   width: 100vw;
 }
 
 .master--nav-li-btn:hover, .master--nav-btn:hover {
+  color: blue;
+}
+
+.dropdown {
+  position: absolute;
+  top: 180%;
+  left: 50%; /* Starta från mitten */
+  transform: translateX(-50%); /* Skjut tillbaka 50% av bredden för att centrera */
+  background-color: white;
+  list-style: none;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  display: none;
+  z-index: 1000;
+  white-space: nowrap; /* Förhindra att texten bryts */
+}
+
+.master--nav-li:hover .dropdown {
+  display: block;
+}
+
+.master--nav-li {
+  position: relative;
+}
+
+.dropdown li {
+  margin: 0.5rem 0;
+}
+
+.dropdown li a {
+  text-decoration: none;
+  color: black;
+  padding: 0.5rem;
+  display: block;
+}
+
+.dropdown li a:hover {
+  background-color: #f0f0f0;
   color: blue;
 }/*# sourceMappingURL=master.css.map */
