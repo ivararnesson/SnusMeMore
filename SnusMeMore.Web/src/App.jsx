@@ -12,16 +12,16 @@ function App() {
 
   const getDocumentValues = async () => {
     fetch("https://localhost:44311/api/content/cf233671-9951-42ce-894b-b8a7d8a9aaeb")
-    .then(respons => respons.json())
-    .then(result => {
-      setDocumentModel(result) 
-      console.log(result)
-    })
+      .then(respons => respons.json())
+      .then(result => {
+        setDocumentModel(result)
+        console.log(result)
+      })
   }
 
   useEffect(() => {
     getDocumentValues()
-  },[])
+  }, [])
 
   return (
     <nav className="master--nav-container">
@@ -31,7 +31,7 @@ function App() {
           <li className="master--nav-li">
             <a className="master--nav-li-btn" href="/">{documentModel.home}</a>
           </li>
-          
+
           <li className="master--nav-li" onMouseEnter={() => setShowDropdownOne(true)} onMouseLeave={() => setShowDropdownOne(false)}>
             <a className="master--nav-li-btn">{documentModel.optionOne}</a>
             {showDropdownOne && (
@@ -42,7 +42,7 @@ function App() {
               </ul>
             )}
           </li>
-          
+
           <li className="master--nav-li" onMouseEnter={() => setShowDropdownTwo(true)} onMouseLeave={() => setShowDropdownTwo(false)}>
             <a className="master--nav-li-btn">{documentModel.optionTwo}</a>
             {showDropdownTwo && (
@@ -53,7 +53,7 @@ function App() {
               </ul>
             )}
           </li>
-          
+
           <li className="master--nav-li" onMouseEnter={() => setShowDropdownThree(true)} onMouseLeave={() => setShowDropdownThree(false)}>
             <a className="master--nav-li-btn">{documentModel.optionThree}</a>
             {showDropdownThree && (
@@ -65,8 +65,8 @@ function App() {
             )}
           </li>
         </ul>
-        
-        <a className="master--nav-li-btn" onMouseEnter={() => setShowShoppingCartDropdown(true)} onMouseLeave={() => setShowShoppingCartDropdown(false)}>
+
+        {/* <a className="master--nav-li-btn" onMouseEnter={() => setShowShoppingCartDropdown(true)} onMouseLeave={() => setShowShoppingCartDropdown(false)}>
           {documentModel.shoppingCart}
         </a>
         {showShoppingCartDropdown && (
@@ -74,7 +74,31 @@ function App() {
             <li><a href="#">View Cart</a></li>
             <li><a href="#">Checkout</a></li>
           </ul>
-        )}
+        )} */}
+
+        {/* <div className="master--nav-cart">
+          <button
+            className="master--nav-li-btn"
+            onClick={() => setShowShoppingCartDropdown(!showShoppingCartDropdown)}
+          >
+            {documentModel.shoppingCart}
+          </button>
+          <ul className={`dropdown dropdown--cart ${showShoppingCartDropdown ? 'active' : ''}`}>
+            <li><a href="#">View Cart</a></li>
+            <li><a href="#">Checkout</a></li>
+          </ul>
+        </div> */}
+        
+        <li className="master--nav-li" onMouseEnter={() => setShowDropdownThree(true)} onMouseLeave={() => setShowDropdownThree(false)}>
+          <a className="master--nav-li-btn">{documentModel.shoppingCart}</a>
+          {showDropdownThree && (
+            <ul className="dropdown">
+              <li><a href="#">Suboption 1</a></li>
+              <li><a href="#">Suboption 2</a></li>
+              <li><a href="#">Suboption 3</a></li>
+            </ul>
+          )}
+        </li>
       </div>
     </nav>
   )

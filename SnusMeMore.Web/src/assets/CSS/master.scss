@@ -6,14 +6,14 @@
 }
 h1{
     padding-left: 0.5rem;
+    padding-right: 0.5rem;
 }
 .master--nav-ul {
     display: flex;
-    list-style: none;
-    align-items: center; /* Vertikalt centrera alla listobjekt */
+    align-items: center;
     margin: 0;
     padding: 0;
-    white-space: nowrap; /* Förhindra att texten bryts */
+    white-space: nowrap;
 }
 .master--nav-li-btn {
     border: none;
@@ -27,7 +27,7 @@ h1{
     display: flex;
     // justify-content: space-between;
     justify-content: space-evenly;
-    align-items: center; /* Vertikalt centrera alla objekt */
+    align-items: center;
     width: 100vw;
 }
 .master--nav-li-btn:hover {
@@ -38,9 +38,8 @@ h1{
 }
 .dropdown {
     position: absolute;
-    top: 180%;
-    left: 50%; /* Starta från mitten */
-    transform: translateX(-50%); /* Skjut tillbaka 50% av bredden för att centrera */
+    left: 50%;
+    transform: translateX(-50%);
     background-color: white;
     list-style: none;
     padding: 0.5rem;
@@ -48,7 +47,10 @@ h1{
     border-radius: 0.5rem;
     display: none;
     z-index: 1000;
-    white-space: nowrap; /* Förhindra att texten bryts */
+    white-space: nowrap;
+  }
+  .master--nav-ul .dropdown{
+    top: 180%;
   }
   
   .master--nav-li:hover .dropdown {
@@ -57,6 +59,7 @@ h1{
   
   .master--nav-li {
     position: relative;
+    list-style: none;
   }
   
   .dropdown li {
@@ -74,4 +77,5 @@ h1{
     background-color: #f0f0f0;
     color: blue;
   }
+
   
