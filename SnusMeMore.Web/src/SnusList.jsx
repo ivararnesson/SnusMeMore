@@ -9,10 +9,10 @@ const SnusList = ({ categoryFilter }) => {
         fetch('https://localhost:44311/api/content/snusitems/b6fa2545-2966-42ee-adae-a72e7eb941cf')
         .then(respons => respons.json())
         .then(result => {
-            const filteredItems = result.filter(item => item.category === categoryFilter);
+            const filteredItems = categoryFilter === 'all' ? result : result.filter(item => item.category === categoryFilter)
             setSnusItems(filteredItems)
         })
-    }, [])
+    }, [categoryFilter])
 
     return (
         <div className="snus--list">

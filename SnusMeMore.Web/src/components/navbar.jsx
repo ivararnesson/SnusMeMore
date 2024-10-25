@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import "../assets/CSS/master.css";
+import { Link } from 'react-router-dom';
 
 function Navbar() {
   const [documentModel, setDocumentModel] = useState("");
@@ -32,7 +33,7 @@ function Navbar() {
   };
 
   const getDocumentValues = async () => {
-    fetch("https://localhost:44311/api/content/cf233671-9951-42ce-894b-b8a7d8a9aaeb")
+    fetch("https://localhost:44311/api/content/navbar/cf233671-9951-42ce-894b-b8a7d8a9aaeb")
       .then(respons => respons.json())
       .then(result => {
         setDocumentModel(result);
@@ -68,9 +69,9 @@ function Navbar() {
             </a>
             {dropdownState.dropdownOne && (
               <ul className="dropdown">
-                <li><a href="#">Suboption 1</a></li>
-                <li><a href="#">Suboption 2</a></li>
-                <li><a href="#">Suboption 3</a></li>
+                <li><Link to="/tobakssnus">Tobakssnus</Link></li>
+                <li><Link to="/vittobakssnus">Vit Tobakssnus</Link></li>
+                <li><Link to="/lössnus">Lössnus</Link></li>
               </ul>
             )}
           </li>
@@ -86,7 +87,7 @@ function Navbar() {
             </a>
             {dropdownState.dropdownTwo && (
               <ul className="dropdown">
-                <li><a href="#">Suboption 1</a></li>
+                <li><Link to="/vittsnus">Vitt snus</Link></li>
                 <li><a href="#">Suboption 2</a></li>
                 <li><a href="#">Suboption 3</a></li>
               </ul>
@@ -104,7 +105,7 @@ function Navbar() {
             </a>
             {dropdownState.dropdownThree && (
               <ul className="dropdown">
-                <li><a href="#">Suboption 1</a></li>
+                <li><Link to="/nikotinfritt">Nikotinfritt snus</Link></li>
                 <li><a href="#">Suboption 2</a></li>
                 <li><a href="#">Suboption 3</a></li>
               </ul>
