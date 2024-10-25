@@ -1,21 +1,23 @@
 import { useEffect, useState } from 'react'
 import SnusCard from './SnusCard'
+import "./assets/CSS/snuslist.css"
 
-const SnusList = () => {
+const SnusList = ({ categoryFilter }) => {
     const [snusItems, setSnusItems] = useState()
 
     useEffect(() => {
         fetch('https://localhost:44311/api/content/snusitems/b6fa2545-2966-42ee-adae-a72e7eb941cf')
         .then(respons => respons.json())
         .then(result => {
-            setSnusItems(result)
+            const filteredItems = result.filter(item => item.category === categoryFilter);
+            setSnusItems(filteredItems)
         })
     }, [])
 
     return (
-        <div>
+        <div className="snus--list">
             {snusItems ? 
-            (<div>
+            (<div className="snus--grid">
                 {snusItems.map((item) => (
                     <SnusCard key={item.snusName} snus={item} />
                 ))}

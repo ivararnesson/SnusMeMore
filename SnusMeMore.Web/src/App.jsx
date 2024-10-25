@@ -43,7 +43,7 @@ function App() {
         </div>
       </nav>
 
-      <SnusList />
+      <SnusList categoryFilter="Lössnus" />
     </div>
   )
 }
