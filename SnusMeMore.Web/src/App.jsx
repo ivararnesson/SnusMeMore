@@ -1,40 +1,77 @@
-import { useState, useEffect } from 'react'
-import "./assets/CSS/master.css"
-
-
+import { useState, useEffect } from 'react';
+import "./assets/CSS/master.css";
 
 function App() {
-  const [documentModel, setDocumentModel] = useState("")
-  const [showDropdownOne, setShowDropdownOne] = useState(false);
-  const [showDropdownTwo, setShowDropdownTwo] = useState(false);
-  const [showDropdownThree, setShowDropdownThree] = useState(false);
-  const [showShoppingCartDropdown, setShowShoppingCartDropdown] = useState(false);
+  const [documentModel, setDocumentModel] = useState("");
+  const [dropdownState, setDropdownState] = useState({
+    dropdownOne: false,
+    dropdownTwo: false,
+    dropdownThree: false,
+    shoppingCartDropdown: false
+  });
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // const toggleDropdown = (dropdownName) => {
+  //   setDropdownState((prevState) => ({
+  //     ...prevState,
+  //     [dropdownName]: !prevState[dropdownName]
+  //   }));
+  const toggleDropdown = (dropdownName) => {
+    // Stäng av alla dropdowns om en annan är öppen, annars toggla den valda
+    setDropdownState((prevState) => {
+      const newState = {
+        dropdownOne: false,
+        dropdownTwo: false,
+        shoppingCartDropdown: false,
+      };
+      newState[dropdownName] = !prevState[dropdownName]; // Toggle the clicked dropdown
+      return newState;
+    });
+  };
+
+  const handleMouseLeave = (dropdownName) => {
+    setDropdownState((prevState) => ({
+      ...prevState,
+      [dropdownName]: false, // Stäng dropdown när musen lämnar
+    }));
+  };
 
   const getDocumentValues = async () => {
     fetch("https://localhost:44311/api/content/cf233671-9951-42ce-894b-b8a7d8a9aaeb")
       .then(respons => respons.json())
       .then(result => {
-        setDocumentModel(result)
-        console.log(result)
-      })
+        setDocumentModel(result);
+        console.log(result);
+      });
   }
 
   useEffect(() => {
-    getDocumentValues()
-  }, [])
+    getDocumentValues();
+  }, []);
 
   return (
     <nav className="master--nav-container">
       <h1 className="master--nav-title">{documentModel.title}</h1>
-      <div className="master--li-container">
+      <button className="hamburger-menu-btn" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+        <span className="hamburger-icon">&#9776;</span>
+      </button>
+
+      <div className={`master--li-container ${isMenuOpen ? "open" : ""}`}>
         <ul className="master--nav-ul">
           <li className="master--nav-li">
             <a className="master--nav-li-btn" href="/">{documentModel.home}</a>
           </li>
 
-          <li className="master--nav-li" onMouseEnter={() => setShowDropdownOne(true)} onMouseLeave={() => setShowDropdownOne(false)}>
-            <a className="master--nav-li-btn">{documentModel.optionOne}</a>
-            {showDropdownOne && (
+          <li
+            className="master--nav-li"
+            onClick={() => toggleDropdown('dropdownOne')}
+            onMouseLeave={() => handleMouseLeave('dropdownOne')} // Stäng dropdown när musen lämnar
+          >
+            <a className="master--nav-li-btn">
+              {documentModel.optionOne}
+              <span className={`dropdown-arrow`}>&#9662;</span>
+            </a>
+            {dropdownState.dropdownOne && (
               <ul className="dropdown">
                 <li><a href="#">Suboption 1</a></li>
                 <li><a href="#">Suboption 2</a></li>
@@ -43,9 +80,16 @@ function App() {
             )}
           </li>
 
-          <li className="master--nav-li" onMouseEnter={() => setShowDropdownTwo(true)} onMouseLeave={() => setShowDropdownTwo(false)}>
-            <a className="master--nav-li-btn">{documentModel.optionTwo}</a>
-            {showDropdownTwo && (
+          <li
+            className="master--nav-li"
+            onClick={() => toggleDropdown('dropdownTwo')}
+            onMouseLeave={() => handleMouseLeave('dropdownTwo')} // Stäng dropdown när musen lämnar
+          >
+            <a className="master--nav-li-btn">
+              {documentModel.optionTwo}
+              <span className={`dropdown-arrow`}>&#9662;</span>
+            </a>
+            {dropdownState.dropdownTwo && (
               <ul className="dropdown">
                 <li><a href="#">Suboption 1</a></li>
                 <li><a href="#">Suboption 2</a></li>
@@ -54,9 +98,15 @@ function App() {
             )}
           </li>
 
-          <li className="master--nav-li" onMouseEnter={() => setShowDropdownThree(true)} onMouseLeave={() => setShowDropdownThree(false)}>
-            <a className="master--nav-li-btn">{documentModel.optionThree}</a>
-            {showDropdownThree && (
+          <li
+            className="master--nav-li"
+            onClick={() => toggleDropdown('shoppingCartDropdown')}
+            onMouseLeave={() => handleMouseLeave('shoppingCartDropdown')} // Stäng dropdown när musen lämnar
+          >
+            <a className="master--nav-li-btn">
+              {documentModel.shoppingCart}
+            </a>
+            {dropdownState.shoppingCartDropdown && (
               <ul className="dropdown">
                 <li><a href="#">Suboption 1</a></li>
                 <li><a href="#">Suboption 2</a></li>
@@ -65,48 +115,11 @@ function App() {
             )}
           </li>
         </ul>
-
-        {/* <a className="master--nav-li-btn" onMouseEnter={() => setShowShoppingCartDropdown(true)} onMouseLeave={() => setShowShoppingCartDropdown(false)}>
-          {documentModel.shoppingCart}
-        </a>
-        {showShoppingCartDropdown && (
-          <ul className="dropdown dropdown--cart">
-            <li><a href="#">View Cart</a></li>
-            <li><a href="#">Checkout</a></li>
-          </ul>
-        )} */}
-
-        {/* <div className="master--nav-cart">
-          <button
-            className="master--nav-li-btn"
-            onClick={() => setShowShoppingCartDropdown(!showShoppingCartDropdown)}
-          >
-            {documentModel.shoppingCart}
-          </button>
-          <ul className={`dropdown dropdown--cart ${showShoppingCartDropdown ? 'active' : ''}`}>
-            <li><a href="#">View Cart</a></li>
-            <li><a href="#">Checkout</a></li>
-          </ul>
-        </div> */}
-        
-        <li className="master--nav-li" onMouseEnter={() => setShowDropdownThree(true)} onMouseLeave={() => setShowDropdownThree(false)}>
-          <a className="master--nav-li-btn">{documentModel.shoppingCart}</a>
-          {showDropdownThree && (
-            <ul className="dropdown">
-              <li><a href="#">Suboption 1</a></li>
-              <li><a href="#">Suboption 2</a></li>
-              <li><a href="#">Suboption 3</a></li>
-            </ul>
-          )}
-        </li>
       </div>
     </nav>
   )
 }
 
-export default App
-
-
-
+export default App;
 
 
