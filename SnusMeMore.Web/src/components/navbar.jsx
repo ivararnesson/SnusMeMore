@@ -16,6 +16,7 @@ function Navbar() {
       const newState = {
         dropdownOne: false,
         dropdownTwo: false,
+        dropdownThree: false,
         shoppingCartDropdown: false,
       };
       newState[dropdownName] = !prevState[dropdownName];
@@ -84,6 +85,24 @@ function Navbar() {
               <span className={`dropdown-arrow`}>&#9662;</span>
             </a>
             {dropdownState.dropdownTwo && (
+              <ul className="dropdown">
+                <li><a href="#">Suboption 1</a></li>
+                <li><a href="#">Suboption 2</a></li>
+                <li><a href="#">Suboption 3</a></li>
+              </ul>
+            )}
+          </li>
+
+          <li
+            className="master--nav-li"
+            onClick={() => toggleDropdown('dropdownThree')}
+            onMouseLeave={() => handleMouseLeave('dropdownThree')} // Stäng dropdown när musen lämnar
+          >
+            <a className="master--nav-li-btn">
+              {documentModel.optionThree}
+              <span className={`dropdown-arrow`}>&#9662;</span>
+            </a>
+            {dropdownState.dropdownThree && (
               <ul className="dropdown">
                 <li><a href="#">Suboption 1</a></li>
                 <li><a href="#">Suboption 2</a></li>
