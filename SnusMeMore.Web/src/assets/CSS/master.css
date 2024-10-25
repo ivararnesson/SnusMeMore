@@ -1,12 +1,44 @@
+@charset "UTF-8";
 .master--nav-container {
   display: flex;
   align-items: center;
-  width: 100%;
+  background-color: aquamarine;
+  padding: 0.5rem;
+  position: relative;
+}
+
+h1 {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }
 
 .master--nav-ul {
   display: flex;
-  list-style: none;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+}
+
+/* Hamburgar-knappen för mindre skärmar */
+.hamburger-menu-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: none;
+  font-size: 24px;
+  margin-left: auto;
+}
+
+.hamburger-icon {
+  font-size: 24px;
+}
+
+.master--li-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100vw;
 }
 
 .master--nav-li-btn, .master--nav-btn {
@@ -18,12 +50,86 @@
   cursor: pointer;
 }
 
-.master--li-container {
-  display: flex;
-  justify-content: space-between;
-  width: 100vw;
-}
-
 .master--nav-li-btn:hover, .master--nav-btn:hover {
   color: blue;
+  background-color: #f0f0f0;
+}
+
+.dropdown {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  list-style: none;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  display: none;
+  z-index: 1000;
+  white-space: nowrap;
+}
+
+.dropdown li a:hover {
+  background-color: #f0f0f0;
+  color: blue;
+}
+
+.master--nav-ul .dropdown {
+  top: 180%;
+}
+
+.master--nav-li:hover .dropdown {
+  display: block;
+}
+
+.master--nav-li {
+  position: relative;
+  list-style: none;
+}
+
+.dropdown li {
+  margin: 0.5rem 0;
+}
+
+.dropdown li a {
+  text-decoration: none;
+  color: black;
+  padding: 0.5rem;
+  display: block;
+}
+
+/* Hantera visningen av hamburgarmenyn */
+@media (max-width: 768px) {
+  .master--li-container {
+    display: none;
+    flex-direction: column;
+    justify-content: space-evenly;
+    background-color: white;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    width: auto;
+    padding: 1rem;
+    z-index: 999;
+    border: 1px solid #070606;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  .master--li-container.open {
+    display: flex;
+    font-size: 10px;
+  }
+  .hamburger-menu-btn {
+    display: block;
+    margin-left: auto;
+    padding-right: 10px;
+  }
+}
+@media (max-width: 400px) {
+  .master--nav-li-btn, .master--nav-btn {
+    padding: 0.5rem;
+    margin: 0.5rem;
+  }
 }/*# sourceMappingURL=master.css.map */
