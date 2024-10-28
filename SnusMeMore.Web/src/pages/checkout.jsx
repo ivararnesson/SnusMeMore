@@ -22,6 +22,12 @@ const CheckoutPage = () => {
     zipCode: '',
     country: '',
   });
+  const [cardInfo, setCardInfo] = useState({
+    cardholderName: '',
+    cardNumber: '',
+    expirationDate: '',
+    cvv: '',
+  });
 
   const shippingCosts = {
     standard: 0,
@@ -45,13 +51,33 @@ const CheckoutPage = () => {
   const handleCheckout = (e) => {
     e.preventDefault();
 
-    // Check if all required fields are filled
     const allFieldsFilled = Object.values(address).every(field => field.trim() !== '');
-    
-    if (!allFieldsFilled) {
-      alert('Var snäll och fyll i alla fällt.');
+    const allCardFieldsFilled = Object.values(cardInfo).every(field => field.trim() !== '');
+
+    if (!allFieldsFilled || !allCardFieldsFilled) {
+      alert('Var snäll och fyll i alla fält.');
       return;
     }
+
+    // Display confirmation
+    alert('Din order är bekräftad!');
+
+    // Clear cart items, address, and payment info
+    setCartItems([]);
+    setAddress({
+      name: '',
+      street: '',
+      city: '',
+      zipCode: '',
+      country: '',
+    });
+    setPaymentMethod('mastercard');
+    setCardInfo({
+      cardholderName: '',
+      cardNumber: '',
+      expirationDate: '',
+      cvv: '',
+    });
   };
 
   return (
@@ -121,7 +147,7 @@ const CheckoutPage = () => {
             <h4>Leveransadress:</h4>
             <label>Namn</label>
             <input type="text" value={address.name} onChange={(e) => setAddress({ ...address, name: e.target.value })} className="form-control" required />
-            <label>Adress Address</label>
+            <label>Adress</label>
             <input type="text" value={address.street} onChange={(e) => setAddress({ ...address, street: e.target.value })} className="form-control" required />
             <label>Stad</label>
             <input type="text" value={address.city} onChange={(e) => setAddress({ ...address, city: e.target.value })} className="form-control" required />
@@ -159,13 +185,41 @@ const CheckoutPage = () => {
           {/* Card Details */}
           <div className="card-details mt-3">
             <label>Namn på kortinnehavare</label>
-            <input type="text" placeholder="John Carter" className="form-control" required />
+            <input
+              type="text"
+              value={cardInfo.cardholderName}
+              onChange={(e) => setCardInfo({ ...cardInfo, cardholderName: e.target.value })}
+              placeholder="John Carter"
+              className="form-control"
+              required
+            />
             <label>Kortnummer</label>
-            <input type="text" placeholder="**** **** **** 2153" className="form-control" required />
+            <input
+              type="text"
+              value={cardInfo.cardNumber}
+              onChange={(e) => setCardInfo({ ...cardInfo, cardNumber: e.target.value })}
+              placeholder="**** **** **** 2153"
+              className="form-control"
+              required
+            />
             <label>Utgångsdatum</label>
-            <input type="text" placeholder="MM / YY" className="form-control" required />
+            <input
+              type="text"
+              value={cardInfo.expirationDate}
+              onChange={(e) => setCardInfo({ ...cardInfo, expirationDate: e.target.value })}
+              placeholder="MM / YY"
+              className="form-control"
+              required
+            />
             <label>CVV</label>
-            <input type="text" placeholder="123" className="form-control" required />
+            <input
+              type="text"
+              value={cardInfo.cvv}
+              onChange={(e) => setCardInfo({ ...cardInfo, cvv: e.target.value })}
+              placeholder="123"
+              className="form-control"
+              required
+            />
           </div>
 
           <button className="btn btn-primary mt-4 w-100" disabled={!shippingMethod}>Slutför</button>
