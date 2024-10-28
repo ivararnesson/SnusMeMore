@@ -5,8 +5,8 @@ import Knox from "../src/assets/CSS/knox.png"
 import { Paginator } from "primereact/paginator"
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
-import SnusCard from './SnusCard'
-import config from '../config.js'
+import SnusCard from './SnusCard.jsx'
+import config from '../../config.js'
 import "./assets/CSS/snuslist.css"
 
 const SnusList = ({ categoryFilter }) => {
