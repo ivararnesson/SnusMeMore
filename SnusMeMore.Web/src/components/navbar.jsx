@@ -69,9 +69,9 @@ function Navbar() {
             </a>
             {dropdownState.dropdownOne && (
               <ul className="dropdown">
-                <li><Link to="/tobakssnus">Tobakssnus</Link></li>
-                <li><Link to="/vittobakssnus">Vit Tobakssnus</Link></li>
-                <li><Link to="/lössnus">Lössnus</Link></li>
+                <li><Link to="/snuslist?category=Tobak">Tobakssnus</Link></li>
+                <li><Link to="/snuslist?category=VitTobak">Vit Tobakssnus</Link></li>
+                <li><Link to="/snuslist?category=Lössnus">Lössnus</Link></li>
               </ul>
             )}
           </li>
