@@ -77,6 +77,26 @@ app.MapGet("api/content/navbar/{guid:guid}", (Guid guid, IUmbracoContextAccessor
 
     return Results.Ok(result);
 });
+app.MapGet("api/search", (string query, IUmbracoContextAccessor umbracoContextAccessor) =>
+{
+    var umbracoContext = umbracoContextAccessor.GetRequiredUmbracoContext();
+
+    var results = umbracoContext.Content.GetAtRoot()
+        .SelectMany(content => content.ChildrenOfType("SnusItem") 
+            .Where(x => x.IsVisible() && 
+                        (x.Value<string>("snusName").Contains(query, StringComparison.OrdinalIgnoreCase) ||
+                         x.Value<string>("description").Contains(query, StringComparison.OrdinalIgnoreCase))) 
+            .Select(x => new
+            {
+                Id = x.Id,
+                SnusName = x.Value<string>("snusName"),
+                Price = x.Value<string>("price"),
+                ImageUrl = x.Value<string>("imageUrl")
+            }))
+        .ToList();
+
+    return Results.Ok(results);
+});
 
 app.MapGet("api/content/snusitems/{guid:guid}", (Guid guid, IUmbracoContextAccessor umbracoContextAccessor) =>
 {
