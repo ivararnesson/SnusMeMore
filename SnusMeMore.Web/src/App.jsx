@@ -5,7 +5,6 @@ import "./assets/CSS/master.css"
 import SnusList from './SnusList'
 
 
-
 function App() {
   return (
     <Router>
