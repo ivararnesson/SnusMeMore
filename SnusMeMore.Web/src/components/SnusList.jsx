@@ -1,17 +1,17 @@
 import "primereact/resources/themes/lara-light-indigo/theme.css"
 import "primereact/resources/primereact.min.css"
 import "primeicons/primeicons.css"
-import BrandLink from "./BrandLink"
-import Knox from "../src/assets/CSS/knox.png"
-import Kaliber from "../src/assets/CSS/kaliber-logo.png"
-import Lundgrens from "../src/assets/CSS/Lundgrens-logo.png"
-import One from "../src/assets/CSS/ONE-logo.png"
-import Velo from "../src/assets/CSS/velo-snus-logo.png"
+import BrandLink from "../BrandLink.jsx"
+import Knox from "../assets/CSS/knox.png"
+import Kaliber from "../assets/CSS/kaliber-logo.png"
+import Lundgrens from "../assets/CSS/Lundgrens-logo.png"
+import One from "../assets/CSS/ONE-logo.png"
+import Velo from "../assets/CSS/velo-snus-logo.png"
 import { Paginator } from "primereact/paginator"
 import { useEffect, useState } from 'react'
 import SnusCard from './SnusCard.jsx'
 import config from '../../config.js'
-import "./assets/CSS/snuslist.css"
+import "../assets/CSS/snuslist.css"
 import { useLocation } from 'react-router-dom';
 
 const SnusList = () => {
