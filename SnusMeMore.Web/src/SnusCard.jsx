@@ -1,7 +1,8 @@
+import { AuthContext } from "./authContext";
+import { useContext } from "react"
+
 const SnusCard = ({ snus }) => {
-    const handleAddToCart = () => {
-        
-    }
+    const { addToCart } = useContext(AuthContext)
 
     return (
         <div>
@@ -10,7 +11,7 @@ const SnusCard = ({ snus }) => {
                 <h2>{snus.snusName}</h2>
                 <p>{snus.description}</p>
                 <p>{snus.price} sek</p>
-                <button onClick={handleAddToCart}>Add to cart</button>
+                <button onClick={() => addToCart(snus.snusId)}>Add to cart</button>
             </div>
         </div>
     )
