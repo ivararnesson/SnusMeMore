@@ -63,7 +63,7 @@ const CheckoutPage = () => {
           <thead>
             <tr>
               <th>Produkt</th>
-              <th>Storlek</th>
+              <th>Typ</th>
               <th>Antal</th>
               <th>Pris</th>
             </tr>
