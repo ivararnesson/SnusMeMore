@@ -59,6 +59,7 @@
     color: #444;
     margin-right: 1.5rem;
     float: right;
+    text-align: right;
   }
   
   .subtotal h4 {
@@ -111,7 +112,10 @@
     border-radius: 5px;
     font-size: 0.9em;
     cursor: pointer;
-  }
+    background-color: transparent;
+    color: #333;
+    transition: color 0.3s;
+}
   
   button:disabled {
     cursor: not-allowed;

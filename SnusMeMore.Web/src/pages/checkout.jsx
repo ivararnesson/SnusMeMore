@@ -25,8 +25,8 @@ const CheckoutPage = () => {
 
   const shippingCosts = {
     standard: 0,
-    express: 9.99,
-    nextDay: 19.99,
+    express: 79,
+    nextDay: 119,
   };
 
   const handleQuantityChange = (id, change) => {
@@ -49,31 +49,23 @@ const CheckoutPage = () => {
     const allFieldsFilled = Object.values(address).every(field => field.trim() !== '');
     
     if (!allFieldsFilled) {
-      alert('Please fill in all address fields.');
+      alert('Var snäll och fyll i alla fällt.');
       return;
     }
-
-    // Proceed with checkout process (e.g., API call)
-    console.log('Checkout successful:', {
-      cartItems,
-      paymentMethod,
-      shippingMethod,
-      address,
-    });
   };
 
   return (
     <div className="checkout-page container d-flex justify-content-between">
       {/* Cart Section */}
       <div className="cart-section w-50">
-        <h2>Shopping Cart</h2>
+        <h2>Kundvagn</h2>
         <table className="table">
           <thead>
             <tr>
-              <th>Product</th>
-              <th>Size</th>
-              <th>Quantity</th>
-              <th>Total Price</th>
+              <th>Produkt</th>
+              <th>Storlek</th>
+              <th>Antal</th>
+              <th>Pris</th>
             </tr>
           </thead>
           <tbody>
@@ -119,8 +111,8 @@ const CheckoutPage = () => {
               className="form-control mt-2"
             >
               <option value="standard">Standard (2-5 Arbetsdagar) - Gratis</option>
-              <option value="express">Express (1-2 Arbetsdagar) - 9.99 kr</option>
-              <option value="nextDay">Nästa dag - 19.99 kr</option>
+              <option value="express">Express (1-2 Arbetsdagar) - 79 kr</option>
+              <option value="nextDay">Nästa dag - 119 kr</option>
             </select>
           </div>
 
@@ -176,7 +168,7 @@ const CheckoutPage = () => {
             <input type="text" placeholder="123" className="form-control" required />
           </div>
 
-          <button className="btn btn-primary mt-4 w-100" disabled={!shippingMethod}>Check Out</button>
+          <button className="btn btn-primary mt-4 w-100" disabled={!shippingMethod}>Slutför</button>
         </form>
       </div>
     </div>
