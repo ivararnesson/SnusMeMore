@@ -75,6 +75,31 @@
   transform: scale(1.2);
 }
 
+.snus--list-categorylink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  width: 10%;
+  height: 5rem;
+  padding: 8px;
+  background-color: transparent;
+  border: none;
+  transition: transform 0.3s;
+  cursor: pointer;
+}
+
+.snus--list-categorylink:hover {
+  transform: scale(1.2);
+}
+
+.snus--list-categoryimg {
+  max-width: 100%;
+  max-height: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
 @media (max-width: 950px) {
   .snus--grid {
     grid-template-columns: repeat(3, 1fr);

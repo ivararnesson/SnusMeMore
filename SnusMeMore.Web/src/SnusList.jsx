@@ -1,8 +1,10 @@
 import "primereact/resources/themes/lara-light-indigo/theme.css"
 import "primereact/resources/primereact.min.css"
 import "primeicons/primeicons.css"
+import Knox from "../src/assets/CSS/knox.png"
 import { Paginator } from "primereact/paginator"
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
 import SnusCard from './SnusCard'
 import "./assets/CSS/snuslist.css"
 
@@ -45,6 +47,9 @@ const SnusList = ({ categoryFilter }) => {
             )
             : 
             (<p>Loading...</p>)}
+            <Link to="/" className="snus--list-categorylink">
+                <img src={Knox} className="snus--list-categoryimg" alt="knox-icom"/>
+            </Link>
         </div>
     )
 }
