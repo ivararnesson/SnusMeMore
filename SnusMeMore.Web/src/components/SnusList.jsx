@@ -1,12 +1,12 @@
 import "primereact/resources/themes/lara-light-indigo/theme.css"
 import "primereact/resources/primereact.min.css"
 import "primeicons/primeicons.css"
-import BrandLink from "../BrandLink"
-import Knox from "../assets/CSS/knox.png"
-import Kaliber from "../assets/CSS/kaliber-logo.png"
-import Lundgrens from "../assets/CSS/Lundgrens-logo.png"
-import One from "../assets/CSS/ONE-logo.png"
-import Velo from "../assets/CSS/velo-snus-logo.png"
+import BrandLink from "./BrandLink"
+import Knox from "../../src/assets/CSS/knox.png"
+import Kaliber from "../../src/assets/CSS/kaliber-logo.png"
+import Lundgrens from "../../src/assets/CSS/Lundgrens-logo.png"
+import One from "../../src/assets/CSS/ONE-logo.png"
+import Velo from "../../src/assets/CSS/velo-snus-logo.png"
 import { Paginator } from "primereact/paginator"
 import { useEffect, useState } from 'react'
 import SnusCard from './SnusCard.jsx'
@@ -41,7 +41,7 @@ const SnusList = () => {
         const queryParams = new URLSearchParams(location.search)
         const category = queryParams.get('category')
 
-        fetch(config.umbracoURL + '/api/content/snusitems/' + config.snusListID)
+        fetch(config.umbracoURL + '/api/content/snusitems')
             .then(response => response.json())
             .then(result => {
                 setSnusItems(result)
