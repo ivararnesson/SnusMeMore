@@ -88,10 +88,12 @@ app.MapGet("/api/content/navbar/{guid:guid}", (Guid guid, IUmbracoContextAccesso
     return Results.Ok(result);
 });
 
-app.MapGet("/api/content/snusitems/{guid:guid}", (Guid guid, IUmbracoContextAccessor umbracoContextAccessor) =>
+app.MapGet("/api/content/snusitems", (IUmbracoContextAccessor umbracoContextAccessor, IContentService contentService) =>
 {
     var umbracoContext = umbracoContextAccessor.GetRequiredUmbracoContext();
-    var content = umbracoContext.Content.GetById(guid);
+
+    var snusRef = contentService.GetRootContent().FirstOrDefault(x => x.Name == "SnusList");
+    var content = umbracoContext.Content.GetById(snusRef.Key);
 
     if (content == null)
     {
@@ -164,13 +166,16 @@ app.MapGet("/api/check-login", (HttpContext httpContext) =>
     return Results.Ok(new { IsAuthenticated = httpContext.User.Identity?.IsAuthenticated ?? false }); //this is old
 });
 
-app.MapGet("/api/cart", (HttpContext context, IUmbracoContextAccessor umbracoContextAccessor) =>
+app.MapGet("/api/cart", (HttpContext context, IUmbracoContextAccessor umbracoContextAccessor, IContentService contentService) =>
 {
     string? userId = GetAuthHeader(context);
 
     var umbracoContext = umbracoContextAccessor.GetRequiredUmbracoContext();
-    var cartItemsContent = umbracoContext.Content.GetById(new Guid("19e70cf7-6cad-452c-83d6-bf41552b298c"));
-    var snusItemsContent = umbracoContext.Content.GetById(new Guid("b6fa2545-2966-42ee-adae-a72e7eb941cf"));
+
+    var cartRef = contentService.GetRootContent().FirstOrDefault(x => x.Name == "CartItemList");
+    var snusRef = contentService.GetRootContent().FirstOrDefault(x => x.Name == "SnusList");
+    var cartItemsContent = umbracoContext.Content.GetById(cartRef.Key);
+    var snusItemsContent = umbracoContext.Content.GetById(snusRef.Key);
 
     if (cartItemsContent == null || snusItemsContent == null || userId.IsNullOrEmpty())
     {
@@ -213,7 +218,11 @@ app.MapPost("/api/cart/add", (HttpContext context, [FromBody] CartAddRequest new
         return Results.Unauthorized();
     }
 
-    var cartItem = contentService.Create("CartItem", -1, "cartItem");
+    var cartItemList = contentService.GetRootContent().FirstOrDefault(x => x.Name == "CartItemList");
+
+    if (cartItemList == null) return Results.StatusCode(500);
+
+    var cartItem = contentService.Create($"CartItem-{newItem.ItemId}", cartItemList.Key, "cartItem");
     cartItem.SetValue("userId", userId);
     cartItem.SetValue("snusId", newItem.ItemId);
 

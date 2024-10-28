@@ -2,7 +2,7 @@ import Navbar from "./components/navbar";
 import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import "./assets/CSS/master.css"
-import SnusList from './SnusList'
+import SnusList from './components/SnusList'
 
 
 function App() {
