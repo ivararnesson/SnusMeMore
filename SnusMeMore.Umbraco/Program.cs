@@ -106,6 +106,7 @@ app.MapGet("/api/content/snusitems/{guid:guid}", (Guid guid, IUmbracoContextAcce
     var result = selection.Select(x => new
     {
         SnusName = x.Value<string>("snusName"),
+        Category = x.Value<string>("category"),
         Description = x.Value<string>("description"),
         Price = x.Value<string>("price"),
         ImageUrl = x.Value<string>("imageUrl"),

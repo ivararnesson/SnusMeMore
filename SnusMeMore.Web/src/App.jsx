@@ -1,51 +1,26 @@
+import Navbar from "./components/navbar";
 import { useState, useEffect } from 'react'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import "./assets/CSS/master.css"
 import SnusList from './SnusList'
-import config from '../config'
 
 
 function App() {
-  const [documentModel, setDocumentModel] = useState("")
-
-  const getDocumentValues = async () => {
-    fetch(config.umbracoURL + '/api/content/navbar/' + config.mainPageID)
-    .then(respons => respons.json())
-    .then(result => {
-      setDocumentModel(result) 
-      console.log(result)
-    })
-  }
-
-  useEffect(() => {
-    getDocumentValues()
-  },[])
-
   return (
-    <div>
-      <nav className="master--nav-container">
-        <h1 className="master--nav-title">{documentModel.title}</h1>
-        <div className="master--li-container">
-          <ul className="master--nav-ul">
-            <li className="master--nav-li">
-              <a className="master--nav-li-btn" href="/">{documentModel.home}</a>
-            </li>
-            <li className="master--nav-li">
-              <a className="master--nav-li-btn" href="/">{documentModel.optionOne}</a>
-            </li>
-            <li className="master--nav-li">
-              <a className="master--nav-li-btn" href="/">{documentModel.optionTwo}</a>
-            </li>
-            <li className="master--nav-li">
-              <a className="master--nav-li-btn" href="/">{documentModel.optionThree}</a>
-            </li>
-          </ul>
-          <a className="master--nav-li-btn">{documentModel.shoppingCart}</a>
-        </div>
-      </nav>
-
-      <SnusList />
-    </div>
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<SnusList categoryFilter="all" />} />
+        <Route path="/lössnus" element={<SnusList categoryFilter="Lössnus" />} />
+        <Route path="/tobakssnus" element={<SnusList categoryFilter="Tobak" />} />
+        <Route path="/vittsnus" element={<SnusList categoryFilter="VittSnus" />} />
+        <Route path="/nikotinfritt" element={<SnusList categoryFilter="Nikotinfritt" />} />
+        <Route path="/vittobakssnus" element={<SnusList categoryFilter="VitTobak" />} />
+      </Routes>
+    </Router>
   )
 }
 
-export default App
+export default App;
+
+
