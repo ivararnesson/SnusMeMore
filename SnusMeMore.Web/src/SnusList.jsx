@@ -1,29 +1,77 @@
 import "primereact/resources/themes/lara-light-indigo/theme.css"
 import "primereact/resources/primereact.min.css"
 import "primeicons/primeicons.css"
+import BrandLink from "./BrandLink"
 import Knox from "../src/assets/CSS/knox.png"
+import Kaliber from "../src/assets/CSS/kaliber-logo.png"
+import Lundgrens from "../src/assets/CSS/Lundgrens-logo.png"
+import One from "../src/assets/CSS/ONE-logo.png"
+import Velo from "../src/assets/CSS/velo-snus-logo.png"
 import { Paginator } from "primereact/paginator"
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
 import SnusCard from './SnusCard'
 import "./assets/CSS/snuslist.css"
+import { useLocation } from 'react-router-dom';
 
-const SnusList = ({ categoryFilter }) => {
+const SnusList = () => {
     const [snusItems, setSnusItems] = useState([])
+    const [filteredItems, setFilteredItems] = useState([])
+    const [brandFilter, setBrandFilter] = useState("all")
     const [firstItem, setFirstItem] = useState(0)
     const [rows, setRows] = useState(8)
+    const location = useLocation();
+
+    const brands = [
+        {imgSrc: Knox, altTxt:"Knox"},
+        {imgSrc: Velo, altTxt:"Velo"},
+        {imgSrc: Lundgrens, altTxt:"Lundgrens"},
+        {imgSrc: One, altTxt:"One"},
+        {imgSrc: Kaliber, altTxt:"Kaliber"},
+        {imgSrc: Velo, altTxt:"velo-logo"},
+        {imgSrc: Velo, altTxt:"velo-logo"},
+        {imgSrc: Velo, altTxt:"velo-logo"},
+        {imgSrc: Velo, altTxt:"velo-logo"},
+        {imgSrc: Velo, altTxt:"velo-logo"},
+        {imgSrc: Velo, altTxt:"velo-logo"},
+        {imgSrc: Velo, altTxt:"velo-logo"},
+    ]
 
     useEffect(() => {
-        fetch('https://localhost:44311/api/content/snusitems/b6fa2545-2966-42ee-adae-a72e7eb941cf')
-        .then(respons => respons.json())
-        .then(result => {
-            const filteredItems = categoryFilter === 'all' ? result : result.filter(item => item.category === categoryFilter)
-            setSnusItems(filteredItems)
-            setFirstItem(0)
-        })
-    }, [categoryFilter])
+        const queryParams = new URLSearchParams(location.search)
+        const category = queryParams.get('category')
 
-    const currentItem = snusItems.slice(firstItem, firstItem + rows)
+        fetch('https://localhost:44311/api/content/snusitems/b6fa2545-2966-42ee-adae-a72e7eb941cf')
+            .then(response => response.json())
+            .then(result => {
+                setSnusItems(result)
+
+                const filteredResult = category 
+                    ? result.filter(item => item.category === category) 
+                    : result
+
+                setFilteredItems(filteredResult)
+            });
+    }, [location.search])
+
+    useEffect(() => {
+        const queryParams = new URLSearchParams(location.search)
+        const category = queryParams.get('category')
+
+        const filtered = snusItems.filter(item => {
+            const matchesBrand = brandFilter === "all" || item.brand === brandFilter
+            const matchesCategory = !category || item.category === category
+            return matchesBrand && matchesCategory
+        })
+
+        setFilteredItems(filtered)
+        setFirstItem(0)
+    }, [brandFilter, snusItems, location.search])
+
+    const currentItem = filteredItems.slice(firstItem, firstItem + rows)
+
+    const handleBrandFilter = (brand) => {
+        setBrandFilter(brand)
+    }
 
     return (
         <div className="snus--list">
@@ -37,7 +85,7 @@ const SnusList = ({ categoryFilter }) => {
                     <Paginator 
                         first={firstItem}
                         rows={rows}
-                        totalRecords={snusItems.length}
+                        totalRecords={filteredItems.length}
                         onPageChange={(e) => {
                             setFirstItem(e.first)
                             setRows(e.rows)
@@ -47,9 +95,16 @@ const SnusList = ({ categoryFilter }) => {
             )
             : 
             (<p>Loading...</p>)}
-            <Link to="/" className="snus--list-categorylink">
-                <img src={Knox} className="snus--list-categoryimg" alt="knox-icom"/>
-            </Link>
+            <div className="snus--list-brandcontainer">
+                {brands.map((brand, index) => (
+                    <BrandLink 
+                        key={index}
+                        handleBrandChange={() => {handleBrandFilter(brand.altTxt)}}
+                        imgSrc={brand.imgSrc}
+                        altTxt={brand.altTxt}
+                    />
+                ))}
+            </div>
         </div>
     )
 }

@@ -80,8 +80,9 @@
   align-items: center;
   justify-content: center;
   align-self: center;
-  width: 10%;
-  height: 5rem;
+  width: 100%;
+  margin: 0 1.5rem;
+  height: 7rem;
   padding: 8px;
   background-color: transparent;
   border: none;
@@ -98,6 +99,12 @@
   max-height: 100%;
   -o-object-fit: contain;
      object-fit: contain;
+}
+
+.snus--list-brandcontainer {
+  display: grid;
+  align-self: center;
+  grid-template-columns: repeat(6, 1fr);
 }
 
 @media (max-width: 950px) {

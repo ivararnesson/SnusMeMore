@@ -99,6 +99,7 @@ app.MapGet("api/content/snusitems/{guid:guid}", (Guid guid, IUmbracoContextAcces
         Category = x.Value<string>("category"),
         Description = x.Value<string>("description"),
         Price = x.Value<string>("price"),
+        Brand = x.Value<string>("brand"),
         ImageUrl = x.Value<string>("imageUrl")
     }).ToList();
 
