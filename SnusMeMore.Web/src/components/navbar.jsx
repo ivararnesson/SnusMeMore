@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import "../assets/CSS/master.css";
 import { Link } from 'react-router-dom';
+import config from '../../config';
 
 function Navbar() {
   const [documentModel, setDocumentModel] = useState("");
@@ -33,7 +34,7 @@ function Navbar() {
   };
 
   const getDocumentValues = async () => {
-    fetch("https://localhost:44311/api/content/navbar/cf233671-9951-42ce-894b-b8a7d8a9aaeb")
+    fetch(config.umbracoURL + '/api/content/navbar/')
       .then(respons => respons.json())
       .then(result => {
         setDocumentModel(result);
