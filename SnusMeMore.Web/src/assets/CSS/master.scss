@@ -41,13 +41,14 @@ h1 {
   width: 100vw;
 }
 
-.master--nav-li-btn, .master--nav-btn {
-  border: none;
-  background-color: white;
-  padding: 1rem;
-  margin: 1rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
+.master--nav-li-btn {
+    border: none;
+    background-color: white;
+    padding: 1rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
 }
 
 .master--nav-li-btn:hover, .master--nav-btn:hover {
@@ -56,17 +57,18 @@ h1 {
 }
 
 .dropdown {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: white;
-  list-style: none;
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 0.5rem;
-  display: none;
-  z-index: 1000;
-  white-space: nowrap;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    list-style: none;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    display: none;
+    z-index: 1000;
+    white-space: nowrap;
+
 }
 
 .dropdown li a:hover {

@@ -1,15 +1,20 @@
 
 using Umbraco.Cms.Core.Web;
-using Umbraco.Cms.Core.Models.PublishedContent;
-using Umbraco.Cms.Web.Common.PublishedModels;
-using System;
-using Umbraco.Cms.Core;
-using static Umbraco.Cms.Core.Constants.HttpContext;
+using Umbraco.Cms.Core.Services;
+using SnusMeMore;
+using Microsoft.AspNetCore.Mvc;
+using Umbraco.Cms.Core.Media.EmbedProviders;
+using Microsoft.IdentityModel.Tokens;
+using Polly;
+using SnusMeMore.Services;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<ISnusService, SnusService>();
+builder.Services.AddSingleton<ICartService, CartService>();
 
 builder.CreateUmbracoBuilder()
     .AddBackOffice()
@@ -30,6 +35,8 @@ builder.Services.AddCors(options =>
 
 WebApplication app = builder.Build();
 
+app.UseAuthentication();
+app.UseAuthorization();
 
 if (app.Environment.IsDevelopment())
 {
@@ -41,7 +48,6 @@ app.UseCors("AllowAll");
 app.UseHttpsRedirection();
 
 await app.BootUmbracoAsync();
-
 
 app.UseUmbraco()
     .WithMiddleware(u =>
@@ -55,74 +61,9 @@ app.UseUmbraco()
         u.UseWebsiteEndpoints();
     });
 
-app.MapGet("api/content/navbar/{guid:guid}", (Guid guid, IUmbracoContextAccessor umbracoContextAccessor) =>
-{
-    var umbracoContext = umbracoContextAccessor.GetRequiredUmbracoContext();
-    var content = umbracoContext.Content.GetById(guid);
+app.UseAuthentication();
+app.UseAuthorization();
 
-    if (content == null)
-    {
-        return Results.NotFound();
-    }
-
-    var result = new
-    {
-        Title = content.Value<string>("title"),
-        Home = content.Value<string>("home"),
-        OptionOne = content.Value<string>("optionOne"),
-        OptionTwo = content.Value<string>("optionTwo"),
-        OptionThree = content.Value<string>("optionThree"),
-        ShoppingCart = content.Value<string>("shoppingCart"),
-    };
-
-    return Results.Ok(result);
-});
-app.MapGet("api/search", (string query, IUmbracoContextAccessor umbracoContextAccessor) =>
-{
-    var umbracoContext = umbracoContextAccessor.GetRequiredUmbracoContext();
-
-    var results = umbracoContext.Content.GetAtRoot()
-        .SelectMany(content => content.ChildrenOfType("SnusItem") 
-            .Where(x => x.IsVisible() && 
-                        (x.Value<string>("snusName").Contains(query, StringComparison.OrdinalIgnoreCase) ||
-                         x.Value<string>("description").Contains(query, StringComparison.OrdinalIgnoreCase))) 
-            .Select(x => new
-            {
-                Id = x.Id,
-                SnusName = x.Value<string>("snusName"),
-                Price = x.Value<string>("price"),
-                ImageUrl = x.Value<string>("imageUrl")
-            }))
-        .ToList();
-
-    return Results.Ok(results);
-});
-
-app.MapGet("api/content/snusitems/{guid:guid}", (Guid guid, IUmbracoContextAccessor umbracoContextAccessor) =>
-{
-    var umbracoContext = umbracoContextAccessor.GetRequiredUmbracoContext();
-    var content = umbracoContext.Content.GetById(guid);
-
-    if (content == null)
-    {
-        return Results.NotFound();
-    }
-
-    var selection = content
-            .ChildrenOfType("SnusItem")
-            .Where(x => x.IsVisible())
-            .OrderByDescending(x => x.CreateDate);
-
-    var result = selection.Select(x => new
-    {
-        SnusName = x.Value<string>("snusName"),
-        Category = x.Value<string>("category"),
-        Description = x.Value<string>("description"),
-        Price = x.Value<string>("price"),
-        ImageUrl = x.Value<string>("imageUrl")
-    }).ToList();
-
-    return Results.Ok(result);
-});
+Endpoints.MapEndpoints(app);
 
 await app.RunAsync();
