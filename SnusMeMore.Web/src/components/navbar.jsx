@@ -87,7 +87,7 @@ function Navbar() {
             </a>
             {dropdownState.dropdownTwo && (
               <ul className="dropdown">
-                <li><Link to="/snuslist?category=VitTobak">Vitt snus</Link></li>
+                <li><Link to="/snuslist?category=VittSnus">Vitt snus</Link></li>
                 <li><a href="#">Suboption 2</a></li>
                 <li><a href="#">Suboption 3</a></li>
               </ul>

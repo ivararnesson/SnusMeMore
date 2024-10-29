@@ -56,11 +56,11 @@ const SnusList = () => {
 
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search)
-        const category = queryParams.get('category')
+        const categoryFilter = queryParams.get('category') || "all"
 
         const filtered = snusItems.filter(item => {
             const matchesBrand = brandFilter === "all" || item.brand === brandFilter
-            const matchesCategory = !category || item.category === category
+            const matchesCategory = categoryFilter === "all" || item.category === categoryFilter
             return matchesBrand && matchesCategory
         })
 
