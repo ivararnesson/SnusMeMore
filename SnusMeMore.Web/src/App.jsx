@@ -3,9 +3,7 @@ import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import "./assets/CSS/master.css"
 import SnusList from './SnusList'
-
-
-
+import SearchResults from './components/SearchResults';
 
 
 function App() {
@@ -19,6 +17,7 @@ function App() {
         <Route path="/vittsnus" element={<SnusList categoryFilter="VittSnus" />} />
         <Route path="/nikotinfritt" element={<SnusList categoryFilter="Nikotinfritt" />} />
         <Route path="/vittobakssnus" element={<SnusList categoryFilter="VitTobak" />} />
+        <Route path="/search/:query" element={<SearchResults />} />
       </Routes>
     </Router>
   )
