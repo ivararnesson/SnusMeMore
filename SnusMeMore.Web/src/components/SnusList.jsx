@@ -2,11 +2,7 @@ import "primereact/resources/themes/lara-light-indigo/theme.css"
 import "primereact/resources/primereact.min.css"
 import "primeicons/primeicons.css"
 import BrandLink from "./BrandLink"
-import Knox from "../../src/assets/CSS/knox.png"
-import Kaliber from "../../src/assets/CSS/kaliber-logo.png"
-import Lundgrens from "../../src/assets/CSS/Lundgrens-logo.png"
-import One from "../../src/assets/CSS/ONE-logo.png"
-import Velo from "../../src/assets/CSS/velo-snus-logo.png"
+import { brandImages } from "../../brandImages.js"
 import { Paginator } from "primereact/paginator"
 import { useEffect, useState } from 'react'
 import SnusCard from './SnusCard.jsx'
@@ -21,21 +17,6 @@ const SnusList = () => {
     const [firstItem, setFirstItem] = useState(0)
     const [rows, setRows] = useState(8)
     const location = useLocation();
-
-    const brands = [
-        {imgSrc: Knox, altTxt:"Knox"},
-        {imgSrc: Velo, altTxt:"Velo"},
-        {imgSrc: Lundgrens, altTxt:"Lundgrens"},
-        {imgSrc: One, altTxt:"One"},
-        {imgSrc: Kaliber, altTxt:"Kaliber"},
-        {imgSrc: Velo, altTxt:"velo-logo"},
-        {imgSrc: Velo, altTxt:"velo-logo"},
-        {imgSrc: Velo, altTxt:"velo-logo"},
-        {imgSrc: Velo, altTxt:"velo-logo"},
-        {imgSrc: Velo, altTxt:"velo-logo"},
-        {imgSrc: Velo, altTxt:"velo-logo"},
-        {imgSrc: Velo, altTxt:"velo-logo"},
-    ]
 
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search)
@@ -57,13 +38,18 @@ const SnusList = () => {
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search)
         const categoryFilter = queryParams.get('category') || "all"
-
+    
         const filtered = snusItems.filter(item => {
-            const matchesBrand = brandFilter === "all" || item.brand === brandFilter
             const matchesCategory = categoryFilter === "all" || item.category === categoryFilter
-            return matchesBrand && matchesCategory
-        })
+            const matchesBrand = brandFilter === "all" || item.brand === brandFilter
+    
+            if (categoryFilter !== "all") {
+                return matchesCategory
+            }
 
+            return matchesBrand
+        });
+    
         setFilteredItems(filtered)
         setFirstItem(0)
     }, [brandFilter, snusItems, location.search])
@@ -97,7 +83,7 @@ const SnusList = () => {
             : 
             (<p>Loading...</p>)}
             <div className="snus--list-brandcontainer">
-                {brands.map((brand, index) => (
+                {brandImages.map((brand, index) => (
                     <BrandLink 
                         key={index}
                         handleBrandChange={() => {handleBrandFilter(brand.altTxt)}}
