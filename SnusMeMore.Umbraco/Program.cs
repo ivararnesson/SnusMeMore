@@ -7,6 +7,8 @@ using Umbraco.Cms.Core.Media.EmbedProviders;
 using Microsoft.IdentityModel.Tokens;
 using Polly;
 using SnusMeMore.Services;
+using Umbraco.Cms.Core.Security;
+using Umbraco.Cms.Web.Common.Security;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
