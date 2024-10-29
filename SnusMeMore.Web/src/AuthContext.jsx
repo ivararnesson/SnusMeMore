@@ -6,18 +6,59 @@ export const AuthContext = createContext()
 export const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [userId, setUserId] = useState()
+    const [userName, setUserName] = useState()
     const [cart, setCart] = useState()
 
     useEffect(() => {
-        login('grupp5umbraco@gmail.com', 'turegillarintegrupp6')
+        const storedUserId = localStorage.getItem("userId")
+        const storedIsLoggedIn = localStorage.getItem("isLoggedIn") === "true"
+
+        if (storedUserId && storedIsLoggedIn) {
+            setUserId(storedUserId)
+            setIsLoggedIn(storedIsLoggedIn)
+            setUserName(localStorage.getItem("userName"))
+        }
     }, [])
 
     useEffect(() => {
-        getCart()
-        //logout()
+        if (userId) {
+            fetch(config.umbracoURL + '/api/check-login', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': "Token " + userId,
+                },
+            })
+            .then(response => {
+                if (!response.ok) {
+                    setUserId(null)
+                    setUserName(null)
+                    setIsLoggedIn(false)
+                    setCart([])
+                }
+            })
+        }
     }, [userId])
 
-    const login = (email, password) => {
+    const signup = (username, email, password, resultHandler) => {
+        fetch(config.umbracoURL + '/api/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username: username, email: email, password: password })
+        })
+        .then(response => {
+            if (response.ok) {
+                alert("Nytt konto skapat!\nVänligen logga in med ditt nya konto")
+                resultHandler()
+            } else {
+                alert("Registrering mislyckades")
+            }
+        })
+    }
+
+    const login = (email, password, resultHandler) => {
         fetch(config.umbracoURL + '/api/login', {
             method: 'POST',
             headers: {
@@ -29,10 +70,21 @@ export const AuthProvider = ({ children }) => {
         .then(data => {
             if (data.userId) {
                 setUserId(data.userId)
+                setUserName(data.email)
                 setIsLoggedIn(true)
+                localStorage.setItem("userId", data.userId)
+                localStorage.setItem("userName", data.email)
+                localStorage.setItem("isLoggedIn", "true")
+                resultHandler(true)
+            } else {
+                resultHandler(false)
             }
         })
-    };
+        .catch(error => {
+            console.error("Error:", error)
+            resultHandler(false)
+        });
+    }
 
     const logout = () => {
         if (!isLoggedIn) {
@@ -51,10 +103,12 @@ export const AuthProvider = ({ children }) => {
         .then(response => {
             if (response.ok) {
                 setUserId(null)
+                setUserName('')
                 setIsLoggedIn(false)
+                setCart([])
             }
-        });
-    };
+        })
+    }
 
     const getCart = () => {
         if (!isLoggedIn) {
@@ -73,7 +127,7 @@ export const AuthProvider = ({ children }) => {
         .then(cartData => {
             setCart(cartData)
             console.log(cartData)
-        });
+        })
     }
 
     const addToCart = (snusId) => {
@@ -93,11 +147,11 @@ export const AuthProvider = ({ children }) => {
         .then(response => response.json())
         .then(cartData => {
             console.log("resposne from post " + cartData)
-        });
+        })
     }
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, login, logout, getCart, addToCart }}>
+        <AuthContext.Provider value={{ isLoggedIn, userName, signup, login, logout, getCart, addToCart }}>
             {children}
         </AuthContext.Provider>
     )

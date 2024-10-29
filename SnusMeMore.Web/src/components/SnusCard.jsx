@@ -1,6 +1,6 @@
 import "../assets/CSS/snuslist.css"
-import { FaShoppingCart } from 'react-icons/fa';
-import { AuthContext } from "../authContext";
+import { FaShoppingCart } from 'react-icons/fa'
+import { AuthContext } from "../authContext"
 import { useContext } from "react"
 
 const SnusCard = ({ snus }) => {

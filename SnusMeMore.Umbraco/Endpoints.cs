@@ -19,9 +19,10 @@ namespace SnusMeMore
 
         private static void MapCartEndpoints(WebApplication app)
         {
+            app.MapPost("/api/signup", (ICartService service, [FromBody] SignupRequest signupRequest) => service.Signup(signupRequest));
             app.MapPost("/api/login", (ICartService service, [FromBody] LoginRequest loginRequest) => service.Login(loginRequest));
             app.MapPost("/api/logout", (ICartService service, HttpContext httpContext) => service.Logout(httpContext));
-            app.MapGet("/api/check-login", (ICartService service, HttpContext httpContext) => service.CheckLogin(httpContext));
+            app.MapGet("/api/check-login", (ICartService service, HttpContext httpContext) => service.CheckLogin(httpContext)); //does not work
             app.MapGet("/api/cart", (ICartService service, HttpContext httpContext) => service.GetCart(httpContext));
             app.MapPost("/api/cart/add", (ICartService service, HttpContext httpContext, [FromBody] CartAddRequest newItem) => service.AddToCart(httpContext, newItem));
         }
