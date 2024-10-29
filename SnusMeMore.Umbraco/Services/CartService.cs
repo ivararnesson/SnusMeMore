@@ -62,7 +62,6 @@ namespace SnusMeMore.Services
             return Results.Unauthorized();
         }
 
-
         public IResult CheckLogin(HttpContext httpContext)
         {
             return Results.Ok(new { IsAuthenticated = httpContext.User.Identity?.IsAuthenticated ?? false }); //this is old
