@@ -1,0 +1,24 @@
+.product-page {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.product-page__content {
+  text-align: left;
+}
+
+.product-page__content h1 {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+.product-page__content p {
+  font-size: 1em;
+  margin: 5px 0;
+}
+
+.product-page__content strong {
+  font-weight: bold;
+}/*# sourceMappingURL=ProductPage.css.map */

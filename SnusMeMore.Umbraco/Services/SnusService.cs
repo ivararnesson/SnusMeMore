@@ -60,5 +60,39 @@ namespace SnusMeMore.Services
 
             return Results.Ok(result);
         }
+        public IResult GetSnusByName(string snusName)
+        {
+            var umbracoContext = UmbracoContextAccessor.GetRequiredUmbracoContext();
+            var snusRef = ContentService.GetRootContent().FirstOrDefault(x => x.Name == "SnusList");
+            var content = umbracoContext.Content.GetById(snusRef.Key);
+
+            if (content == null)
+            {
+                return Results.NotFound();
+            }
+
+            var snusItem = content
+                .ChildrenOfType("SnusItem")
+                .FirstOrDefault(x => x.IsVisible() &&
+                    x.Name.Equals(snusName, StringComparison.OrdinalIgnoreCase)); 
+
+            if (snusItem == null)
+            {
+                return Results.NotFound();
+            }
+
+            var result = new
+            {
+                Id = snusItem.Key,
+                Name = snusItem.Name,
+                Category = snusItem.Value<string>("category"),
+                Brand = snusItem.Value<string>("brand"),
+                Strength = snusItem.Value<string>("strength"),
+                Price = snusItem.Value<decimal>("price"),
+            };
+
+            return Results.Ok(result);
+        }
+
     }
 }

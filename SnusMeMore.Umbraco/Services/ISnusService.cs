@@ -5,5 +5,6 @@ namespace SnusMeMore.Services
     {
         IResult GetAllSnus();
         IResult GetNavbar();
+        IResult GetSnusByName(string snusName);
     }
 }

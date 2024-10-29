@@ -15,6 +15,8 @@ namespace SnusMeMore
         {
             app.MapGet("/api/content/navbar", (ISnusService service) => service.GetNavbar());
             app.MapGet("/api/content/snusitems", (ISnusService service) => service.GetAllSnus());
+            app.MapGet("/api/content/snusitem", (ISnusService snusService, string snusName) =>
+                snusService.GetSnusByName(snusName));
         }
 
         private static void MapCartEndpoints(WebApplication app)
