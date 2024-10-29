@@ -9,12 +9,14 @@ namespace SnusMeMore
         {
             MapSnusEndpoints(app);
             MapCartEndpoints(app);
+            
         }
 
         private static void MapSnusEndpoints(WebApplication app)
         {
             app.MapGet("/api/content/navbar", (ISnusService service) => service.GetNavbar());
             app.MapGet("/api/content/snusitems", (ISnusService service) => service.GetAllSnus());
+            app.MapGet("/api/search", (ISnusService service, string query) => service.SearchSnus(query));
         }
 
         private static void MapCartEndpoints(WebApplication app)

@@ -41,7 +41,7 @@ h1 {
   width: 100vw;
 }
 
-.master--nav-li-btn, .master--nav-btn {
+.master--nav-li-btn {
   border: none;
   background-color: white;
   padding: 1rem;
@@ -75,6 +75,10 @@ h1 {
   color: blue;
 }
 
+.master--nav-ul .dropdown {
+  top: 180%;
+}
+
 .master--nav-li:hover .dropdown {
   display: block;
 }
@@ -82,6 +86,10 @@ h1 {
 .master--nav-li {
   position: relative;
   list-style: none;
+}
+
+.dropdown li {
+  margin: 0.5rem 0;
 }
 
 .dropdown li a {

@@ -9,21 +9,25 @@ const SearchComponent = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchResults = async () => {
-            if (searchTerm.length < 1) {
-                setResults([]);
-                setShowDropdown(false);
-                return; 
-            }
-            try {
-                const response = await fetch(`https://localhost:44311/api/search?query=${encodeURIComponent(searchTerm)}`);
-                const data = await response.json();
-                setResults(data);
-                setShowDropdown(data.length > 0);
-            } catch (error) {
-                console.error('Error fetching search results:', error);
-            }
-        };
+      const fetchResults = async () => {
+    if (searchTerm.length < 1) {
+        setResults([]);
+        setShowDropdown(false);
+        return; 
+    }
+    try {
+        const response = await fetch(`https://localhost:44311/api/search?query=${encodeURIComponent(searchTerm)}`);
+        const data = await response.json();
+        console.log('Fetched data:', data); // Logga vad som hämtas
+        setResults(data);
+        setShowDropdown(data.length > 0);
+    } catch (error) {
+        console.error('Error fetching search results:', error);
+    }
+};
+
+
+        // Debounce for input
         const delayDebounceFn = setTimeout(() => {
             fetchResults();
         }, 300); 
