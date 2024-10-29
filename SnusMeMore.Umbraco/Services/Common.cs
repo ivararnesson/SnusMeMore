@@ -20,6 +20,7 @@ namespace SnusMeMore.Services
                 ImageUrl = x.Value<string>("imageUrl"),
                 Brand = x.Value<string>("brand"),
                 Rating = x.Value<double>("rating"),
+                Strength = x.Value<double>("strength"),
                 SnusId = x.Key,
             }).ToList();
         }

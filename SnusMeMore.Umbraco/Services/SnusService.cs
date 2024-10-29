@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Umbraco.Cms.Core.Media.EmbedProviders;
 using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Core.Web;
 
@@ -85,11 +86,17 @@ namespace SnusMeMore.Services
             {
                 Id = snusItem.Key,
                 Name = snusItem.Name,
+                ImageUrl = snusItem.Value<string>("imageUrl"),
                 Category = snusItem.Value<string>("category"),
                 Brand = snusItem.Value<string>("brand"),
                 Strength = snusItem.Value<string>("strength"),
                 Price = snusItem.Value<decimal>("price"),
+                Description = snusItem.Value<string>("description"),
+                Rating = snusItem.Value<double>("rating")
             };
+
+            //var result = Common.GetSnusDTO(snusItem.ToList());
+
 
             return Results.Ok(result);
         }

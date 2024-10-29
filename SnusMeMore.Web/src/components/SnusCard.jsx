@@ -2,16 +2,15 @@ import "../assets/CSS/snuslist.css"
 import { FaShoppingCart } from 'react-icons/fa';
 import { AuthContext } from "../authContext";
 import { useContext } from "react"
-import { useNavigate } from "react-router-dom"; // Importera useNavigate
+import { useNavigate } from "react-router-dom";
 
 
 const SnusCard = ({ snus }) => {
     const { addToCart } = useContext(AuthContext)
-    const navigate = useNavigate(); // Skapa en navigate-funktion
+    const navigate = useNavigate(); 
 
     const handleCardClick = () => {
-        // Navigera till produktens sida
-        navigate(`/productpage?SnusName=${encodeURIComponent(snus.snusName)}`);
+        navigate(`/productpage?snusName=${encodeURIComponent(snus.snusName)}`);
     };
 
     return (
