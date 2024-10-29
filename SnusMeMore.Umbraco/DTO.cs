@@ -23,4 +23,8 @@
     {
         public int Rating { get; set; }
     }
+    public record AddRating
+    {
+        public int Rating { get; set; }
+    }
 }
