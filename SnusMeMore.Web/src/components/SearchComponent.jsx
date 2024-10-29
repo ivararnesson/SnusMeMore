@@ -18,7 +18,7 @@ const SearchComponent = () => {
     try {
         const response = await fetch(`https://localhost:44311/api/search?query=${encodeURIComponent(searchTerm)}`);
         const data = await response.json();
-        console.log('Fetched data:', data); // Logga vad som hämtas
+        console.log('Fetched data:', data);
         setResults(data);
         setShowDropdown(data.length > 0);
     } catch (error) {
@@ -42,7 +42,7 @@ const SearchComponent = () => {
 
     const handleSearchSubmit = (e) => {
         e.preventDefault();
-        navigate(`/search/${searchTerm}`);  // Navigera till söksidan med söktermen
+        navigate(`/search/${searchTerm}`);  
         setShowDropdown(false);
     };
 
@@ -51,7 +51,7 @@ const SearchComponent = () => {
             <form onSubmit={handleSearchSubmit}>
                 <input
                     type="text"
-                    placeholder="Skriv din sökterm"
+                    placeholder="Search Tobakko Mothafakko"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="search-input"

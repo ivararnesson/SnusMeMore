@@ -6,39 +6,38 @@ const SearchResults = () => {
     const { query } = useParams();  
     const [results, setResults] = useState([]);
 
-        useEffect(() => {
-            const fetchResults = async () => {
-                try {
-                    const response = await fetch(`https://localhost:44311/api/search?query=${encodeURIComponent(query)}`);
-                    const data = await response.json();
-                    console.log('Search Results:', data); // Logga sökresultaten
-                    setResults(data);
-                } catch (error) {
-                    console.error('Error fetching search results:', error);
-                }
-            };
-            fetchResults();
-        }, [query]);
+    useEffect(() => {
+        const fetchResults = async () => {
+            try {
+                const response = await fetch(`https://localhost:44311/api/search?query=${encodeURIComponent(query)}`);
+                const data = await response.json();
+                console.log('Search Results:', data); 
+                setResults(data);
+            } catch (error) {
+                console.error('Error fetching search results:', error);
+            }
+        };
+        fetchResults();
+    }, [query]);
 
     return (
-        <div>
+        <div className="results-page">
             <h2>Sökresultat för "{query}"</h2>
-            <ul>
-                {results.length === 0 ? (
-                    <p>Inga resultat hittades.</p> 
-                ) : (
-                    results.map((result) => (
-                        <li key={result.id}>
-                            <h3>{result.snusName}</h3>
-                            <img src={result.imageUrl} alt={result.snusName} />
-                            <p>Pris: {result.price} kr</p>
-                        </li>
-                    ))
-                )}
-            </ul>
+            {results.length === 0 ? (
+                <p>Inga resultat hittades.</p>
+            ) : (
+                <div className="results-container">
+                    {results.map((result) => (
+                        <div key={result.id} className="result-card">
+                            <img src={result.imageUrl} alt={result.snusName} className="result-image" />
+                            <span className="result-name">{result.snusName}</span>
+                            <span className="result-price">Pris: {result.price} kr</span>
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };
 
 export default SearchResults;
-
