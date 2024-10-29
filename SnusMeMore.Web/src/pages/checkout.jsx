@@ -8,9 +8,9 @@ import nordicImage from "../assets/images/nordic-spirit-frosty-mint-x-strong.png
 
 const CheckoutPage = () => {
   const [cartItems, setCartItems] = useState([
-    { id: 1, name: "Siberia -80 Degrees White Dry Portion", size: "10-pack", quantity: 2, price: 557.90, image: siberiaImage },
-    { id: 2, name: 'Lundgrens Kvällsbris All White', size: '30-pack', quantity: 1, price: 884.90, image: lundgrensImage },
-    { id: 3, name: 'Nordic Spirit Frosty Mint X-Strong', size: '1-pack', quantity: 1, price: 19.90, image: nordicImage },
+    { id: 1, name: "Siberia -80 Degrees White Dry Portion", quantity: 2, price: 557.90, image: siberiaImage },
+    { id: 2, name: 'Lundgrens Kvällsbris All White', quantity: 1, price: 884.90, image: lundgrensImage },
+    { id: 3, name: 'Nordic Spirit Frosty Mint X-Strong', quantity: 1, price: 19.90, image: nordicImage },
   ]);
 
   const [paymentMethod, setPaymentMethod] = useState('mastercard');
@@ -37,13 +37,14 @@ const CheckoutPage = () => {
 
   const handleQuantityChange = (id, change) => {
     setCartItems(prevItems =>
-      prevItems.map(item =>
-        item.id === id && item.quantity + change >= 1
-          ? { ...item, quantity: item.quantity + change }
-          : item
-      )
+      prevItems
+        .map(item =>
+          item.id === id ? { ...item, quantity: item.quantity + change } : item
+        )
+        .filter(item => item.quantity > 0) // Remove items with a quantity of zero
     );
   };
+  
 
   const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
   const total = subtotal + shippingCosts[shippingMethod];
@@ -89,7 +90,7 @@ const CheckoutPage = () => {
           <thead>
             <tr>
               <th>Produkt</th>
-              <th>Typ</th>
+              <th></th>
               <th>Antal</th>
               <th>Pris</th>
             </tr>
@@ -107,7 +108,7 @@ const CheckoutPage = () => {
                 </td>
                 <td>{item.size}</td>
                 <td>
-                  <button onClick={() => handleQuantityChange(item.id, -1)} disabled={item.quantity <= 1}>-</button>
+                  <button onClick={() => handleQuantityChange(item.id, -1)} disabled={item.quantity <= -1}>-</button>
                   <span className="mx-2">{item.quantity}</span>
                   <button onClick={() => handleQuantityChange(item.id, 1)}>+</button>
                 </td>
