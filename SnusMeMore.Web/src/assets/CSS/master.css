@@ -45,7 +45,8 @@ h1 {
   border: none;
   background-color: white;
   padding: 1rem;
-  margin: 1rem;
+  margin-right: 1rem;
+  margin-left: 1rem;
   border-radius: 0.5rem;
   cursor: pointer;
 }
@@ -74,10 +75,6 @@ h1 {
   color: blue;
 }
 
-.master--nav-ul .dropdown {
-  top: 180%;
-}
-
 .master--nav-li:hover .dropdown {
   display: block;
 }
@@ -85,10 +82,6 @@ h1 {
 .master--nav-li {
   position: relative;
   list-style: none;
-}
-
-.dropdown li {
-  margin: 0.5rem 0;
 }
 
 .dropdown li a {
