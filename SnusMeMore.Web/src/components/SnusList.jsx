@@ -13,6 +13,7 @@ import { useLocation } from 'react-router-dom';
 const SnusList = () => {
     const [snusItems, setSnusItems] = useState([])
     const [filteredItems, setFilteredItems] = useState([])
+    const [categoryFilter, setCategoryFilter] = useState("all")
     const [brandFilter, setBrandFilter] = useState("all")
     const [firstItem, setFirstItem] = useState(0)
     const [rows, setRows] = useState(8)
@@ -20,7 +21,10 @@ const SnusList = () => {
 
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search)
-        const category = queryParams.get('category')
+        const category = queryParams.get('category') || "all"
+
+        setCategoryFilter(category)
+        setBrandFilter("all") 
 
         fetch(config.umbracoURL + '/api/content/snusitems')
             .then(response => response.json())
@@ -36,28 +40,21 @@ const SnusList = () => {
     }, [location.search])
 
     useEffect(() => {
-        const queryParams = new URLSearchParams(location.search)
-        const categoryFilter = queryParams.get('category') || "all"
-    
         const filtered = snusItems.filter(item => {
             const matchesCategory = categoryFilter === "all" || item.category === categoryFilter
             const matchesBrand = brandFilter === "all" || item.brand === brandFilter
-    
-            if (categoryFilter !== "all") {
-                return matchesCategory
-            }
+            return matchesCategory && matchesBrand
+        })
 
-            return matchesBrand
-        });
-    
         setFilteredItems(filtered)
         setFirstItem(0)
-    }, [brandFilter, snusItems, location.search])
+    }, [categoryFilter, brandFilter, snusItems])
 
     const currentItem = filteredItems.slice(firstItem, firstItem + rows)
 
     const handleBrandFilter = (brand) => {
         setBrandFilter(brand)
+        setCategoryFilter("all")
     }
 
     return (
