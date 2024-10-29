@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc;
 using SnusMeMore.Services;
 
 namespace SnusMeMore
@@ -15,6 +16,12 @@ namespace SnusMeMore
         {
             app.MapGet("/api/content/navbar", (ISnusService service) => service.GetNavbar());
             app.MapGet("/api/content/snusitems", (ISnusService service) => service.GetAllSnus());
+            app.MapPost("/api/content/snusitem/{guid:guid}/rating", (ISnusService service, HttpContext context, Guid guid, [FromBody] AddRating ratingDto) =>
+                service.AddRating(context, guid, ratingDto));
+            app.MapGet("/api/content/snusitem/{guid:guid}/average-rating", (ISnusService service, Guid guid) =>
+            {
+                return service.GetAverageRating(guid);
+            });
         }
 
         private static void MapCartEndpoints(WebApplication app)
