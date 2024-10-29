@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import "../assets/CSS/master.css";
 import { Link } from 'react-router-dom';
 import config from '../../config';
+import { AuthContext } from "../authContext"
 
 function Navbar() {
   const [documentModel, setDocumentModel] = useState("");
@@ -12,6 +13,7 @@ function Navbar() {
     shoppingCartDropdown: false
   });
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { isLoggedIn, userName, logout } = useContext(AuthContext)
 
   const toggleDropdown = (dropdownName) => {
     setDropdownState((prevState) => {
@@ -64,10 +66,10 @@ function Navbar() {
             onClick={() => toggleDropdown('dropdownOne')}
             onMouseLeave={() => handleMouseLeave('dropdownOne')} // Stäng dropdown när musen lämnar
           >
-            <a className="master--nav-li-btn">
+            <button className="master--nav-li-btn">
               {documentModel.optionOne}
               <span className={`dropdown-arrow`}>&#9662;</span>
-            </a>
+            </button>
             {dropdownState.dropdownOne && (
               <ul className="dropdown">
                 <li><Link to="/snuslist?category=Tobak">Tobakssnus</Link></li>
@@ -82,13 +84,13 @@ function Navbar() {
             onClick={() => toggleDropdown('dropdownTwo')}
             onMouseLeave={() => handleMouseLeave('dropdownTwo')} // Stäng dropdown när musen lämnar
           >
-            <a className="master--nav-li-btn">
+            <button className="master--nav-li-btn">
               {documentModel.optionTwo}
               <span className={`dropdown-arrow`}>&#9662;</span>
-            </a>
+            </button>
             {dropdownState.dropdownTwo && (
               <ul className="dropdown">
-                <li><Link to="/vittsnus">Vitt snus</Link></li>
+                <li><Link to="/snuslist?category=VitTobak">Vitt snus</Link></li>
                 <li><a href="#">Suboption 2</a></li>
                 <li><a href="#">Suboption 3</a></li>
               </ul>
@@ -100,10 +102,10 @@ function Navbar() {
             onClick={() => toggleDropdown('dropdownThree')}
             onMouseLeave={() => handleMouseLeave('dropdownThree')} // Stäng dropdown när musen lämnar
           >
-            <a className="master--nav-li-btn">
+            <button className="master--nav-li-btn">
               {documentModel.optionThree}
               <span className={`dropdown-arrow`}>&#9662;</span>
-            </a>
+            </button>
             {dropdownState.dropdownThree && (
               <ul className="dropdown">
                 <li><Link to="/nikotinfritt">Nikotinfritt snus</Link></li>
@@ -118,9 +120,9 @@ function Navbar() {
             onClick={() => toggleDropdown('shoppingCartDropdown')}
             onMouseLeave={() => handleMouseLeave('shoppingCartDropdown')} // Stäng dropdown när musen lämnar
           >
-            <a className="master--nav-li-btn">
+            <button className="master--nav-li-btn">
               {documentModel.shoppingCart}
-            </a>
+            </button>
             {dropdownState.shoppingCartDropdown && (
               <ul className="dropdown">
                 <li><a href="#">Suboption 1</a></li>
@@ -130,6 +132,17 @@ function Navbar() {
             )}
           </li>
         </ul>
+
+        {
+          isLoggedIn ? (
+            <div>
+              <p>Inloggad som: {userName}</p>
+              <button onClick={logout}>Logga ut</button>
+            </div>
+          ) : (
+            <Link to="/login">Logga in</Link>
+          )
+        }
       </div>
     </nav>
   )

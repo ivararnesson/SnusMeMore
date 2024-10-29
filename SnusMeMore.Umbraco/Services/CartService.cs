@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Polly;
+using Umbraco.Cms.Core.Security;
 using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Core.Web;
+using Umbraco.Cms.Web.Common.Security;
 
 namespace SnusMeMore.Services
 {
@@ -22,6 +25,21 @@ namespace SnusMeMore.Services
             ContentService = contentService;
         }
 
+        public IResult Signup(SignupRequest signupRequest)
+        {
+            if (MemberService.GetByEmail(signupRequest.Email) != null)
+            {
+                return Results.Conflict("A member with this email already exists.");
+            }
+
+            var newMember = MemberService.CreateMember(signupRequest.Username, signupRequest.Email, signupRequest.Username, "Member");
+            newMember.SetValue("password", signupRequest.Password);
+
+            MemberService.Save(newMember);
+
+            return Results.Ok("Member created successfully.");
+        }
+
         public IResult Login(LoginRequest loginRequest)
         {
             if (loginRequest == null || string.IsNullOrWhiteSpace(loginRequest.Email) || string.IsNullOrWhiteSpace(loginRequest.Password))
@@ -30,14 +48,14 @@ namespace SnusMeMore.Services
             }
             var member = MemberService.GetByEmail(loginRequest.Email);
 
-            if (member != null && loginRequest.Password == "turegillarintegrupp6") // is hard coded
+            if (member != null && loginRequest.Password == member.GetValue<string>("password"))
             {
                 if (!LoggedInUsers.Contains(member.Key.ToString()))
                 {
                     LoggedInUsers.Add(member.Key.ToString());
                 }
 
-                return Results.Ok(new { Message = "Login successful", UserId = member.Key });
+                return Results.Ok(new { Message = "Login successful", UserId = member.Key, Email = loginRequest.Email });
             }
 
             return Results.Unauthorized();
@@ -62,9 +80,17 @@ namespace SnusMeMore.Services
             return Results.Unauthorized();
         }
 
-        public IResult CheckLogin(HttpContext httpContext)
+
+        public IResult CheckLogin(HttpContext context)
         {
-            return Results.Ok(new { IsAuthenticated = httpContext.User.Identity?.IsAuthenticated ?? false }); //this is old
+            string? userId = Common.GetAuthHeader(context);
+
+            if (!userId.IsNullOrWhiteSpace() && LoggedInUsers.Contains(userId))
+            {
+                return Results.Ok();
+            }
+
+            return Results.Unauthorized();
         }
 
 
