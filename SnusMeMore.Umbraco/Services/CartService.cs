@@ -1,12 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity.Data;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
-using Polly;
-using Umbraco.Cms.Core.Security;
+﻿using Microsoft.IdentityModel.Tokens;
 using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Core.Web;
-using Umbraco.Cms.Web.Common.Security;
 
 namespace SnusMeMore.Services
 {
@@ -16,7 +10,7 @@ namespace SnusMeMore.Services
         private readonly IUmbracoContextAccessor UmbracoContextAccessor;
         private readonly IContentService ContentService;
 
-        private readonly List<string> LoggedInUsers = new List<string>();
+        public static readonly List<string> LoggedInUsers = new List<string>();
 
         public CartService(IMemberService memberService, IUmbracoContextAccessor umbracoContextAccessor, IContentService contentService)
         {
@@ -123,13 +117,23 @@ namespace SnusMeMore.Services
                 .Where(x => cartItemsSnusIds.Contains(x.Key.ToString()))
                 .ToList();
 
-            var result = Common.GetSnusDTO(snusItems);
+            var quantetyMap = new Dictionary<string, int>();
+
+            foreach (var item in snusItems)
+            {
+                var snusId = item.Key.ToString();
+                int quantity = cartItems.FirstOrDefault(item => item.Value<string>("snusId") == snusId).Value<int>("quantity");
+
+                quantetyMap.Add(snusId, quantity);
+            }
+
+            var result = Common.GetCartSnusDTO(snusItems, quantetyMap);
 
             return Results.Ok(result);
         }
 
 
-        public IResult AddToCart(HttpContext context, CartAddRequest newItem)
+        public IResult AddToCart(HttpContext context, CartRequest newItem)
         {
             var userId = Common.GetAuthHeader(context);
 
@@ -142,22 +146,91 @@ namespace SnusMeMore.Services
 
             if (cartItemList == null) return Results.StatusCode(500);
 
-            var cartItem = ContentService.Create($"CartItem-{newItem.ItemId}", cartItemList.Key, "cartItem");
-            cartItem.SetValue("userId", userId);
-            cartItem.SetValue("snusId", newItem.ItemId);
+            var umbracoContext = UmbracoContextAccessor.GetRequiredUmbracoContext();
+            var cartListRef = ContentService.GetRootContent().FirstOrDefault(x => x.Name == "CartItemList");
+            var publishedCartItemList = umbracoContext.Content.GetById(cartListRef.Key);
 
-            ContentService.Save(cartItem);
-            ContentService.Publish(cartItem, []);
+            var existingCartItem = publishedCartItemList.Children()
+                .FirstOrDefault(x => x.Value<string>("userId") == userId && x.Value<string>("snusId") == newItem.ItemId);
 
-            var publishedContent = ContentService.GetById(cartItem.Id);
-            if (publishedContent != null && publishedContent.Published)
+            if (existingCartItem != null)
             {
-                return Results.Ok($"Snus with id [{newItem.ItemId}] added to cart.");
+                var contentCartItem = ContentService.GetById(existingCartItem.Key);
+                
+                var currentAmount = contentCartItem.GetValue<int>("quantity");
+                contentCartItem.SetValue("quantity", currentAmount + 1);
+                ContentService.Save(contentCartItem);
+                ContentService.Publish(contentCartItem, []);
+
+                return Results.Ok($"Quantity of snus with id [{newItem.ItemId}] increased to {currentAmount + 1} in the cart.");
             }
             else
             {
-                return Results.StatusCode(500);
+                var cartItem = ContentService.Create($"CartItem-{newItem.ItemId}", cartItemList.Key, "cartItem");
+                cartItem.SetValue("userId", userId);
+                cartItem.SetValue("snusId", newItem.ItemId);
+                cartItem.SetValue("quantity", 1);
+
+                ContentService.Save(cartItem);
+                ContentService.Publish(cartItem, []);
+
+                var publishedContent = ContentService.GetById(cartItem.Id);
+                if (publishedContent != null && publishedContent.Published)
+                {
+                    return Results.Ok($"Snus with id [{newItem.ItemId}] added to cart with quantity 1.");
+                }
+                else
+                {
+                    return Results.StatusCode(500);
+                }
             }
+        }
+
+        public IResult RemoveFromCart(HttpContext context, CartRequest request)
+        {
+            var userId = Common.GetAuthHeader(context);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Results.Unauthorized();
+            }
+
+            var umbracoContext = UmbracoContextAccessor.GetRequiredUmbracoContext();
+            var cartListRef = ContentService.GetRootContent().FirstOrDefault(x => x.Name == "CartItemList");
+            var cartItemList = umbracoContext.Content.GetById(cartListRef.Key);
+
+            if (cartItemList == null) return Results.StatusCode(500);
+
+            var cartItem = cartItemList.Children().FirstOrDefault(listItem => 
+                listItem.Value<string>("snusId") == request.ItemId &&
+                listItem.Value<string>("userId") == userId);
+
+            if (cartItem == null)
+            {
+                return Results.NotFound($"Cart item with id [{request.ItemId}] not found for user.");
+            }
+
+            var contentCartItem = ContentService.GetById(cartItem.Key);
+
+            if (contentCartItem == null) return Results.StatusCode(500);
+
+            var currentQuantity = contentCartItem.GetValue<int>("quantity");
+
+            if (currentQuantity > 1)
+            {
+                contentCartItem.SetValue("quantity", currentQuantity - 1);
+                ContentService.Save(contentCartItem);
+                ContentService.Publish(contentCartItem, []);
+            }
+            else
+            {
+                // If quantity reaches zero, delete the item
+                ContentService.Delete(contentCartItem);
+            }
+
+            //ContentService.Delete(contentCartItem);
+
+            return Results.Ok($"Snus with id [{request.ItemId}] removed from cart.");
         }
     }
 }

@@ -2,7 +2,8 @@ import { useState, useEffect, useContext } from 'react';
 import "../assets/CSS/master.css";
 import { Link } from 'react-router-dom';
 import config from '../../config';
-import { AuthContext } from "../authContext"
+import { AuthContext } from "../AuthContext"
+import ShoppingCart from './ShoppingCart';
 
 function Navbar() {
   const [documentModel, setDocumentModel] = useState("");
@@ -117,32 +118,26 @@ function Navbar() {
 
           <li
             className="master--nav-li"
-            onClick={() => toggleDropdown('shoppingCartDropdown')}
-            onMouseLeave={() => handleMouseLeave('shoppingCartDropdown')} // Stäng dropdown när musen lämnar
           >
-            <button className="master--nav-li-btn">
+            <button className="master--nav-li-btn" onClick={() => toggleDropdown('shoppingCartDropdown')}>
               {documentModel.shoppingCart}
             </button>
             {dropdownState.shoppingCartDropdown && (
-              <ul className="dropdown">
-                <li><a href="#">Suboption 1</a></li>
-                <li><a href="#">Suboption 2</a></li>
-                <li><a href="#">Suboption 3</a></li>
-              </ul>
+              <div className="dropdown">
+                <ShoppingCart />
+              </div>
             )}
           </li>
         </ul>
 
-        {
-          isLoggedIn ? (
+        {isLoggedIn ? (
             <div>
               <p>Inloggad som: {userName}</p>
               <button onClick={logout}>Logga ut</button>
             </div>
           ) : (
             <Link to="/login">Logga in</Link>
-          )
-        }
+          )}
       </div>
     </nav>
   )
