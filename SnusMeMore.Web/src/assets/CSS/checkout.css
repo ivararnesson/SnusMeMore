@@ -1,0 +1,145 @@
+/* Overall checkout page styling */
+.checkout-page {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+  }
+  
+  .cart-section {
+    width: 65%;
+  }
+  
+  .cart-section h2,
+  .checkout-section h3,
+  .address-section h4,
+  .payment-method h4 {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* Cart table styles */
+  .cart-section table {
+    width: 100%;
+    background-color: #fff;
+    border-collapse: collapse;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .cart-section th,
+  .cart-section td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .cart-section th {
+    background-color: #f3f3f3;
+    color: #666;
+    font-weight: 600;
+  }
+  
+  .product-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .product-image {
+    width: 60px;
+    height: auto;
+    margin-right: 15px;
+    border-radius: 5px;
+  }
+  
+  .subtotal {
+    margin-top: 15px;
+    font-size: 1.1em;
+    color: #444;
+    margin-right: 1.5rem;
+    float: right;
+    text-align: right;
+  }
+  
+  .subtotal h4 {
+    font-weight: bold;
+  }
+  
+  /* Checkout section styles */
+  .checkout-section {
+    width: 35%;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .shipping-method label,
+  .address-section label,
+  .payment-method label,
+  .card-details label {
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 5px;
+  }
+  
+  .shipping-method select,
+  .address-section input,
+  .card-details input {
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 0.9em;
+  }
+  
+  /* Radio buttons and payment options */
+  .payment-method label {
+    font-weight: 500;
+    color: #333;
+  }
+
+  .payment-method{
+    margin-bottom: 1rem;
+  }
+  
+  /* Button styling */
+  button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.9em;
+    cursor: pointer;
+    background-color: transparent;
+    color: #333;
+    transition: color 0.3s;
+}
+  
+  button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: #fff;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .checkout-page {
+      flex-direction: column;
+    }
+    
+    .cart-section, .checkout-section {
+      width: 100%;
+    }
+  }
+  

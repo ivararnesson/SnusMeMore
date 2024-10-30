@@ -2,7 +2,10 @@ import { useState, useEffect, useContext } from 'react';
 import "../assets/CSS/master.css";
 import { Link } from 'react-router-dom';
 import config from '../../config';
-import { AuthContext } from "../authContext"
+import { AuthContext } from "../AuthContext"
+import "../assets/CSS/master.css";
+import SearchComponent from "./SearchComponent";
+import ShoppingCart from './ShoppingCart';
 
 function Navbar() {
   const [documentModel, setDocumentModel] = useState("");
@@ -15,25 +18,25 @@ function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isLoggedIn, userName, logout } = useContext(AuthContext)
 
-  const toggleDropdown = (dropdownName) => {
-    setDropdownState((prevState) => {
-      const newState = {
-        dropdownOne: false,
-        dropdownTwo: false,
-        dropdownThree: false,
-        shoppingCartDropdown: false,
-      };
-      newState[dropdownName] = !prevState[dropdownName];
-      return newState;
-    });
-  };
+    const toggleDropdown = (dropdownName) => {
+        setDropdownState((prevState) => {
+            const newState = {
+                dropdownOne: false,
+                dropdownTwo: false,
+                dropdownThree: false,
+                shoppingCartDropdown: false,
+            };
+            newState[dropdownName] = !prevState[dropdownName];
+            return newState;
+        });
+    };
 
-  const handleMouseLeave = (dropdownName) => {
-    setDropdownState((prevState) => ({
-      ...prevState,
-      [dropdownName]: false, // Stäng dropdown när musen lämnar
-    }));
-  };
+    const handleMouseLeave = (dropdownName) => {
+        setDropdownState((prevState) => ({
+            ...prevState,
+            [dropdownName]: false,
+        }));
+    };
 
   const getDocumentValues = async () => {
     fetch(config.umbracoURL + '/api/content/navbar/')
@@ -44,22 +47,22 @@ function Navbar() {
       });
   }
 
-  useEffect(() => {
-    getDocumentValues();
-  }, []);
+    useEffect(() => {
+        getDocumentValues();
+    }, []);
 
-  return (
-    <nav className="master--nav-container">
-      <h1 className="master--nav-title">{documentModel.title}</h1>
-      <button className="hamburger-menu-btn" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-        <span className="hamburger-icon">&#9776;</span>
-      </button>
+    return (
+        <nav className="master--nav-container">
+            <h1 className="master--nav-title">{documentModel.title}</h1>
+            <button className="hamburger-menu-btn" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                <span className="hamburger-icon">&#9776;</span>
+            </button>
 
-      <div className={`master--li-container ${isMenuOpen ? "open" : ""}`}>
-        <ul className="master--nav-ul">
-          <li className="master--nav-li">
-            <Link to="/">{documentModel.home}</Link>
-          </li>
+            <div className={`master--li-container ${isMenuOpen ? "open" : ""}`}>
+                <ul className="master--nav-ul">
+                    <li className="master--nav-li">
+                        <Link className="master--nav-li-btn" to="/">{documentModel.home}</Link>
+                    </li>
 
           <li
             className="master--nav-li"
@@ -79,23 +82,25 @@ function Navbar() {
             )}
           </li>
 
-          <li
-            className="master--nav-li"
-            onClick={() => toggleDropdown('dropdownTwo')}
-            onMouseLeave={() => handleMouseLeave('dropdownTwo')} // Stäng dropdown när musen lämnar
-          >
-            <button className="master--nav-li-btn">
-              {documentModel.optionTwo}
-              <span className={`dropdown-arrow`}>&#9662;</span>
-            </button>
-            {dropdownState.dropdownTwo && (
-              <ul className="dropdown">
-                <li><Link to="/snuslist?category=VitTobak">Vitt snus</Link></li>
-                <li><a href="#">Suboption 2</a></li>
-                <li><a href="#">Suboption 3</a></li>
-              </ul>
-            )}
-          </li>
+                    {/* Sökfält */}
+                    <li className="master--nav-li">
+                        <SearchComponent />
+                    </li>
+                    
+                    {}
+                    <li className="master--nav-li" onClick={() => toggleDropdown('dropdownTwo')} onMouseLeave={() => handleMouseLeave('dropdownTwo')}>
+                        <button className="master--nav-li-btn">
+                            {documentModel.optionTwo}
+                            <span className={`dropdown-arrow`}>&#9662;</span>
+                        </button>
+                        {dropdownState.dropdownTwo && (
+                            <ul className="dropdown">
+                                <li><Link to="/snuslist?category=VitTobak">Vitt snus</Link></li>
+                                <li><Link to="#">Suboption 2</Link></li>
+                                <li><Link to="#">Suboption 3</Link></li>
+                            </ul>
+                        )}
+                    </li>
 
           <li
             className="master--nav-li"
@@ -117,37 +122,29 @@ function Navbar() {
 
           <li
             className="master--nav-li"
-            onClick={() => toggleDropdown('shoppingCartDropdown')}
-            onMouseLeave={() => handleMouseLeave('shoppingCartDropdown')} // Stäng dropdown när musen lämnar
           >
-            <button className="master--nav-li-btn">
+            <button className="master--nav-li-btn" onClick={() => toggleDropdown('shoppingCartDropdown')}>
               {documentModel.shoppingCart}
             </button>
             {dropdownState.shoppingCartDropdown && (
-              <ul className="dropdown">
-                <li><a href="#">Suboption 1</a></li>
-                <li><a href="#">Suboption 2</a></li>
-                <li><a href="#">Suboption 3</a></li>
-              </ul>
+              <div className="dropdown">
+                <ShoppingCart />
+              </div>
             )}
           </li>
         </ul>
 
-        {
-          isLoggedIn ? (
+        {isLoggedIn ? (
             <div>
               <p>Inloggad som: {userName}</p>
               <button onClick={logout}>Logga ut</button>
             </div>
           ) : (
             <Link to="/login">Logga in</Link>
-          )
-        }
+          )}
       </div>
     </nav>
   )
 }
 
 export default Navbar;
-
-
