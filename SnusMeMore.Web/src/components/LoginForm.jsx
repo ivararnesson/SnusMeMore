@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react"
 import "../assets/CSS/loginForm.css"
-import { AuthContext } from "../authContext"
+import { AuthContext } from "../AuthContext"
 import { useNavigate } from 'react-router-dom'
 
 const LoginForm = () => {

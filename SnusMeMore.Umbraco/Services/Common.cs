@@ -1,4 +1,6 @@
-﻿using Umbraco.Cms.Core.Models.PublishedContent;
+﻿using System.Linq;
+using Umbraco.Cms.Core.Models.PublishedContent;
+using Umbraco.Extensions;
 
 namespace SnusMeMore.Services
 {
@@ -6,12 +8,31 @@ namespace SnusMeMore.Services
     {
         public static string GetAuthHeader(HttpContext context)
         {
-            return context.Request.Headers.Authorization.ToString().Replace("Token ", "").Trim();
+            var token = context.Request.Headers.Authorization.ToString().Replace("Token ", "").Trim();
+
+            if (CartService.LoggedInUsers.Contains(token)) return token;
+            else return string.Empty;
         }
 
-        public static object GetSnusDTO(ICollection<IPublishedContent> selection)
+        public static ICollection<SnusDTO> GetSnusDTO(ICollection<IPublishedContent> selection)
         {
-            return selection.Select(x => new
+            return selection.Select(x => new SnusDTO
+            {
+                SnusName = x.Value<string>("snusName"),
+                Category = x.Value<string>("category"),
+                Description = x.Value<string>("description"),
+                Price = x.Value<string>("price"),
+                ImageUrl = x.Value<string>("imageUrl"),
+                Brand = x.Value<string>("brand"),
+                Rating = x.Value<double>("rating"),
+                Strength = x.Value<double>("strength"),
+                SnusId = x.Key,
+            }).ToList();
+        }
+
+        public static ICollection<CartSnusDTO> GetCartSnusDTO(ICollection<IPublishedContent> selection, Dictionary<string, int> quantities)
+        {
+            return selection.Select(x => new CartSnusDTO
             {
                 SnusName = x.Value<string>("snusName"),
                 Category = x.Value<string>("category"),
@@ -21,7 +42,9 @@ namespace SnusMeMore.Services
                 Brand = x.Value<string>("brand"),
                 Rating = x.Value<double>("rating"),
                 SnusId = x.Key,
+                Quantity = quantities.ContainsKey(x.Key.ToString()) ? quantities[x.Key.ToString()] : 1
             }).ToList();
         }
+
     }
 }

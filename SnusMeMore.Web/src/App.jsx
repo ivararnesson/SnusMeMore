@@ -7,6 +7,7 @@ import SnusList from './components/SnusList'
 import Checkout from "./pages/checkout";
 import NotFound from "./pages/notFound";
 import LoginForm from "./components/LoginForm";
+import ProductPage from "./pages/SpecificSnusView";
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/search/:query" element={<SearchResults />} />
+        <Route path="/productpage" element={<ProductPage />} />
       </Routes>
     </Router>
   )
