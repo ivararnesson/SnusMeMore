@@ -91,19 +91,16 @@
     align-self: center;
     grid-template-columns: repeat(6, 1fr);
 }
-.rating--list {
+.rating--list-h2-container {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    padding: 1.25rem;;
 }
-
 .rating--list-h1 {
     margin-bottom: 1rem;;
     font-size: 1.5rem;
     font-weight: bold;
 }
-
 .rating--list-card {
     display: flex;
     justify-content: center;

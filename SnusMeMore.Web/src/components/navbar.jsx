@@ -58,7 +58,7 @@ function Navbar() {
       <div className={`master--li-container ${isMenuOpen ? "open" : ""}`}>
         <ul className="master--nav-ul">
           <li className="master--nav-li">
-            <a className="master--nav-li-btn" href="/">{documentModel.home}</a>
+            <Link to="/">{documentModel.home}</Link>
           </li>
 
           <li
