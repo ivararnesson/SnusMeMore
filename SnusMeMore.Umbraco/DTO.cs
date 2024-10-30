@@ -22,5 +22,6 @@
     public record AddRating
     {
         public int Rating { get; set; }
+        public string UserId { get; set; }
     }
 }

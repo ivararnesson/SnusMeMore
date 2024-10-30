@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Newtonsoft.Json;
 using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Core.Web;
 
@@ -60,6 +61,7 @@ namespace SnusMeMore.Services
 
             return Results.Ok(result);
         }
+
         public IResult AddRating(HttpContext context, Guid guid, AddRating ratingDto)
         {
             if (ratingDto.Rating < 1 || ratingDto.Rating > 5)
@@ -68,17 +70,22 @@ namespace SnusMeMore.Services
             }
 
             var product = ContentService.GetById(guid);
-
             if (product == null)
             {
                 return Results.NotFound("Snus item not found");
             }
 
+            var userId = ratingDto.UserId;
+
             var ratingString = product.GetValue<string>("ratingsList");
 
-            ratingString = string.IsNullOrWhiteSpace(ratingString)
-                ? ratingDto.Rating.ToString()
-                : $"{ratingString},{ratingDto.Rating}";
+            var ratingsDict = string.IsNullOrWhiteSpace(ratingString)
+                ? new Dictionary<string, int>()
+                : JsonConvert.DeserializeObject<Dictionary<string, int>>(ratingString);
+
+            ratingsDict[userId] = ratingDto.Rating;
+
+            ratingString = JsonConvert.SerializeObject(ratingsDict);
 
             product.SetValue("ratingsList", ratingString);
 
@@ -86,8 +93,8 @@ namespace SnusMeMore.Services
             ContentService.Publish(product, Array.Empty<string>(), 0);
 
             return Results.Ok(new { message = "Rating submitted!" });
-
         }
+
 
         public IResult GetAverageRating(Guid guid)
         {
@@ -105,19 +112,26 @@ namespace SnusMeMore.Services
                 return Results.Ok(new { averageRating = 0 });
             }
 
-            var ratings = ratingString.Split(',')
-                .Select(x => int.TryParse(x, out var rating) ? rating : (int?)null)
-                .Where(x => x.HasValue)
-                .Select(x => x.Value)
-                .ToList();
+            Dictionary<string, int> ratingsDict;
 
-            if (!ratings.Any())
+            try
+            {
+                ratingsDict = JsonConvert.DeserializeObject<Dictionary<string, int>>(ratingString);
+            }
+            catch (JsonException)
+            {
+                return Results.BadRequest("Invalid ratings format.");
+            }
+
+            if (ratingsDict == null || !ratingsDict.Any())
             {
                 return Results.Ok(new { averageRating = 0 });
             }
 
-            double average = ratings.Average();
+            double average = ratingsDict.Values.Average();
+
             return Results.Ok(new { averageRating = average });
         }
+
     }
 }

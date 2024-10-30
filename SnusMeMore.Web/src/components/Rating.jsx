@@ -1,15 +1,15 @@
 import { useState } from "react";
 import config from '../../config.js'
 import { useEffect } from "react";
+import { AuthContext } from "../authContext"
+import { useContext } from "react"
 
 const Rating = ({ snusId, onRatingSubmit }) => {
     const [rating, setRating] = useState(0);
     const [message, setMessage] = useState("");
-    const [averageRating, setAverageRating] = useState(null); 
-
-    const handeRatingChange = (value) => {
-        setRating(value);
-    }
+    const [averageRating, setAverageRating] = useState(null);
+    const [isRatingSubmitted, setisRatingSubmitted] = useState(false);
+    const { isLoggedIn, userId } = useContext(AuthContext);
 
     const getRating = async () => {
         try {
@@ -33,8 +33,8 @@ const Rating = ({ snusId, onRatingSubmit }) => {
         }
     }
 
-    const submitRating = async () => {
-        if (rating < 1 || rating > 5) {
+    const submitRating = async (value) => {
+        if (value < 1 || value > 5) {
             alert("Invalid rating.");
             return;
         }
@@ -43,9 +43,9 @@ const Rating = ({ snusId, onRatingSubmit }) => {
             const response = await fetch(config.umbracoURL + `/api/content/snusitem/${snusId}/rating`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ Rating: rating }),
+                body: JSON.stringify({ Rating: value, UserId: userId }),
             });
 
             if (!response.ok) {
@@ -54,13 +54,13 @@ const Rating = ({ snusId, onRatingSubmit }) => {
 
             const result = await response.json();
             setMessage("Tack för ditt bidrag!");
-            setRating(0);
+            setRating(value);
+            setisRatingSubmitted(true);
+            getRating();
 
             if (onRatingSubmit) {
                 onRatingSubmit();
             }
-            
-            getRating();
 
         } catch (error) {
             console.error("Error submitting rating:", error);
@@ -68,24 +68,36 @@ const Rating = ({ snusId, onRatingSubmit }) => {
         }
     }
 
+    const handleRatingChange = (value) => {
+        setRating(value)
+        submitRating(value)
+    };
+
     useEffect(() => {
         getRating();
     }, [snusId]);
 
     return (
         <div className="snus-rating">
-            {[1, 2, 3, 4, 5].map((value) => (
-                <label key={value}>
-                    <input
-                        type="checkbox"
-                        checked={rating === value}
-                        onChange={() => handeRatingChange(value)}
-                    />
-                    {value}
-                </label>
-            ))}
-            <button onClick={submitRating}>Betygsätt</button>
-            {message && <p>{message}</p>}
+            {isLoggedIn && !isRatingSubmitted ? (
+                <div>
+                    {[1, 2, 3, 4, 5].map((value) => (
+                        <label key={value}>
+                            <input
+                                type="radio"
+                                name="rating"
+                                value={value}
+                                checked={rating === value}
+                                onChange={() => handleRatingChange(value)}
+                            />
+                            {value}
+                        </label>
+                    ))}
+                </div>
+            ) : isRatingSubmitted ? (
+                <p>{message}</p>
+            ) : null} {}
+    
             {averageRating !== null && <p>Snittbetyg: {averageRating.toFixed(1)}</p>}
         </div>
     );
