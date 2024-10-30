@@ -1,6 +1,6 @@
 import "../assets/CSS/snuslist.css"
 import { FaShoppingCart } from 'react-icons/fa'
-import { AuthContext } from "../authContext"
+import { AuthContext } from "../AuthContext"
 import { useContext } from "react"
 import { useNavigate } from "react-router-dom";
 

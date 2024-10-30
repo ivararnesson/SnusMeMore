@@ -35,7 +35,7 @@ const SearchComponent = () => {
     }, [searchTerm]);
 
     const handleResultClick = (result) => {
-        navigate(`/snus/${result.id}`);
+        navigate(`/productpage?snusName=${encodeURIComponent(result.snusName)}`);
         setSearchTerm('');
         setShowDropdown(false);
     };
