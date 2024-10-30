@@ -2,8 +2,10 @@ import Navbar from "./components/navbar";
 import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import "./assets/CSS/master.css"
+import SearchResults from './components/SearchResults';
 import SnusList from './components/SnusList'
 import LoginForm from "./components/LoginForm";
+import ProductPage from "./pages/SpecificSnusView";
 
 
 function App() {
@@ -23,6 +25,8 @@ function App() {
         <Route path="/lundgrens" element={<SnusList categoryFilter="all" brandFilter="Lundgrens" />} />
         <Route path="/one" element={<SnusList categoryFilter="all" brandFilter="One" />} />
         <Route path="/kaliber" element={<SnusList categoryFilter="all" brandFilter="Kaliber" />} /> */}
+        <Route path="/search/:query" element={<SearchResults />} />
+        <Route path="/productpage" element={<ProductPage />} />
       </Routes>
     </Router>
   )

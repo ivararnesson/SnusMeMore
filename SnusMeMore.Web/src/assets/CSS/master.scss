@@ -1,45 +1,44 @@
-/// Första version hamburgarmeny
+@charset "UTF-8";
 .master--nav-container {
-    display: flex;
-    align-items: center;
-    // width: 100%;
-    background-color: aquamarine;
-    padding: 0.5rem;
-    position: relative;
+  display: flex;
+  align-items: center;
+  background-color: aquamarine;
+  padding: 0.5rem;
+  position: relative;
 }
 
 h1 {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }
 
 .master--nav-ul {
-    display: flex;
-    align-items: center;
-    margin: 0;
-    padding: 0;
-    white-space: nowrap;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
 }
 
 /* Hamburgar-knappen för mindre skärmar */
 .hamburger-menu-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    display: none;
-    font-size: 24px;
-    margin-left: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: none;
+  font-size: 24px;
+  margin-left: auto;
 }
 
 .hamburger-icon {
-    font-size: 24px;
+  font-size: 24px;
 }
 
 .master--li-container {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    width: 100vw;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100vw;
 }
 
 .master--nav-li-btn {
@@ -52,13 +51,9 @@ h1 {
     cursor: pointer;
 }
 
-.master--nav-li-btn:hover {
-    color: blue;
-    background-color: #f0f0f0;
-}
-
-.master--nav-btn {
-    @extend .master--nav-li-btn;
+.master--nav-li-btn:hover, .master--nav-btn:hover {
+  color: blue;
+  background-color: #f0f0f0;
 }
 
 .dropdown {
@@ -77,68 +72,255 @@ h1 {
 }
 
 .dropdown li a:hover {
-    background-color: #f0f0f0;
-    color: blue;
+  background-color: #f0f0f0;
+  color: blue;
+}
+
+.master--nav-ul .dropdown {
+  top: 180%;
 }
 
 .master--nav-li:hover .dropdown {
-    display: block;
+  display: block;
 }
 
 .master--nav-li {
-    position: relative;
-    list-style: none;
+  position: relative;
+  list-style: none;
+}
+
+.dropdown li {
+  margin: 0.5rem 0;
 }
 
 .dropdown li a {
-    text-decoration: none;
-    color: black;
-    padding: 0.5rem;
-    display: block;
+  text-decoration: none;
+  color: black;
+  padding: 0.5rem;
+  display: block;
 }
-
 
 /* Hantera visningen av hamburgarmenyn */
 @media (max-width: 768px) {
-    .master--li-container {
-        display: none;
-        flex-direction: column;
-        justify-content: space-evenly;
-        background-color: white;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        width: auto;
-        padding: 1rem;
-        z-index: 999;
-        border: 1px solid #070606;
-        border-bottom-right-radius: 10px;
-        border-bottom-left-radius: 10px;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    .master--nav-li-btn {
-        padding: 0.5rem;
-        margin: 0.5rem;
-    }
-
-    .master--li-container.open {
-        display: flex;
-        font-size: 10px;
-
-
-    }
-
-    .hamburger-menu-btn {
-        display: block;
-        margin-left: auto;
-        padding-right: 10px;
-    }
+  .master--li-container {
+    display: none;
+    flex-direction: column;
+    justify-content: space-evenly;
+    background-color: white;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    width: auto;
+    padding: 1rem;
+    z-index: 999;
+    border: 1px solid #070606;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  .master--nav-li-btn, .master--nav-btn {
+    padding: 0.5rem;
+    margin: 0.5rem;
+  }
+  .master--li-container.open {
+    display: flex;
+    font-size: 10px;
+  }
+  .hamburger-menu-btn {
+    display: block;
+    margin-left: auto;
+    padding-right: 10px;
+  }
 }
-
 @media (max-width: 400px) {
-    .master--nav-li-btn {
-        padding: 0.25rem;
-        margin: 0.25rem;
-    }
+  .master--nav-li-btn, .master--nav-btn {
+    padding: 0.25rem;
+    margin: 0.25rem;
+  }
 }
+ 
+/* Styling för SearchComponent */
+.search-container {
+  display: flex;
+  align-items: center;
+  margin: 1rem;
+  gap: 0.5rem;
+}
+
+.search-input {
+  padding: 0.6rem 1.2rem;
+  border: 1px solid #b0b0b0;
+  border-radius: 20px;
+  font-size: 16px;
+  width: 300px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.search-input:focus {
+  border-color: aquamarine;
+  box-shadow: 0 4px 8px rgba(0, 255, 200, 0.3);
+  outline: none;
+}
+
+.search-button {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 20px;
+  background-color: aquamarine;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.search-button:hover {
+  background-color: #007BFF;
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+/* Styling för sökresultaten */
+.dropdown-results {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100%; 
+  z-index: 1000; 
+  margin-top: 0.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  left: 0; 
+  top: 100%;
+  max-height: 300px; 
+  overflow-y: auto;  
+  overflow-x: hidden; 
+  padding: 0.5rem;   
+}
+
+.dropdown-results ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown-results li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem; 
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.dropdown-results li:last-child {
+  border-bottom: none; 
+}
+
+.dropdown-results li:hover {
+  background-color: #f7f9fa;
+  transform: scale(1.02);
+}
+
+/* Styla bild, namn och pris under varandra */
+.dropdown-results img {
+  max-width: 80px; 
+  height: auto; 
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 0.5rem;
+}
+
+.item-name {
+  font-weight: bold; 
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 0.3rem;
+  text-align: center;
+}
+
+.item-price {
+  color: #757575; 
+  font-size: 0.9rem; 
+  text-align: center;
+}
+/* Container för fullskärmsresultaten */
+.results-page {
+  padding: 2rem;
+  background-color: #f9f9f9; 
+}
+
+.results-container {
+  display: grid;                      
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 1.25rem;                       
+  max-width: 75rem;            
+  margin: 0 auto;                   
+  padding: 1.25rem;                
+}
+
+.result-card {
+  border: 1px solid white;       
+  border-radius: 0.5rem;          
+  padding: 1rem;                    
+  text-align: center;               
+  background-color: white;       
+  transition: transform 0.3s, box-shadow 0.3s; 
+  display: flex;                
+  flex-direction: column;          
+  justify-content: space-between;   
+}
+
+.result-card:hover {
+  border: 0.5px solid black;  
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.result-image {
+  width: 100%;                    
+  height: 12.5rem;              
+  object-fit: contain;            
+  border-radius: 0.5rem;           
+  margin-bottom: 0.5rem;       
+  transition: transform 0.3s;    
+}
+
+.result-card:hover .result-image {
+  transform: scale(1.05);          
+}
+
+.result-name {
+  font-size: 1rem;                  
+  font-weight: bold;           
+  color: #333;   
+  margin: 0.5rem 0;
+}
+
+.result-price {
+  font-size: 1.3rem;   
+  font-weight: bold;            
+  color: #757575;           
+}
+
+@media (max-width: 950px) {
+  .results-container {
+      grid-template-columns: repeat(3, 1fr); 
+  }
+}
+
+@media (max-width: 700px) {
+  .results-container {
+      grid-template-columns: repeat(2, 1fr); 
+  }
+}
+
+@media (max-width: 450px) {
+  .results-container {
+      grid-template-columns: 1fr; 
+  }
+}
+
+/*# sourceMappingURL=master.css.map */
+
+
+
+
