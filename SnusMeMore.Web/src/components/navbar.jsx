@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import "../assets/CSS/master.css";
 import { Link } from 'react-router-dom';
 import config from '../../config';
+import { AuthContext } from "../authContext"
 
 function Navbar() {
   const [documentModel, setDocumentModel] = useState("");
@@ -12,6 +13,7 @@ function Navbar() {
     shoppingCartDropdown: false
   });
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { isLoggedIn, userName, logout } = useContext(AuthContext)
 
   const toggleDropdown = (dropdownName) => {
     setDropdownState((prevState) => {
@@ -130,6 +132,17 @@ function Navbar() {
             )}
           </li>
         </ul>
+
+        {
+          isLoggedIn ? (
+            <div>
+              <p>Inloggad som: {userName}</p>
+              <button onClick={logout}>Logga ut</button>
+            </div>
+          ) : (
+            <Link to="/login">Logga in</Link>
+          )
+        }
       </div>
     </nav>
   )
