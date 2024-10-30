@@ -60,6 +60,7 @@ namespace SnusMeMore.Services
 
             return Results.Ok(result);
         }
+<<<<<<< HEAD
         public IResult SearchSnus(string query)
 {
     var umbracoContext = UmbracoContextAccessor.GetRequiredUmbracoContext();
@@ -81,5 +82,66 @@ namespace SnusMeMore.Services
 
     return Results.Ok(result);
 }
+=======
+        public IResult AddRating(HttpContext context, Guid guid, AddRating ratingDto)
+        {
+            if (ratingDto.Rating < 1 || ratingDto.Rating > 5)
+            {
+                return Results.BadRequest("Invalid rating.");
+            }
+
+            var product = ContentService.GetById(guid);
+
+            if (product == null)
+            {
+                return Results.NotFound("Snus item not found");
+            }
+
+            var ratingString = product.GetValue<string>("ratingsList");
+
+            ratingString = string.IsNullOrWhiteSpace(ratingString)
+                ? ratingDto.Rating.ToString()
+                : $"{ratingString},{ratingDto.Rating}";
+
+            product.SetValue("ratingsList", ratingString);
+
+            ContentService.Save(product);
+            ContentService.Publish(product, Array.Empty<string>(), 0);
+
+            return Results.Ok(new { message = "Rating submitted!" });
+
+        }
+
+        public IResult GetAverageRating(Guid guid)
+        {
+            var product = ContentService.GetById(guid);
+
+            if (product == null)
+            {
+                return Results.NotFound("Snus not found");
+            }
+
+            var ratingString = product.GetValue<string>("ratingsList");
+
+            if (string.IsNullOrWhiteSpace(ratingString))
+            {
+                return Results.Ok(new { averageRating = 0 });
+            }
+
+            var ratings = ratingString.Split(',')
+                .Select(x => int.TryParse(x, out var rating) ? rating : (int?)null)
+                .Where(x => x.HasValue)
+                .Select(x => x.Value)
+                .ToList();
+
+            if (!ratings.Any())
+            {
+                return Results.Ok(new { averageRating = 0 });
+            }
+
+            double average = ratings.Average();
+            return Results.Ok(new { averageRating = average });
+        }
+>>>>>>> main
     }
 }

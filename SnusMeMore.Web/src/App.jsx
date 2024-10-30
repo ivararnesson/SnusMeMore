@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import "./assets/CSS/master.css"
 import SearchResults from './components/SearchResults';
 import SnusList from './components/SnusList'
+import LoginForm from "./components/LoginForm";
 
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<SnusList />} />
         <Route path="/snuslist" element={<SnusList />} />
+        <Route path="/login" element={<LoginForm />} />
         {/* <Route path="/tobakssnus" element={<SnusList categoryFilter="Tobak"brandFilter="all" />} />
         <Route path="/vittsnus" element={<SnusList categoryFilter="VittSnus" brandFilter="all" />} />
         <Route path="/nikotinfritt" element={<SnusList categoryFilter="Nikotinfritt" brandFilter="all" />} />

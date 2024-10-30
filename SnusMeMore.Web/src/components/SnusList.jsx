@@ -2,11 +2,7 @@ import "primereact/resources/themes/lara-light-indigo/theme.css"
 import "primereact/resources/primereact.min.css"
 import "primeicons/primeicons.css"
 import BrandLink from "./BrandLink"
-import Knox from "../../src/assets/CSS/knox.png"
-import Kaliber from "../../src/assets/CSS/kaliber-logo.png"
-import Lundgrens from "../../src/assets/CSS/Lundgrens-logo.png"
-import One from "../../src/assets/CSS/ONE-logo.png"
-import Velo from "../../src/assets/CSS/velo-snus-logo.png"
+import { brandImages } from "../../brandImages.js"
 import { Paginator } from "primereact/paginator"
 import { useEffect, useState } from 'react'
 import SnusCard from './SnusCard.jsx'
@@ -18,28 +14,18 @@ const SnusList = () => {
     const [snusItems, setSnusItems] = useState([])
     const [filteredItems, setFilteredItems] = useState([])
     const [brandFilter, setBrandFilter] = useState("all")
+    const [categoryFilter, setCategoryFilter] = useState("all")
     const [firstItem, setFirstItem] = useState(0)
     const [rows, setRows] = useState(8)
     const location = useLocation();
 
-    const brands = [
-        {imgSrc: Knox, altTxt:"Knox"},
-        {imgSrc: Velo, altTxt:"Velo"},
-        {imgSrc: Lundgrens, altTxt:"Lundgrens"},
-        {imgSrc: One, altTxt:"One"},
-        {imgSrc: Kaliber, altTxt:"Kaliber"},
-        {imgSrc: Velo, altTxt:"velo-logo"},
-        {imgSrc: Velo, altTxt:"velo-logo"},
-        {imgSrc: Velo, altTxt:"velo-logo"},
-        {imgSrc: Velo, altTxt:"velo-logo"},
-        {imgSrc: Velo, altTxt:"velo-logo"},
-        {imgSrc: Velo, altTxt:"velo-logo"},
-        {imgSrc: Velo, altTxt:"velo-logo"},
-    ]
 
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search)
-        const category = queryParams.get('category')
+        const category = queryParams.get('category') || "all"
+
+        setCategoryFilter(category)
+        setBrandFilter("all")
 
         fetch(config.umbracoURL + '/api/content/snusitems')
             .then(response => response.json())
@@ -55,23 +41,21 @@ const SnusList = () => {
     }, [location.search])
 
     useEffect(() => {
-        const queryParams = new URLSearchParams(location.search)
-        const category = queryParams.get('category')
-
         const filtered = snusItems.filter(item => {
             const matchesBrand = brandFilter === "all" || item.brand === brandFilter
-            const matchesCategory = !category || item.category === category
+            const matchesCategory = categoryFilter === "all" || item.category === categoryFilter
             return matchesBrand && matchesCategory
         })
 
         setFilteredItems(filtered)
         setFirstItem(0)
-    }, [brandFilter, snusItems, location.search])
+    }, [categoryFilter, brandFilter, snusItems])
 
     const currentItem = filteredItems.slice(firstItem, firstItem + rows)
 
     const handleBrandFilter = (brand) => {
         setBrandFilter(brand)
+        setCategoryFilter("all")
     }
 
     return (
@@ -97,7 +81,7 @@ const SnusList = () => {
             : 
             (<p>Loading...</p>)}
             <div className="snus--list-brandcontainer">
-                {brands.map((brand, index) => (
+                {brandImages.map((brand, index) => (
                     <BrandLink 
                         key={index}
                         handleBrandChange={() => {handleBrandFilter(brand.altTxt)}}
