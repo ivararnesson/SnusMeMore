@@ -61,6 +61,29 @@ namespace SnusMeMore.Services
 
             return Results.Ok(result);
         }
+
+        public IResult SearchSnus(string query)
+{
+    var umbracoContext = UmbracoContextAccessor.GetRequiredUmbracoContext();
+
+    var snusRef = ContentService.GetRootContent().FirstOrDefault(x => x.Name == "SnusList");
+    var content = umbracoContext.Content.GetById(snusRef.Key);
+
+    if (content == null)
+    {
+        return Results.NotFound();
+    }
+
+    var selection = content
+            .ChildrenOfType("SnusItem")
+            .Where(x => x.IsVisible() && x.Name.Contains(query, StringComparison.OrdinalIgnoreCase)) 
+            .OrderByDescending(x => x.CreateDate);
+
+    var result = Common.GetSnusDTO(selection.ToList());
+
+    return Results.Ok(result);
+}
+
         public IResult AddRating(HttpContext context, Guid guid, AddRating ratingDto)
         {
             if (ratingDto.Rating < 1 || ratingDto.Rating > 5)

@@ -6,6 +6,7 @@
         IResult GetNavbar();
         IResult AddRating(HttpContext context, Guid guid, AddRating ratingDto);
         IResult GetAverageRating(Guid guid);
+        IResult SearchSnus(string query);
         IResult GetSnusByName(string snusName);
     }
 }
