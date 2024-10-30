@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\SnusMeMore.Umbraco",
+    "\\SnusMeMore.Web"
   ],
-  "SelectedNode": "\\SnusMeMore.sln",
+  "SelectedNode": "\\SnusMeMore.Umbraco\\SnusMeMore.sln",
   "PreviewInSolutionExplorer": false
 }

@@ -10,6 +10,7 @@ namespace SnusMeMore
         {
             MapSnusEndpoints(app);
             MapCartEndpoints(app);
+       
         }
 
         private static void MapSnusEndpoints(WebApplication app)
@@ -22,6 +23,9 @@ namespace SnusMeMore
             {
                 return service.GetAverageRating(guid);
             });
+             app.MapGet("/api/search", (ISnusService service, string query) => service.SearchSnus(query));
+            app.MapGet("/api/content/snusitem", (ISnusService snusService, string snusName) =>
+                snusService.GetSnusByName(snusName));
         }
 
         private static void MapCartEndpoints(WebApplication app)
@@ -29,9 +33,10 @@ namespace SnusMeMore
             app.MapPost("/api/signup", (ICartService service, [FromBody] SignupRequest signupRequest) => service.Signup(signupRequest));
             app.MapPost("/api/login", (ICartService service, [FromBody] LoginRequest loginRequest) => service.Login(loginRequest));
             app.MapPost("/api/logout", (ICartService service, HttpContext httpContext) => service.Logout(httpContext));
-            app.MapGet("/api/check-login", (ICartService service, HttpContext httpContext) => service.CheckLogin(httpContext)); //does not work
+            app.MapGet("/api/check-login", (ICartService service, HttpContext httpContext) => service.CheckLogin(httpContext));
             app.MapGet("/api/cart", (ICartService service, HttpContext httpContext) => service.GetCart(httpContext));
-            app.MapPost("/api/cart/add", (ICartService service, HttpContext httpContext, [FromBody] CartAddRequest newItem) => service.AddToCart(httpContext, newItem));
+            app.MapPost("/api/cart", (ICartService service, HttpContext httpContext, [FromBody] CartRequest newItem) => service.AddToCart(httpContext, newItem));
+            app.MapDelete("/api/cart", (ICartService service, HttpContext httpContext, [FromBody] CartRequest item) => service.RemoveFromCart(httpContext, item));
         }
     }
 }

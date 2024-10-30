@@ -7,7 +7,7 @@ export const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [userId, setUserId] = useState()
     const [userName, setUserName] = useState()
-    const [cart, setCart] = useState()
+    const [cart, setCart] = useState([])
 
     useEffect(() => {
         const storedUserId = localStorage.getItem("userId")
@@ -113,7 +113,7 @@ export const AuthProvider = ({ children }) => {
     const getCart = () => {
         if (!isLoggedIn) {
             console.log("Not logged in")
-            return
+            return 
         }
 
         fetch(config.umbracoURL + '/api/cart', {
@@ -123,10 +123,14 @@ export const AuthProvider = ({ children }) => {
                 'Authorization': "Token " + userId,
             },
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                console.log("Error getting cart")
+            }
+            return response.json()
+        })
         .then(cartData => {
             setCart(cartData)
-            console.log(cartData)
         })
     }
 
@@ -136,7 +140,7 @@ export const AuthProvider = ({ children }) => {
             return
         }
 
-        fetch(config.umbracoURL + '/api/cart/add', {
+        fetch(config.umbracoURL + '/api/cart', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -146,12 +150,48 @@ export const AuthProvider = ({ children }) => {
         })
         .then(response => response.json())
         .then(cartData => {
-            console.log("resposne from post " + cartData)
+            console.log(cartData)
+            getCart()
+        })
+    }
+
+    const removeFromCart = (snusId) => {
+        if (!isLoggedIn) {
+            console.log("Not logged in")
+            return
+        }
+
+        fetch(config.umbracoURL + '/api/cart', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': "Token " + userId,
+            },
+            body: JSON.stringify({ itemId: snusId })
+        })
+        .then(response => {
+            if (!response.ok) {
+                console.log("Error deleting item iwth id: " + snusId)
+            }
+
+            getCart()
         })
     }
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, userName, userId, signup, login, logout, getCart, addToCart }}>
+        <AuthContext.Provider value={
+            { 
+            isLoggedIn, 
+            userName,
+            userId,
+            signup, 
+            login, 
+            logout, 
+            getCart,
+            cart, 
+            addToCart,
+            removeFromCart
+            }}>
             {children}
         </AuthContext.Provider>
     )
