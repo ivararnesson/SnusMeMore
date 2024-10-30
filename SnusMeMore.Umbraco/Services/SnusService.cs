@@ -85,7 +85,7 @@ namespace SnusMeMore.Services
             var result = new
             {
                 Id = snusItem.Key,
-                Name = snusItem.Name,
+                SnusName = snusItem.Value<string>("snusName"),
                 ImageUrl = snusItem.Value<string>("imageUrl"),
                 Category = snusItem.Value<string>("category"),
                 Brand = snusItem.Value<string>("brand"),
