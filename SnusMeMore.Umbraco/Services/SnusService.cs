@@ -60,7 +60,7 @@ namespace SnusMeMore.Services
 
             return Results.Ok(result);
         }
-<<<<<<< HEAD
+
         public IResult SearchSnus(string query)
 {
     var umbracoContext = UmbracoContextAccessor.GetRequiredUmbracoContext();
@@ -82,7 +82,7 @@ namespace SnusMeMore.Services
 
     return Results.Ok(result);
 }
-=======
+
         public IResult AddRating(HttpContext context, Guid guid, AddRating ratingDto)
         {
             if (ratingDto.Rating < 1 || ratingDto.Rating > 5)
@@ -142,6 +142,5 @@ namespace SnusMeMore.Services
             double average = ratings.Average();
             return Results.Ok(new { averageRating = average });
         }
->>>>>>> main
     }
 }

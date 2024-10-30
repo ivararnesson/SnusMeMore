@@ -51,7 +51,7 @@ const SearchComponent = () => {
             <form onSubmit={handleSearchSubmit}>
                 <input
                     type="text"
-                    placeholder="Search Tobakko Mothafakko"
+                    placeholder="Search"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="search-input"
