@@ -31,6 +31,7 @@
         public string Price { get; set; }
         public string ImageUrl { get; set; }
         public string Brand { get; set; }
+        public double Strength { get; set; }
         public double Rating { get; set; }
         public Guid SnusId { get; set; }
     }
@@ -42,6 +43,7 @@
         public string Price { get; set; }
         public string ImageUrl { get; set; }
         public string Brand { get; set; }
+        public double Strength { get; set; }
         public double Rating { get; set; }
         public Guid SnusId { get; set; }
         public int Quantity { get; set; }
