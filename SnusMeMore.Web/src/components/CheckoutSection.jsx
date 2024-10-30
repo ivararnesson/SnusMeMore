@@ -11,6 +11,22 @@ const CheckoutSection = ({
   setCardInfo,
   handleCheckout,
 }) => {
+  // Regex patterns for validation
+  const namePattern = /^[a-zA-ZÀ-ſ\s]+$/; // Accepts letters, including accents, and spaces
+  const zipCodePattern = /^[0-9]{5}$/; // Accepts exactly 5 digits
+  const cardNumberPattern = /^\d{16}$/; // Accepts exactly 16 digits
+  const expirationDatePattern = /^(0[1-9]|1[0-2])\s?\/\s?\d{2}$/; // Accepts MM/YY format
+  const cvvPattern = /^\d{3}$/; // Accepts exactly 3 digits
+
+  // Custom validation message handler
+  const setCustomMessage = (e, message) => {
+    e.target.setCustomValidity(message);
+  };
+
+  const clearCustomMessage = (e) => {
+    e.target.setCustomValidity('');
+  };
+
   return (
     <div className="checkout-section w-25 p-3">
       <h3>Betalning</h3>
@@ -33,15 +49,57 @@ const CheckoutSection = ({
         <div className="address-section mb-3">
           <h4>Leveransadress:</h4>
           <label>Namn</label>
-          <input type="text" value={address.name} onChange={(e) => setAddress({ ...address, name: e.target.value })} className="form-control" required />
+          <input
+            type="text"
+            value={address.name}
+            onChange={(e) => setAddress({ ...address, name: e.target.value })}
+            className="form-control"
+            pattern={namePattern.source}
+            required
+            onInvalid={(e) => setCustomMessage(e, 'Ange ett giltigt namn med endast bokstäver.')}
+            onInput={clearCustomMessage}
+          />
           <label>Adress</label>
-          <input type="text" value={address.street} onChange={(e) => setAddress({ ...address, street: e.target.value })} className="form-control" required />
+          <input
+            type="text"
+            value={address.street}
+            onChange={(e) => setAddress({ ...address, street: e.target.value })}
+            className="form-control"
+            required
+            onInvalid={(e) => setCustomMessage(e, 'Ange en giltig adress.')}
+            onInput={clearCustomMessage}
+          />
           <label>Stad</label>
-          <input type="text" value={address.city} onChange={(e) => setAddress({ ...address, city: e.target.value })} className="form-control" required />
+          <input
+            type="text"
+            value={address.city}
+            onChange={(e) => setAddress({ ...address, city: e.target.value })}
+            className="form-control"
+            required
+            onInvalid={(e) => setCustomMessage(e, 'Ange en giltig stad.')}
+            onInput={clearCustomMessage}
+          />
           <label>Postnummer</label>
-          <input type="text" value={address.zipCode} onChange={(e) => setAddress({ ...address, zipCode: e.target.value })} className="form-control" required />
+          <input
+            type="text"
+            value={address.zipCode}
+            onChange={(e) => setAddress({ ...address, zipCode: e.target.value })}
+            className="form-control"
+            pattern={zipCodePattern.source}
+            required
+            onInvalid={(e) => setCustomMessage(e, 'Postnumret måste vara exakt 5 siffror.')}
+            onInput={clearCustomMessage}
+          />
           <label>Land</label>
-          <input type="text" value={address.country} onChange={(e) => setAddress({ ...address, country: e.target.value })} className="form-control" required />
+          <input
+            type="text"
+            value={address.country}
+            onChange={(e) => setAddress({ ...address, country: e.target.value })}
+            className="form-control"
+            required
+            onInvalid={(e) => setCustomMessage(e, 'Ange ett giltigt land.')}
+            onInput={clearCustomMessage}
+          />
         </div>
 
         {/* Payment Method */}
@@ -78,7 +136,10 @@ const CheckoutSection = ({
             onChange={(e) => setCardInfo({ ...cardInfo, cardholderName: e.target.value })}
             placeholder="John Carter"
             className="form-control"
+            pattern={namePattern.source}
             required
+            onInvalid={(e) => setCustomMessage(e, 'Ange ett giltigt namn med endast bokstäver.')}
+            onInput={clearCustomMessage}
           />
           <label>Kortnummer</label>
           <input
@@ -87,7 +148,10 @@ const CheckoutSection = ({
             onChange={(e) => setCardInfo({ ...cardInfo, cardNumber: e.target.value })}
             placeholder="**** **** **** 2153"
             className="form-control"
+            pattern={cardNumberPattern.source}
             required
+            onInvalid={(e) => setCustomMessage(e, 'Kortnumret måste vara exakt 16 siffror.')}
+            onInput={clearCustomMessage}
           />
           <label>Utgångsdatum</label>
           <input
@@ -96,7 +160,10 @@ const CheckoutSection = ({
             onChange={(e) => setCardInfo({ ...cardInfo, expirationDate: e.target.value })}
             placeholder="MM / YY"
             className="form-control"
+            pattern={expirationDatePattern.source}
             required
+            onInvalid={(e) => setCustomMessage(e, 'Utgångsdatum måste vara i formatet MM/YY.')}
+            onInput={clearCustomMessage}
           />
           <label>CVV</label>
           <input
@@ -105,11 +172,16 @@ const CheckoutSection = ({
             onChange={(e) => setCardInfo({ ...cardInfo, cvv: e.target.value })}
             placeholder="123"
             className="form-control"
+            pattern={cvvPattern.source}
             required
+            onInvalid={(e) => setCustomMessage(e, 'CVV måste vara exakt 3 siffror.')}
+            onInput={clearCustomMessage}
           />
         </div>
 
-        <button className="btn btn-primary mt-4 w-100" disabled={!shippingMethod}>Slutför</button>
+        <button className="btn btn-primary mt-4 w-100" disabled={!shippingMethod}>
+          Slutför
+        </button>
       </form>
     </div>
   );
