@@ -10,6 +10,7 @@ namespace SnusMeMore
         {
             MapSnusEndpoints(app);
             MapCartEndpoints(app);
+       
         }
 
         private static void MapSnusEndpoints(WebApplication app)
@@ -22,6 +23,7 @@ namespace SnusMeMore
             {
                 return service.GetAverageRating(guid);
             });
+             app.MapGet("/api/search", (ISnusService service, string query) => service.SearchSnus(query));
         }
 
         private static void MapCartEndpoints(WebApplication app)
