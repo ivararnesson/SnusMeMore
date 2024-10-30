@@ -64,26 +64,26 @@ namespace SnusMeMore.Services
         }
 
         public IResult SearchSnus(string query)
-{
-    var umbracoContext = UmbracoContextAccessor.GetRequiredUmbracoContext();
+        {
+            var umbracoContext = UmbracoContextAccessor.GetRequiredUmbracoContext();
 
-    var snusRef = ContentService.GetRootContent().FirstOrDefault(x => x.Name == "SnusList");
-    var content = umbracoContext.Content.GetById(snusRef.Key);
+            var snusRef = ContentService.GetRootContent().FirstOrDefault(x => x.Name == "SnusList");
+            var content = umbracoContext.Content.GetById(snusRef.Key);
 
-    if (content == null)
-    {
-        return Results.NotFound();
-    }
+            if (content == null)
+            {
+                return Results.NotFound();
+            }
 
-    var selection = content
-            .ChildrenOfType("SnusItem")
-            .Where(x => x.IsVisible() && x.Name.Contains(query, StringComparison.OrdinalIgnoreCase)) 
-            .OrderByDescending(x => x.CreateDate);
+            var selection = content
+                    .ChildrenOfType("SnusItem")
+                    .Where(x => x.IsVisible() && x.Name.Contains(query, StringComparison.OrdinalIgnoreCase))
+                    .OrderByDescending(x => x.CreateDate);
 
-    var result = Common.GetSnusDTO(selection.ToList());
+            var result = Common.GetSnusDTO(selection.ToList());
 
-    return Results.Ok(result);
-}
+            return Results.Ok(result);
+        }
 
         public IResult AddRating(HttpContext context, Guid guid, AddRating ratingDto)
         {
@@ -132,6 +132,9 @@ namespace SnusMeMore.Services
 
             if (string.IsNullOrWhiteSpace(ratingString))
             {
+                product.SetValue("Rating", 0);
+                ContentService.Save(product);
+                ContentService.Publish(product, Array.Empty<string>(), 0);
                 return Results.Ok(new { averageRating = 0 });
             }
 
@@ -148,10 +151,16 @@ namespace SnusMeMore.Services
 
             if (ratingsDict == null || !ratingsDict.Any())
             {
+                product.SetValue("Rating", 0);
+                ContentService.Save(product);
+                ContentService.Publish(product, Array.Empty<string>(), 0);
                 return Results.Ok(new { averageRating = 0 });
             }
 
             double average = ratingsDict.Values.Average();
+            product.SetValue("Rating", average);
+            ContentService.Save(product);
+            ContentService.Publish(product, Array.Empty<string>(), 0);
 
             return Results.Ok(new { averageRating = average });
         }
@@ -169,7 +178,7 @@ namespace SnusMeMore.Services
             var snusItem = content
                 .ChildrenOfType("SnusItem")
                 .FirstOrDefault(x => x.IsVisible() &&
-                    x.Name.Equals(snusName, StringComparison.OrdinalIgnoreCase)); 
+                    x.Name.Equals(snusName, StringComparison.OrdinalIgnoreCase));
 
             if (snusItem == null)
             {

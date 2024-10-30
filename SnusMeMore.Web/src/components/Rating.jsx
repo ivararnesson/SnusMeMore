@@ -1,37 +1,14 @@
 import { useState } from "react";
 import config from '../../config.js'
 import { useEffect } from "react";
-import { AuthContext } from "../authContext"
+import { AuthContext } from "../AuthContext"
 import { useContext } from "react"
 
 const Rating = ({ snusId, onRatingSubmit }) => {
     const [rating, setRating] = useState(0);
     const [message, setMessage] = useState("");
-    const [averageRating, setAverageRating] = useState(null);
     const [isRatingSubmitted, setisRatingSubmitted] = useState(false);
     const { isLoggedIn, userId } = useContext(AuthContext);
-
-    const getRating = async () => {
-        try {
-            const response = await fetch(config.umbracoURL + `/api/content/snusitem/${snusId}/average-rating`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error(`Error: ${response.status} ${response.statusText}`)
-            }
-
-            const data = await response.json();
-            setAverageRating(data.averageRating)
-
-            return data.averageRating;
-        } catch (error) {
-            console.error('Failed to fetch rating', error)
-        }
-    }
 
     const submitRating = async (value) => {
         if (value < 1 || value > 5) {
@@ -54,9 +31,7 @@ const Rating = ({ snusId, onRatingSubmit }) => {
 
             const result = await response.json();
             setMessage("Tack för ditt bidrag!");
-            setRating(value);
             setisRatingSubmitted(true);
-            getRating();
 
             if (onRatingSubmit) {
                 onRatingSubmit();
@@ -69,18 +44,14 @@ const Rating = ({ snusId, onRatingSubmit }) => {
     }
 
     const handleRatingChange = (value) => {
-        setRating(value)
         submitRating(value)
     };
-
-    useEffect(() => {
-        getRating();
-    }, [snusId]);
 
     return (
         <div className="snus-rating">
             {isLoggedIn && !isRatingSubmitted ? (
                 <div>
+                    <p>Betygsätt produkten!</p>
                     {[1, 2, 3, 4, 5].map((value) => (
                         <label key={value}>
                             <input
@@ -97,8 +68,6 @@ const Rating = ({ snusId, onRatingSubmit }) => {
             ) : isRatingSubmitted ? (
                 <p>{message}</p>
             ) : null} {}
-    
-            {averageRating !== null && <p>Snittbetyg: {averageRating.toFixed(1)}</p>}
         </div>
     );
 };
