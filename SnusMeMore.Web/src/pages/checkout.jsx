@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import Modal from "../components/modal";
-import CheckoutSection from "../components/CheckoutSection"; // Import the new component
+import CheckoutSection from "../components/CheckoutSection"; 
 import "../assets/CSS/checkout.css";
 
-// Import images
 import siberiaImage from "../assets/images/siberia-80-degrees-white-dry-portion.png";
 import lundgrensImage from "../assets/images/lundgrens-kvallsbris-all-white.png";
 import nordicImage from "../assets/images/nordic-spirit-frosty-mint-x-strong.png";
@@ -30,7 +29,7 @@ const CheckoutPage = () => {
     expirationDate: '',
     cvv: '',
   });
-  const [showModal, setShowModal] = useState(false); // State for modal visibility
+  const [showModal, setShowModal] = useState(false);
 
   const shippingCosts = {
     standard: 0,
@@ -44,7 +43,7 @@ const CheckoutPage = () => {
         .map(item =>
           item.id === id ? { ...item, quantity: item.quantity + change } : item
         )
-        .filter(item => item.quantity > 0) // Remove items with a quantity of zero
+        .filter(item => item.quantity > 0) 
     );
   };
 
@@ -62,10 +61,8 @@ const CheckoutPage = () => {
       return;
     }
 
-    // Show confirmation modal
     setShowModal(true);
 
-    // Clear cart items, address, and payment info
     setCartItems([]);
     setAddress({
       name: '',
@@ -83,7 +80,7 @@ const CheckoutPage = () => {
     });
   };
 
-  const handleCloseModal = () => setShowModal(false); // Function to close modal
+  const handleCloseModal = () => setShowModal(false);
 
   return (
     <div className="checkout-page container d-flex justify-content-between">

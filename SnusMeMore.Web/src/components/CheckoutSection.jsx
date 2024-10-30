@@ -11,14 +11,14 @@ const CheckoutSection = ({
   setCardInfo,
   handleCheckout,
 }) => {
-  // Regex patterns for validation
-  const namePattern = /^[a-zA-ZÀ-ſ\s]+$/; // Accepts letters, including accents, and spaces
-  const zipCodePattern = /^[0-9]{5}$/; // Accepts exactly 5 digits
-  const cardNumberPattern = /^\d{16}$/; // Accepts exactly 16 digits
-  const expirationDatePattern = /^(0[1-9]|1[0-2])\s?\/\s?\d{2}$/; // Accepts MM/YY format
-  const cvvPattern = /^\d{3}$/; // Accepts exactly 3 digits
+ 
+  const namePattern = /^[a-zA-ZÀ-ſ\s]+$/; 
+  const zipCodePattern = /^[0-9]{5}$/; 
+  const cardNumberPattern = /^\d{16}$/; 
+  const expirationDatePattern = /^(0[1-9]|1[0-2])\s?\/\s?\d{2}$/; 
+  const cvvPattern = /^\d{3}$/; 
 
-  // Custom validation message handler
+ 
   const setCustomMessage = (e, message) => {
     e.target.setCustomValidity(message);
   };
