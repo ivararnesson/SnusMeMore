@@ -24,7 +24,6 @@ const CheckoutSection = ({
     e.target.setCustomValidity('');
   };
 
-  // Generate options for months and years
   const months = Array.from({ length: 12 }, (_, i) => (
     <option key={i} value={String(i + 1).padStart(2, '0')}>
       {String(i + 1).padStart(2, '0')}
@@ -38,17 +37,27 @@ const CheckoutSection = ({
     </option>
   ));
 
+  const handleFormSubmit = (e) => {
+    e.preventDefault(); // Prevent default form submission
+    if (e.target.checkValidity()) {
+      handleCheckout(); // Proceed with your checkout logic
+    } else {
+      alert('Var snäll och fyll i alla fält korrekt.'); // Alert if invalid fields
+    }
+  };
+
   return (
-    <div className="checkout-section w-25 p-3">
+    <div className="unique-checkout-section w-25 p-3">
       <h3>Betalning</h3>
-      <form onSubmit={handleCheckout}>
+      <form onSubmit={handleFormSubmit}>
         {/* Shipping Method */}
-        <div className="shipping-method mb-3">
+        <div className="unique-shipping-method mb-3">
           <label>Välj fraktmetod:</label>
           <select
             value={shippingMethod}
             onChange={(e) => setShippingMethod(e.target.value)}
-            className="form-control mt-2"
+            className="form-control mt-2 unique-shipping-select"
+            required
           >
             <option value="standard">Standard (2-5 Arbetsdagar) - Gratis</option>
             <option value="express">Express (1-2 Arbetsdagar) - 79 kr</option>
@@ -57,14 +66,15 @@ const CheckoutSection = ({
         </div>
 
         {/* Address Section */}
-        <div className="address-section mb-3">
+        <div className="unique-address-section mb-3">
           <h4>Leveransadress:</h4>
           <label>Namn</label>
           <input
             type="text"
             value={address.name}
             onChange={(e) => setAddress({ ...address, name: e.target.value })}
-            className="form-control"
+            placeholder="Namn"
+            className="form-control unique-address-input"
             pattern={namePattern.source}
             required
             onInvalid={(e) => setCustomMessage(e, 'Ange ett giltigt namn med endast bokstäver.')}
@@ -75,7 +85,8 @@ const CheckoutSection = ({
             type="text"
             value={address.street}
             onChange={(e) => setAddress({ ...address, street: e.target.value })}
-            className="form-control"
+            placeholder="Adress"
+            className="form-control unique-address-input"
             required
             onInvalid={(e) => setCustomMessage(e, 'Ange en giltig adress.')}
             onInput={clearCustomMessage}
@@ -85,7 +96,8 @@ const CheckoutSection = ({
             type="text"
             value={address.city}
             onChange={(e) => setAddress({ ...address, city: e.target.value })}
-            className="form-control"
+            placeholder="Stad"
+            className="form-control unique-address-input"
             required
             onInvalid={(e) => setCustomMessage(e, 'Ange en giltig stad.')}
             onInput={clearCustomMessage}
@@ -95,7 +107,8 @@ const CheckoutSection = ({
             type="text"
             value={address.zipCode}
             onChange={(e) => setAddress({ ...address, zipCode: e.target.value })}
-            className="form-control"
+            placeholder="Postnummer"
+            className="form-control unique-address-input"
             pattern={zipCodePattern.source}
             required
             onInvalid={(e) => setCustomMessage(e, 'Postnumret måste vara exakt 5 siffror.')}
@@ -106,7 +119,8 @@ const CheckoutSection = ({
             type="text"
             value={address.country}
             onChange={(e) => setAddress({ ...address, country: e.target.value })}
-            className="form-control"
+            placeholder="Land"
+            className="form-control unique-address-input"
             required
             onInvalid={(e) => setCustomMessage(e, 'Ange ett giltigt land.')}
             onInput={clearCustomMessage}
@@ -114,7 +128,7 @@ const CheckoutSection = ({
         </div>
 
         {/* Payment Method */}
-        <div className="payment-method mb-3">
+        <div className="unique-payment-method mb-3">
           <h4>Betalningsmetod:</h4>
           <div>
             <label>
@@ -139,14 +153,14 @@ const CheckoutSection = ({
         </div>
 
         {/* Card Details */}
-        <div className="card-details mt-3">
+        <div className="unique-card-details mt-3">
           <label>Namn på kortinnehavare</label>
           <input
             type="text"
             value={cardInfo.cardholderName}
             onChange={(e) => setCardInfo({ ...cardInfo, cardholderName: e.target.value })}
             placeholder="John Carter"
-            className="form-control"
+            className="form-control unique-card-input"
             pattern={namePattern.source}
             required
             onInvalid={(e) => setCustomMessage(e, 'Ange ett giltigt namn med endast bokstäver.')}
@@ -158,7 +172,7 @@ const CheckoutSection = ({
             value={cardInfo.cardNumber}
             onChange={(e) => setCardInfo({ ...cardInfo, cardNumber: e.target.value })}
             placeholder="**** **** **** 2153"
-            className="form-control"
+            className="form-control unique-card-input"
             pattern={cardNumberPattern.source}
             required
             onInvalid={(e) => setCustomMessage(e, 'Kortnumret måste vara exakt 16 siffror.')}
@@ -167,21 +181,21 @@ const CheckoutSection = ({
 
           {/* Expiration Date Dropdowns */}
           <label>Utgångsdatum</label>
-          <div className="expiration-date-container">
+          <div className="unique-expiration-date-container">
             <select
               value={cardInfo.expirationMonth}
               onChange={(e) => setCardInfo({ ...cardInfo, expirationMonth: e.target.value })}
-              className="form-control"
+              className="form-control unique-expiration-select"
               required
             >
               <option value="">Månad</option>
               {months}
             </select>
-            <span className="expiration-divider">/</span>
+            <span className="unique-expiration-divider">/</span>
             <select
               value={cardInfo.expirationYear}
               onChange={(e) => setCardInfo({ ...cardInfo, expirationYear: e.target.value })}
-              className="form-control"
+              className="form-control unique-expiration-select"
               required
             >
               <option value="">År</option>
@@ -195,7 +209,7 @@ const CheckoutSection = ({
             value={cardInfo.cvv}
             onChange={(e) => setCardInfo({ ...cardInfo, cvv: e.target.value })}
             placeholder="123"
-            className="form-control"
+            className="form-control unique-card-input"
             pattern={cvvPattern.source}
             required
             onInvalid={(e) => setCustomMessage(e, 'CVV måste vara exakt 3 siffror.')}
@@ -203,7 +217,7 @@ const CheckoutSection = ({
           />
         </div>
 
-        <button className="btn btn-primary mt-4 w-100" disabled={!shippingMethod}>
+        <button className="btn btn-primary mt-4 w-100 unique-checkout-button" disabled={!shippingMethod || !paymentMethod}>
           Slutför
         </button>
       </form>

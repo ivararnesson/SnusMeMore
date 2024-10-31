@@ -18,7 +18,8 @@ const CheckoutPage = () => {
     const [cardInfo, setCardInfo] = useState({
         cardholderName: '',
         cardNumber: '',
-        expirationDate: '',
+        expirationMonth: '',
+        expirationYear: '',
         cvv: '',
     });
     const [showModal, setShowModal] = useState(false);
@@ -30,7 +31,7 @@ const CheckoutPage = () => {
     };
 
     useEffect(() => {
-        getCart(); // Fetch cart on page load
+        getCart();
     }, []);
 
     const handleQuantityChange = (id, change) => {
@@ -51,9 +52,7 @@ const CheckoutPage = () => {
     const subtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
     const total = subtotal + shippingCosts[shippingMethod];
 
-    const handleCheckout = (e) => {
-        e.preventDefault();
-
+    const handleCheckout = () => {
         const allFieldsFilled = Object.values(address).every(field => field.trim() !== '');
         const allCardFieldsFilled = Object.values(cardInfo).every(field => field.trim() !== '');
 
@@ -63,11 +62,12 @@ const CheckoutPage = () => {
         }
 
         setShowModal(true);
+        console.log("Proceeding with checkout...");
 
-        // Empty the cart by setting each item's quantity to 0
-        cart.forEach(item => handleQuantityChange(item.snusId, -item.quantity));
+        // Clear the cart by removing all items
+        cart.forEach(item => removeFromCart(item.snusId));
 
-        // Reset form fields
+        // Reset state
         setAddress({
             name: '',
             street: '',
@@ -79,7 +79,8 @@ const CheckoutPage = () => {
         setCardInfo({
             cardholderName: '',
             cardNumber: '',
-            expirationDate: '',
+            expirationMonth: '',
+            expirationYear: '',
             cvv: '',
         });
     };
@@ -87,11 +88,11 @@ const CheckoutPage = () => {
     const handleCloseModal = () => setShowModal(false);
 
     return (
-        <div className="checkout-page-container d-flex justify-content-between">
+        <div className="unique-checkout-page-container d-flex justify-content-between">
             {/* Cart Section */}
-            <div className="cart-section-container w-50">
+            <div className="unique-cart-section-container w-50">
                 <h2>Kundvagn</h2>
-                <table className="cart-table">
+                <table className="unique-cart-table">
                     <thead>
                         <tr>
                             <th>Produkt</th>
@@ -104,8 +105,8 @@ const CheckoutPage = () => {
                         {cart.map(item => (
                             <tr key={item.snusId}>
                                 <td>
-                                    <div className="product-info d-flex align-items-center">
-                                        <img src={item.imageUrl} alt={item.snusName} className="product-image" />
+                                    <div className="unique-product-info d-flex align-items-center">
+                                        <img src={item.imageUrl} alt={item.snusName} className="unique-product-image" />
                                         <div>
                                             {item.snusName} <br />
                                         </div>
@@ -113,16 +114,18 @@ const CheckoutPage = () => {
                                 </td>
                                 <td>{item.size}</td>
                                 <td>
-                                    <button onClick={() => handleQuantityChange(item.snusId, -1)} disabled={item.quantity <= 0}>-</button>
-                                    <span className="mx-2">{item.quantity}</span>
-                                    <button onClick={() => handleQuantityChange(item.snusId, 1)}>+</button>
+                                    <div className="unique-quantity-controls">
+                                        <button onClick={() => handleQuantityChange(item.snusId, -1)} disabled={item.quantity <= 0}>-</button>
+                                        <span>{item.quantity}</span>
+                                        <button onClick={() => handleQuantityChange(item.snusId, 1)}>+</button>
+                                    </div>
                                 </td>
                                 <td>{(item.price * item.quantity).toFixed(2)} kr</td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
-                <div className="subtotal-section">
+                <div className="unique-subtotal-section">
                     <p>Delsumma: {subtotal.toFixed(2)} kr</p>
                     <p>Frakt: {shippingCosts[shippingMethod].toFixed(2)} kr</p>
                     <h4>Totalt: {total.toFixed(2)} kr</h4>
