@@ -11,14 +11,11 @@ const CheckoutSection = ({
   setCardInfo,
   handleCheckout,
 }) => {
- 
   const namePattern = /^[a-zA-ZÀ-ſ\s]+$/; 
   const zipCodePattern = /^[0-9]{5}$/; 
   const cardNumberPattern = /^\d{16}$/; 
-  const expirationDatePattern = /^(0[1-9]|1[0-2])\s?\/\s?\d{2}$/; 
   const cvvPattern = /^\d{3}$/; 
 
- 
   const setCustomMessage = (e, message) => {
     e.target.setCustomValidity(message);
   };
@@ -26,6 +23,20 @@ const CheckoutSection = ({
   const clearCustomMessage = (e) => {
     e.target.setCustomValidity('');
   };
+
+  // Generate options for months and years
+  const months = Array.from({ length: 12 }, (_, i) => (
+    <option key={i} value={String(i + 1).padStart(2, '0')}>
+      {String(i + 1).padStart(2, '0')}
+    </option>
+  ));
+  
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: 12 }, (_, i) => (
+    <option key={i} value={currentYear + i}>
+      {currentYear + i}
+    </option>
+  ));
 
   return (
     <div className="checkout-section w-25 p-3">
@@ -153,18 +164,31 @@ const CheckoutSection = ({
             onInvalid={(e) => setCustomMessage(e, 'Kortnumret måste vara exakt 16 siffror.')}
             onInput={clearCustomMessage}
           />
+
+          {/* Expiration Date Dropdowns */}
           <label>Utgångsdatum</label>
-          <input
-            type="text"
-            value={cardInfo.expirationDate}
-            onChange={(e) => setCardInfo({ ...cardInfo, expirationDate: e.target.value })}
-            placeholder="MM / YY"
-            className="form-control"
-            pattern={expirationDatePattern.source}
-            required
-            onInvalid={(e) => setCustomMessage(e, 'Utgångsdatum måste vara i formatet MM/YY.')}
-            onInput={clearCustomMessage}
-          />
+          <div className="expiration-date-container">
+            <select
+              value={cardInfo.expirationMonth}
+              onChange={(e) => setCardInfo({ ...cardInfo, expirationMonth: e.target.value })}
+              className="form-control"
+              required
+            >
+              <option value="">Månad</option>
+              {months}
+            </select>
+            <span className="expiration-divider">/</span>
+            <select
+              value={cardInfo.expirationYear}
+              onChange={(e) => setCardInfo({ ...cardInfo, expirationYear: e.target.value })}
+              className="form-control"
+              required
+            >
+              <option value="">År</option>
+              {years}
+            </select>
+          </div>
+
           <label>CVV</label>
           <input
             type="text"
