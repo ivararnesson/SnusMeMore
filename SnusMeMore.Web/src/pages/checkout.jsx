@@ -23,7 +23,7 @@ const CheckoutPage = () => {
         cvv: '',
     });
     const [showModal, setShowModal] = useState(false);
-    const [loading, setLoading] = useState(true); // Loading state
+    const [loading, setLoading] = useState(true);
 
     const shippingCosts = {
         standard: 0,
@@ -33,8 +33,8 @@ const CheckoutPage = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            await getCart(); // Hämtar kundvagnen när komponenten laddas
-            setLoading(false); // Set loading to false after fetching
+            await getCart();
+            setLoading(false);
         };
 
         fetchData();
@@ -70,10 +70,8 @@ const CheckoutPage = () => {
         setShowModal(true);
         console.log("Proceeding with checkout...");
 
-        // Rensa kundvagnen genom att ta bort alla objekt
         cart.forEach(item => removeFromCart(item.snusId));
 
-        // Återställ state
         setAddress({
             name: '',
             street: '',
@@ -94,7 +92,7 @@ const CheckoutPage = () => {
     const handleCloseModal = () => setShowModal(false);
 
     if (loading) {
-        return <p>Laddar din kundvagn...</p>; // Display loading message
+        return <p>Laddar din kundvagn...</p>; 
     }
 
     return (

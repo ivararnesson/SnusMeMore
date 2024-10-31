@@ -38,11 +38,11 @@ const CheckoutSection = ({
   ));
 
   const handleFormSubmit = (e) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault(); 
     if (e.target.checkValidity()) {
-      handleCheckout(); // Proceed with your checkout logic
+      handleCheckout(); 
     } else {
-      alert('Var snäll och fyll i alla fält korrekt.'); // Alert if invalid fields
+      alert('Var snäll och fyll i alla fält korrekt.');
     }
   };
 
