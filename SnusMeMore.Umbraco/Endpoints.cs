@@ -25,7 +25,8 @@ namespace SnusMeMore
             });
             app.MapGet("/api/search", (ISnusService service, string query) => service.SearchSnus(query));
             app.MapGet("/api/content/snusitem", (ISnusService snusService, string snusName) =>
-               snusService.GetSnusByName(snusName));
+                snusService.GetSnusByName(snusName));
+            app.MapGet("/api/content/top-rated-snus", (ISnusService service) => service.GetTopRatedSnus());
         }
 
         private static void MapCartEndpoints(WebApplication app)

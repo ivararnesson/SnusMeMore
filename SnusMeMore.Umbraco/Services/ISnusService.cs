@@ -8,5 +8,6 @@
         IResult GetAverageRating(Guid guid);
         IResult SearchSnus(string query);
         IResult GetSnusByName(string snusName);
+        IResult GetTopRatedSnus();
     }
 }

@@ -91,6 +91,34 @@
     align-self: center;
     grid-template-columns: repeat(6, 1fr);
 }
+.rating--list-h2-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.rating--list-h1 {
+    margin-bottom: 1rem;;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+.rating--list-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 3rem;
+    border: 0.5px solid black;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    max-width: 100%;
+}
+.snus--list-toprated-img {
+    @extend .snus--list-img;
+    cursor: pointer;
+}
+.snus--list-toprated-img:hover {
+    transform: scale(1.2);
+}
+
 @media (max-width: 950px) {
     .snus--grid {
         grid-template-columns: repeat(3, 1fr);
