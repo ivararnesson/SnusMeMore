@@ -23,6 +23,7 @@ const CheckoutPage = () => {
         cvv: '',
     });
     const [showModal, setShowModal] = useState(false);
+    const [loading, setLoading] = useState(true); // Loading state
 
     const shippingCosts = {
         standard: 0,
@@ -31,8 +32,13 @@ const CheckoutPage = () => {
     };
 
     useEffect(() => {
-        getCart();
-    }, []);
+        const fetchData = async () => {
+            await getCart(); // Hämtar kundvagnen när komponenten laddas
+            setLoading(false); // Set loading to false after fetching
+        };
+
+        fetchData();
+    }, [getCart]);
 
     const handleQuantityChange = (id, change) => {
         const item = cart.find(item => item.snusId === id);
@@ -64,10 +70,10 @@ const CheckoutPage = () => {
         setShowModal(true);
         console.log("Proceeding with checkout...");
 
-        // Clear the cart by removing all items
+        // Rensa kundvagnen genom att ta bort alla objekt
         cart.forEach(item => removeFromCart(item.snusId));
 
-        // Reset state
+        // Återställ state
         setAddress({
             name: '',
             street: '',
@@ -87,63 +93,74 @@ const CheckoutPage = () => {
 
     const handleCloseModal = () => setShowModal(false);
 
+    if (loading) {
+        return <p>Laddar din kundvagn...</p>; // Display loading message
+    }
+
     return (
         <div className="unique-checkout-page-container d-flex justify-content-between">
-            {/* Cart Section */}
-            <div className="unique-cart-section-container w-50">
-                <h2>Kundvagn</h2>
-                <table className="unique-cart-table">
-                    <thead>
-                        <tr>
-                            <th>Produkt</th>
-                            <th></th>
-                            <th>Antal</th>
-                            <th>Pris</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {cart.map(item => (
-                            <tr key={item.snusId}>
-                                <td>
-                                    <div className="unique-product-info d-flex align-items-center">
-                                        <img src={item.imageUrl} alt={item.snusName} className="unique-product-image" />
-                                        <div>
-                                            {item.snusName} <br />
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>{item.size}</td>
-                                <td>
-                                    <div className="unique-quantity-controls">
-                                        <button onClick={() => handleQuantityChange(item.snusId, -1)} disabled={item.quantity <= 0}>-</button>
-                                        <span>{item.quantity}</span>
-                                        <button onClick={() => handleQuantityChange(item.snusId, 1)}>+</button>
-                                    </div>
-                                </td>
-                                <td>{(item.price * item.quantity).toFixed(2)} kr</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-                <div className="unique-subtotal-section">
-                    <p>Delsumma: {subtotal.toFixed(2)} kr</p>
-                    <p>Frakt: {shippingCosts[shippingMethod].toFixed(2)} kr</p>
-                    <h4>Totalt: {total.toFixed(2)} kr</h4>
-                </div>
-            </div>
+            {/* Check if the cart is empty */}
+            {cart.length === 0 ? (
+                <p>Din kundvagn är tom. Vänligen lägg till produkter innan du fortsätter till kassan.</p>
+            ) : (
+                <>
+                    {/* Cart Section */}
+                    <div className="unique-cart-section-container w-50">
+                        <h2>Kundvagn</h2>
+                        <table className="unique-cart-table">
+                            <thead>
+                                <tr>
+                                    <th>Produkt</th>
+                                    <th></th>
+                                    <th>Antal</th>
+                                    <th>Pris</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {cart.map(item => (
+                                    <tr key={item.snusId}>
+                                        <td>
+                                            <div className="unique-product-info d-flex align-items-center">
+                                                <img src={item.imageUrl} alt={item.snusName} className="unique-product-image" />
+                                                <div>
+                                                    {item.snusName} <br />
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>{item.size}</td>
+                                        <td>
+                                            <div className="unique-quantity-controls">
+                                                <button onClick={() => handleQuantityChange(item.snusId, -1)} disabled={item.quantity <= 0}>-</button>
+                                                <span>{item.quantity}</span>
+                                                <button onClick={() => handleQuantityChange(item.snusId, 1)}>+</button>
+                                            </div>
+                                        </td>
+                                        <td>{(item.price * item.quantity).toFixed(2)} kr</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                        <div className="unique-subtotal-section">
+                            <p>Delsumma: {subtotal.toFixed(2)} kr</p>
+                            <p>Frakt: {shippingCosts[shippingMethod].toFixed(2)} kr</p>
+                            <h4>Totalt: {total.toFixed(2)} kr</h4>
+                        </div>
+                    </div>
 
-            {/* Checkout Section */}
-            <CheckoutSection
-                shippingMethod={shippingMethod}
-                setShippingMethod={setShippingMethod}
-                address={address}
-                setAddress={setAddress}
-                paymentMethod={paymentMethod}
-                setPaymentMethod={setPaymentMethod}
-                cardInfo={cardInfo}
-                setCardInfo={setCardInfo}
-                handleCheckout={handleCheckout}
-            />
+                    {/* Checkout Section */}
+                    <CheckoutSection
+                        shippingMethod={shippingMethod}
+                        setShippingMethod={setShippingMethod}
+                        address={address}
+                        setAddress={setAddress}
+                        paymentMethod={paymentMethod}
+                        setPaymentMethod={setPaymentMethod}
+                        cardInfo={cardInfo}
+                        setCardInfo={setCardInfo}
+                        handleCheckout={handleCheckout}
+                    />
+                </>
+            )}
 
             {/* Confirmation Modal */}
             <Modal isOpen={showModal} onClose={handleCloseModal}>
