@@ -137,8 +137,8 @@ function Navbar() {
           </li>
 
         {isLoggedIn ? (
-          <div>
-            <p>Inloggad som: {userName}</p>
+          <div className='logged-in-div'>
+            <p>{userName}</p>
             <button onClick={logout}>Logga ut</button>
           </div>
         ) : (
