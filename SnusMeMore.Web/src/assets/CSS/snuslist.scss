@@ -111,6 +111,13 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     max-width: 100%;
 }
+.snus--list-toprated-img {
+    @extend .snus--list-img;
+    cursor: pointer;
+}
+.snus--list-toprated-img:hover {
+    transform: scale(1.2);
+}
 
 @media (max-width: 950px) {
     .snus--grid {

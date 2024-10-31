@@ -34,7 +34,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.snus--list-img {
+.snus--list-img, .snus--list-toprated-img {
   width: 100%;
   height: 12.5rem;
   -o-object-fit: contain;
@@ -43,7 +43,7 @@
   transition: transform 0.3s;
 }
 
-.snus-card:hover .snus--list-img {
+.snus-card:hover .snus--list-img, .snus-card:hover .snus--list-toprated-img {
   transform: scale(1.2);
 }
 
@@ -129,6 +129,14 @@
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   max-width: 100%;
+}
+
+.snus--list-toprated-img {
+  cursor: pointer;
+}
+
+.snus--list-toprated-img:hover {
+  transform: scale(1.2);
 }
 
 @media (max-width: 950px) {

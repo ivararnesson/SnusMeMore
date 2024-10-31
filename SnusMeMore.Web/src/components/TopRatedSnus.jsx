@@ -4,9 +4,11 @@ import 'react-alice-carousel/lib/alice-carousel.css';
 import config from '../../config.js'
 import SnusCard from "./SnusCard"
 import "../assets/CSS/snuslist.css"
+import { useNavigate } from "react-router-dom";
 
 const TopRatedSnus = () => {
     const [topRated, setTopRated] = useState([])
+    const navigate = useNavigate()
 
     const getTopRatedSnus = () => {
         fetch(config.umbracoURL + '/api/content/top-rated-snus')
@@ -14,6 +16,21 @@ const TopRatedSnus = () => {
         .then(result => {
             setTopRated(result)
         })
+    }
+
+    const renderCarouselItem = (item) => {
+        return (
+            <img
+                className="snus--list-toprated-img"
+                src={item.imageUrl}
+                alt={item.name}
+                onClick={() => handleCardClick(item.snusName)}
+            />
+        )
+    }
+
+    const handleCardClick = (snusName) => {
+        navigate(`/productpage?snusName=${encodeURIComponent(snusName)}`);
     }
 
     useEffect(() => {
@@ -28,7 +45,7 @@ const TopRatedSnus = () => {
             {topRated.length > 0 ? (
                 <div className="rating--list-card">
                     <AliceCarousel
-                        items={topRated.map(item => <SnusCard key={item.rating} snus={item} />)}
+                        items={topRated.map(renderCarouselItem)}
                         autoPlay
                         autoPlayInterval={2000}
                         infinite
