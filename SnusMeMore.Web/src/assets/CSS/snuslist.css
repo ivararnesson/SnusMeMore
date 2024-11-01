@@ -4,6 +4,10 @@
   justify-content: center;
 }
 
+.snus--list, h1 {
+  align-self: center;
+}
+
 .snus--list-container {
   margin: 3rem;
   border: 0.5px solid black;
