@@ -147,7 +147,7 @@ function Navbar() {
             <button onClick={logout}>Logga ut</button>
           </div>
         ) : (
-          <Link to="/login">Logga in</Link>
+          <Link className='login' to="/login">Logga in</Link>
         )}
       </div>
     </nav>

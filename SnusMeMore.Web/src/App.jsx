@@ -1,5 +1,4 @@
 import Navbar from "./components/navbar";
-import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import "./assets/CSS/master.css"
 import TopRatedSnus from "./components/TopRatedSnus"
@@ -9,7 +8,6 @@ import Checkout from "./pages/checkout";
 import NotFound from "./pages/notFound";
 import LoginForm from "./components/LoginForm";
 import ProductPage from "./pages/SpecificSnusView";
-
 
 function App() {
   return (

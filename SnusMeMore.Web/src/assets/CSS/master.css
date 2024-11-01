@@ -332,6 +332,45 @@ a:link, a:visited, a:hover, a:active {
   color: #757575;
 }
 
+.logged-in-div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #f1f1f1;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.logged-in-div p {
+  margin: 0;
+  font-size: 1em;
+  font-weight: 500;
+  color: #333;
+}
+
+.logged-in-div button {
+  background-color: #ff4b4b;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.logged-in-div button:hover {
+  background-color: #cc3b3b;
+}
+
+.login {
+  text-decoration: none;
+  color: #007bff;
+  font-size: 1em;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
 @media (max-width: 950px) {
   .results-container {
     grid-template-columns: repeat(3, 1fr);
