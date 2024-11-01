@@ -1,14 +1,6 @@
 
-using Umbraco.Cms.Core.Web;
-using Umbraco.Cms.Core.Services;
 using SnusMeMore;
-using Microsoft.AspNetCore.Mvc;
-using Umbraco.Cms.Core.Media.EmbedProviders;
-using Microsoft.IdentityModel.Tokens;
-using Polly;
 using SnusMeMore.Services;
-using Umbraco.Cms.Core.Security;
-using Umbraco.Cms.Web.Common.Security;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +8,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<ISnusService, SnusService>();
-builder.Services.AddSingleton<ICartService, CartService>();
+builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddSingleton<ILoginService, LoginService>();
 
 builder.CreateUmbracoBuilder()
     .AddBackOffice()

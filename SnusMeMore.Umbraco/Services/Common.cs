@@ -10,7 +10,7 @@ namespace SnusMeMore.Services
         {
             var token = context.Request.Headers.Authorization.ToString().Replace("Token ", "").Trim();
 
-            if (CartService.LoggedInUsers.Contains(token)) return token;
+            if (LoginService.LoggedInUsers.Contains(token)) return token;
             else return string.Empty;
         }
 
