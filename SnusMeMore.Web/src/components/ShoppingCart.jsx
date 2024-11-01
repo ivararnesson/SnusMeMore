@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { AuthContext } from '../AuthContext'
+import "../assets/CSS/shoppingcart.css"
 
 const ShoppingCart = () => {
     const { cart, getCart, addToCart, removeFromCart, isLoggedIn } = useContext(AuthContext)
@@ -21,6 +22,7 @@ const ShoppingCart = () => {
             name: item.snusName,
             price: item.price,
             quantity: item.quantity,
+            image: item.imageUrl
         }))
         
         setCartItems(items)
@@ -36,13 +38,15 @@ const ShoppingCart = () => {
             <div className="cart-items">
                 {cartItems.map(item => (
                     <div key={item.id} className="cart-item">
+                        <img src={item.image} alt='snus'></img>
                         <span>{item.name}</span>
                         <div className="quantity-controls">
                             <button onClick={() => removeFromCart(item.id)}>-</button>
                             <span>{item.quantity}</span>
                             <button onClick={() => addToCart(item.id)}>+</button>
+                        
+                            <span>{item.price * item.quantity} sek</span>
                         </div>
-                        <span>{item.price * item.quantity} sek</span>
                     </div>
                 ))}
             </div>
