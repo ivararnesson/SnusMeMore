@@ -94,7 +94,7 @@ function Navbar() {
             </button>
             {dropdownState.dropdownTwo && (
               <ul className="dropdown">
-                <li><Link to="/snuslist?category=VitTobak">Vitt snus</Link></li>
+                <li><Link to="/snuslist?category=VittSnus">Vitt snus</Link></li>
                 <li><Link to="#">Suboption 2</Link></li>
                 <li><Link to="#">Suboption 3</Link></li>
               </ul>
@@ -112,7 +112,7 @@ function Navbar() {
             </button>
             {dropdownState.dropdownThree && (
               <ul className="dropdown">
-                <li><Link to="/nikotinfritt">Nikotinfritt snus</Link></li>
+                <li><Link to="/snuslist?category=Nikotinfritt">Nikotinfritt snus</Link></li>
                 <li><a href="#">Suboption 2</a></li>
                 <li><a href="#">Suboption 3</a></li>
               </ul>

@@ -8,58 +8,61 @@ import { useEffect, useState } from 'react'
 import SnusCard from './SnusCard.jsx'
 import config from '../../config.js'
 import "../assets/CSS/snuslist.css"
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const SnusList = () => {
     const [snusItems, setSnusItems] = useState([])
+    const [brandTitle, setBrandTitle] = useState("ALL SNUS")
     const [filteredItems, setFilteredItems] = useState([])
-    const [brandFilter, setBrandFilter] = useState("all")
-    const [categoryFilter, setCategoryFilter] = useState("all")
     const [firstItem, setFirstItem] = useState(0)
     const [rows, setRows] = useState(8)
-    const location = useLocation();
+    const location = useLocation()
+    const navigate = useNavigate()
 
 
     useEffect(() => {
-        const queryParams = new URLSearchParams(location.search)
-        const category = queryParams.get('category') || "all"
-
-        setCategoryFilter(category)
-        setBrandFilter("all")
-
         fetch(config.umbracoURL + '/api/content/snusitems')
             .then(response => response.json())
             .then(result => {
                 setSnusItems(result)
-
-                const filteredResult = category 
-                    ? result.filter(item => item.category === category) 
-                    : result
-
-                setFilteredItems(filteredResult)
-            });
-    }, [location.search])
+                filterSnus(result, location.search)
+                console.log(result)
+            })
+    }, [])
 
     useEffect(() => {
-        const filtered = snusItems.filter(item => {
-            const matchesBrand = brandFilter === "all" || item.brand === brandFilter
-            const matchesCategory = categoryFilter === "all" || item.category === categoryFilter
-            return matchesBrand && matchesCategory
-        })
+        filterSnus(snusItems, location.search)
+    }, [location.search, snusItems])
 
-        setFilteredItems(filtered)
+    const filterSnus = (items, search) => {
+        const queryParams = new URLSearchParams(search)
+        const category = queryParams.get('category') || "all"
+        const brand = queryParams.get('brand') || "all"
+
+        setBrandTitle(brand !== "all" ? brand.toUpperCase() : category.toUpperCase())
+
+        const filteredResult = items.filter(item => {
+            const matchesBrand = brand === "all" || item.brand === brand
+            const matchesCategory = category === "all" || item.category === category
+            return matchesBrand && matchesCategory
+        });
+
+        setFilteredItems(filteredResult)
         setFirstItem(0)
-    }, [categoryFilter, brandFilter, snusItems])
+    };
 
     const currentItem = filteredItems.slice(firstItem, firstItem + rows)
 
     const handleBrandFilter = (brand) => {
-        setBrandFilter(brand)
-        setCategoryFilter("all")
-    }
+        const queryParams = new URLSearchParams(location.search)
+        queryParams.set('brand', brand)
+        queryParams.set('category', 'all')
+        navigate(`/snuslist?${queryParams.toString()}`)
+    };
 
     return (
         <div className="snus--list">
+            <h1>{brandTitle}</h1>
             {snusItems.length > 0 ? (
                 <div className="snus--list-container">
                     <div className="snus--grid">
