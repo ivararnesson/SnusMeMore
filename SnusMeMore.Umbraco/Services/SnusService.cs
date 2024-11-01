@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Newtonsoft.Json;
 using Umbraco.Cms.Core.Media.EmbedProviders;
+using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Core.Web;
 
@@ -185,23 +186,9 @@ namespace SnusMeMore.Services
                 return Results.NotFound();
             }
 
-            var result = new
-            {
-                Id = snusItem.Key,
-                SnusName = snusItem.Value<string>("snusName"),
-                ImageUrl = snusItem.Value<string>("imageUrl"),
-                Category = snusItem.Value<string>("category"),
-                Brand = snusItem.Value<string>("brand"),
-                Strength = snusItem.Value<string>("strength"),
-                Price = snusItem.Value<decimal>("price"),
-                Description = snusItem.Value<string>("description"),
-                Rating = snusItem.Value<double>("rating")
-            };
+            var result = Common.GetSnusDTO([snusItem]);
 
-            //var result = Common.GetSnusDTO(snusItem.ToList());
-
-
-            return Results.Ok(result);
+            return Results.Ok(result.First());
         }
 
         public IResult GetTopRatedSnus()
