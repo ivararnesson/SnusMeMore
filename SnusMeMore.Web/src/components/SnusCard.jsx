@@ -18,7 +18,7 @@ const SnusCard = ({ snus }) => {
             <img className="snus--list-img" src={snus.imageUrl} alt={snus.name} />
             <h2 className="snus--list-title">{snus.snusName}</h2>
             <p className="snus--list-price">{snus.price} sek</p>
-            <button onClick={(e) => { e.stopPropagation(); addToCart(snus.snusId); }} className="snus--list-btn">
+            <button onClick={(e) => { e.stopPropagation(); addToCart(snus.snusId, true); }} className="snus--list-btn">
                 <FaShoppingCart />KÖP
             </button>
         </div>

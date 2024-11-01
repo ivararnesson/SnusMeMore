@@ -8,6 +8,7 @@ export const AuthProvider = ({ children }) => {
     const [userId, setUserId] = useState()
     const [userName, setUserName] = useState()
     const [cart, setCart] = useState([])
+    const [purchaseEvent, setPurchaseEvent] = useState(false)
 
     useEffect(() => {
         const storedUserId = localStorage.getItem("userId")
@@ -134,7 +135,7 @@ export const AuthProvider = ({ children }) => {
         })
     }
 
-    const addToCart = (snusId) => {
+    const addToCart = (snusId, shouldTriggerPurchaseEvent = false) => {
         if (!isLoggedIn) {
             console.log("Not logged in")
             return
@@ -152,6 +153,11 @@ export const AuthProvider = ({ children }) => {
         .then(cartData => {
             console.log(cartData)
             getCart()
+
+            if (shouldTriggerPurchaseEvent) {
+                setPurchaseEvent(true)
+                setTimeout(() => setPurchaseEvent(false), 1500)
+            }
         })
     }
 
@@ -190,7 +196,8 @@ export const AuthProvider = ({ children }) => {
             getCart,
             cart, 
             addToCart,
-            removeFromCart
+            removeFromCart,
+            purchaseEvent
             }}>
             {children}
         </AuthContext.Provider>

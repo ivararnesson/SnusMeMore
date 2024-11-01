@@ -16,7 +16,7 @@ function Navbar() {
     shoppingCartDropdown: false
   });
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { isLoggedIn, userName, logout } = useContext(AuthContext)
+  const { isLoggedIn, userName, logout, purchaseEvent } = useContext(AuthContext)
 
   const toggleDropdown = (dropdownName) => {
     setDropdownState((prevState) => {
@@ -122,7 +122,11 @@ function Navbar() {
           <li
             className="master--nav-li"
           >
-            <button className="master--nav-li-btn" onClick={() => toggleDropdown('shoppingCartDropdown')}>
+            <button 
+              style={{ backgroundColor: purchaseEvent ? 'red' : 'white', color: purchaseEvent ? 'white' : 'black' }} 
+              className="master--nav-li-btn fade-background" 
+              onClick={() => toggleDropdown('shoppingCartDropdown')}
+            >
               {documentModel.shoppingCart}
             </button>
             {dropdownState.shoppingCartDropdown && (
