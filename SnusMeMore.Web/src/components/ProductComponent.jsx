@@ -32,7 +32,7 @@ const ProductView = () => {
 
     const handleRatingSubmit = async () => {
         try {
-            const response = await fetch(config.umbracoURL + `/api/content/snusitem/${snusItem.id}/average-rating`, {
+            const response = await fetch(config.umbracoURL + `/api/content/snusitem/${snusItem.snusId}/average-rating`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -79,7 +79,7 @@ const ProductView = () => {
                 <p>Rating:
                     <a> {averageRating}</a>
                 </p>
-                <Rating snusId={snusItem.id} onRatingSubmit={handleRatingSubmit} />
+                <Rating snusId={snusItem.snusId} onRatingSubmit={handleRatingSubmit} />
             </div>
         </div>
     );
