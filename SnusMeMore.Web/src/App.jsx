@@ -9,6 +9,7 @@ import Checkout from "./pages/checkout";
 import NotFound from "./pages/notFound";
 import LoginForm from "./components/LoginForm";
 import ProductPage from "./pages/SpecificSnusView";
+import Footer from "./components/Footer";
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
         <Route path="/search/:query" element={<SearchResults />} />
         <Route path="/productpage" element={<ProductPage />} />
       </Routes>
+        <Footer />
     </Router>
   )
 }
