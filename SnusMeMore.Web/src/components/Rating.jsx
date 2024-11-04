@@ -1,11 +1,9 @@
 import { useState } from "react";
 import config from '../../config.js'
-import { useEffect } from "react";
 import { AuthContext } from "../AuthContext"
 import { useContext } from "react"
 
 const Rating = ({ snusId, onRatingSubmit }) => {
-    const [rating, setRating] = useState(0);
     const [message, setMessage] = useState("");
     const [isRatingSubmitted, setisRatingSubmitted] = useState(false);
     const { isLoggedIn, userId } = useContext(AuthContext);
@@ -20,7 +18,8 @@ const Rating = ({ snusId, onRatingSubmit }) => {
             const response = await fetch(config.umbracoURL + `/api/content/snusitem/${snusId}/rating`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': "Token " + userId
                 },
                 body: JSON.stringify({ Rating: value, UserId: userId }),
             });
@@ -58,7 +57,6 @@ const Rating = ({ snusId, onRatingSubmit }) => {
                                 type="radio"
                                 name="rating"
                                 value={value}
-                                checked={rating === value}
                                 onChange={() => handleRatingChange(value)}
                             />
                             {value}

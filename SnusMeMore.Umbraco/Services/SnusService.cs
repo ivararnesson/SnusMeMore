@@ -88,6 +88,12 @@ namespace SnusMeMore.Services
 
         public IResult AddRating(HttpContext context, Guid guid, AddRating ratingDto)
         {
+            var token = Common.GetAuthHeader(context);
+            if (string.IsNullOrEmpty(token))
+            {
+                return Results.Unauthorized();
+            }
+
             if (ratingDto.Rating < 1 || ratingDto.Rating > 5)
             {
                 return Results.BadRequest("Invalid rating.");
