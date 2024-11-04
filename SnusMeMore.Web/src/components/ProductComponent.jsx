@@ -79,7 +79,7 @@ const ProductView = () => {
                 <p>Rating:
                     <a> {averageRating}</a>
                 </p>
-                <Rating snusId={snusItem.snusId} onRatingSubmit={handleRatingSubmit} />
+                <Rating key={snusItem.snusId} snusId={snusItem.snusId} onRatingSubmit={handleRatingSubmit} />
             </div>
         </div>
     );
