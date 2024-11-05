@@ -17,6 +17,7 @@ namespace SnusMeMore
         private static void MapSnusEndpoints(WebApplication app)
         {
             app.MapGet("/api/content/navbar", (ISnusService service) => service.GetNavbar());
+            app.MapGet("api/content/footer", (ISnusService service) => service.GetFooter());
             app.MapGet("/api/content/snusitems", (ISnusService service) => service.GetAllSnus());
             app.MapPost("/api/content/snusitem/{guid:guid}/rating", (ISnusService service, HttpContext context, Guid guid, [FromBody] AddRating ratingDto) =>
                 service.AddRating(context, guid, ratingDto));

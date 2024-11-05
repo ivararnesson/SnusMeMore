@@ -20,14 +20,11 @@
     text-decoration: none;
     font-size: 1.2rem;
 }
+.footer--list-link:hover {
+    color: white;
+}
 .footer--list-item {
     margin-bottom: 1rem;
-}
-.footer--list-link-payment {
-    @extend .footer--list-link;
-    font-size: 2rem;
-    font-weight: bolder;
-    cursor: default;
 }
 
 @media (max-width: 760px) {

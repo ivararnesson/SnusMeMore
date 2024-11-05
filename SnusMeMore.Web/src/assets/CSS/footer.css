@@ -19,20 +19,18 @@
   margin-bottom: 1.5rem;
 }
 
-.footer--list-link, .footer--list-link-payment {
+.footer--list-link {
   color: inherit;
   text-decoration: none;
   font-size: 1.2rem;
 }
 
-.footer--list-item {
-  margin-bottom: 1rem;
+.footer--list-link:hover {
+  color: white;
 }
 
-.footer--list-link-payment {
-  font-size: 2rem;
-  font-weight: bolder;
-  cursor: default;
+.footer--list-item {
+  margin-bottom: 1rem;
 }
 
 @media (max-width: 760px) {

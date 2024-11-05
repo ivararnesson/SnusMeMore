@@ -41,6 +41,32 @@ namespace SnusMeMore.Services
 
             return Results.Ok(result);
         }
+        public IResult GetFooter()
+        {
+            var umbracoContext = UmbracoContextAccessor.GetRequiredUmbracoContext();
+            var footerRef = ContentService.GetRootContent().FirstOrDefault(x => x.Name == "FooterList");
+            var content = umbracoContext.Content.GetById(footerRef.Key);
+
+            if (content == null)
+            { 
+                return Results.NotFound();
+            }
+
+            var selection = content
+                .ChildrenOfType("FooterItem")
+                .Where(x => x.IsVisible())
+                .Select(item => new
+                {
+                    Header = item.Value<string>("header"),
+                    OptionOne = item.Value<string>("optionOne"),
+                    OptionTwo = item.Value<string>("optionTwo"),
+                    OptionThree = item.Value<string>("optionThree"),
+                    OptionFour = item.Value<string>("optionFour")
+                })
+                .ToList();
+
+            return Results.Ok(selection);
+        }
 
         public IResult GetAllSnus()
         {

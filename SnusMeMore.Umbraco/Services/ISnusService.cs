@@ -4,6 +4,7 @@
     {
         IResult GetAllSnus();
         IResult GetNavbar();
+        IResult GetFooter();
         IResult AddRating(HttpContext context, Guid guid, AddRating ratingDto);
         IResult GetAverageRating(Guid guid);
         IResult SearchSnus(string query);
