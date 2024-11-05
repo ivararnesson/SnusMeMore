@@ -5,10 +5,12 @@ import config from '../../config.js'
 import SnusCard from "./SnusCard"
 import "../assets/CSS/snuslist.css"
 import { useNavigate } from "react-router-dom";
+import { useLocation } from 'react-router-dom'
 
 const TopRatedSnus = () => {
     const [topRated, setTopRated] = useState([])
     const navigate = useNavigate()
+    const location = useLocation()
 
     const getTopRatedSnus = () => {
         fetch(config.umbracoURL + '/api/content/top-rated-snus')
@@ -36,6 +38,10 @@ const TopRatedSnus = () => {
     useEffect(() => {
         getTopRatedSnus()
     },[])
+
+    if (location.pathname === '/login') {
+        return (<div></div>)
+    }
 
     return (
         <div className="rating--list">

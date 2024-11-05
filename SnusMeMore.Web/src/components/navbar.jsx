@@ -118,9 +118,10 @@ function Navbar() {
               </ul>
             )}
           </li>
-
+          
           <li
             className="master--nav-li"
+            onMouseLeave={() => handleMouseLeave('shoppingCartDropdown')} 
           >
             <button 
               style={{ backgroundColor: purchaseEvent ? 'red' : 'white', color: purchaseEvent ? 'white' : 'black' }} 
@@ -146,7 +147,7 @@ function Navbar() {
             <button onClick={logout}>Logga ut</button>
           </div>
         ) : (
-          <Link to="/login">Logga in</Link>
+          <Link className='login' to="/login">Logga in</Link>
         )}
       </div>
     </nav>

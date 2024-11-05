@@ -137,7 +137,7 @@ export const AuthProvider = ({ children }) => {
 
     const addToCart = (snusId, shouldTriggerPurchaseEvent = false) => {
         if (!isLoggedIn) {
-            console.log("Not logged in")
+            alert("Vänligen logga in för att lägga till varor i kundkorgen")
             return
         }
 
@@ -163,7 +163,7 @@ export const AuthProvider = ({ children }) => {
 
     const removeFromCart = (snusId) => {
         if (!isLoggedIn) {
-            console.log("Not logged in")
+            alert("Ett fel har uppstått. Vänligen logga in på ditt konta igen")
             return
         }
 
