@@ -151,19 +151,12 @@ a:link, a:visited, a:hover, a:active {
 @media (max-width: 950px) {
   .master--nav-li-btn, .master--nav-btn {
     font-size: smaller;
-    padding: 0.5rem;
   }
   .dropdown-results {
     font-size: smaller;
   }
   .logged-in-div {
     font-size: smaller;
-  }
-}
-@media (max-width: 400px) {
-  .master--nav-li-btn, .master--nav-btn {
-    padding: 0.25rem;
-    margin: 0.25rem;
   }
 }
 @media (max-width: 850px) {
