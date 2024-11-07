@@ -154,7 +154,7 @@
     }
 }
 @media (max-width: 760px) {
-    .snus--list-brandcontainer {
+    .snus--list-brandcontainer  ul {
         grid-template-columns: repeat(3, 1fr);
     }
 }
@@ -164,7 +164,7 @@
     }
 }
 @media (max-width: 500px) {
-    .snus--list-brandcontainer {
+    .snus--list-brandcontainer ul {
         grid-template-columns: repeat(2, 1fr);
     }
 }
