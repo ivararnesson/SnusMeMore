@@ -54,7 +54,11 @@ function Navbar() {
   return (
     <nav className="master--nav-container">
       <h1 className="master--nav-title">{documentModel.title}</h1>
-      <button className="hamburger-menu-btn" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+      <button 
+      className="hamburger-menu-btn" 
+      onClick={() => setIsMenuOpen(!isMenuOpen)}
+      aria-label="Öppna meny"
+      >
         <span className="hamburger-icon">&#9776;</span>
       </button>
 
@@ -69,12 +73,16 @@ function Navbar() {
             onClick={() => toggleDropdown('dropdownOne')}
             onMouseLeave={() => handleMouseLeave('dropdownOne')} // Stäng dropdown när musen lämnar
           >
-            <button className="master--nav-li-btn">
+            <button 
+            className="master--nav-li-btn"
+            aria-expanded={dropdownState.dropdownOne ? 'true' : 'false'}
+            aria-controls="dropdownOneMenu"
+            >
               {documentModel.optionOne}
               <span className={`dropdown-arrow`}>&#9662;</span>
             </button>
             {dropdownState.dropdownOne && (
-              <ul className="dropdown">
+              <ul id="dropdownOneMenu" className="dropdown" aria-label="Alternativ för snus">
                 <li><Link to="/snuslist?category=Tobak">Portionssnus</Link></li>
                 <li><Link to="/snuslist?category=VitTobak">Vit Portion</Link></li>
                 <li><Link to="/snuslist?category=Lössnus">Lössnus</Link></li>
@@ -129,11 +137,13 @@ function Navbar() {
               style={{ backgroundColor: purchaseEvent ? 'red' : 'white', color: purchaseEvent ? 'white' : 'black' }} 
               className="master--nav-li-btn fade-background" 
               onClick={() => toggleDropdown('shoppingCartDropdown')}
+              aria-expanded={dropdownState.shoppingCartDropdown ? 'true' : 'false'}
+              aria-controls="shoppingCartMenu"
             >
               {documentModel.shoppingCart}
             </button>
             {dropdownState.shoppingCartDropdown && (
-              <div className="dropdown">
+              <div id="shoppingCartMenu" className="dropdown" aria-label="Din varukorg">
                 <ShoppingCart />
               </div>
             )}
@@ -146,10 +156,10 @@ function Navbar() {
         {isLoggedIn ? (
           <div className='logged-in-div'>
             <p>{userName}</p>
-            <button onClick={logout}>Logga ut</button>
+            <button onClick={logout} aria-label="Logga ut">Logga ut</button>
           </div>
         ) : (
-          <Link className='login' to="/login">Logga in</Link>
+          <Link className='login' to="/login" aria-label="Logga in">Logga in</Link>
         )}
       </div>
     </nav>
