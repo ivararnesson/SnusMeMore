@@ -39,7 +39,7 @@ const TopRatedSnus = () => {
         getTopRatedSnus()
     },[])
 
-    if (location.pathname === '/login') {
+    if (location.pathname === '/login' || location.pathname === "/checkout") {
         return (<div></div>)
     }
 

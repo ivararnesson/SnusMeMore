@@ -22,24 +22,26 @@ const Footer = () => {
     }, [])
 
     return (
-        <div className="footer--container">
-                {footerValues.map((section, index) => (
-                    <div key={index} className="footer--list-container">
-                        <ul className="footer--ul">
-                            <li className="footer--li-1">{section.header}</li>
-                            {Object.entries(section)
-                                .filter(([key]) => key.startsWith('option'))
-                                .map(([key, value], linkIndex) => (
-                                    <li key={linkIndex} className="footer--list-item">
-                                        <Link to="/" className="footer--list-link">
-                                            {value}
-                                        </Link>
-                                    </li>
-                                ))}
-                        </ul>
-                    </div>
-                ))}
-        </div>
+        <footer>
+            <div className="footer--container">
+                    {footerValues.map((section, index) => (
+                        <div key={index} className="footer--list-container">
+                            <ul className="footer--ul">
+                                <li className="footer--li-1">{section.header}</li>
+                                {Object.entries(section)
+                                    .filter(([key]) => key.startsWith('option'))
+                                    .map(([key, value], linkIndex) => (
+                                        <li key={linkIndex} className="footer--list-item">
+                                            <Link to="/" className="footer--list-link">
+                                                {value}
+                                            </Link>
+                                        </li>
+                                    ))}
+                            </ul>
+                        </div>
+                    ))}
+            </div>
+        </footer>
     )
 }
 
