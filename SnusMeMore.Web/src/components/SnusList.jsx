@@ -61,15 +61,18 @@ const SnusList = () => {
     };
 
     return (
-        <div className="snus--list">
-            <h1>{brandTitle}</h1>
+        <main className="snus--list">
+            <h1 aria-live="polite">{brandTitle}</h1>
             {snusItems.length > 0 ? (
-                <div className="snus--list-container">
-                    <div className="snus--grid">
+                <section className="snus--list-container" role="region" aria-labelledby="snusListHeading">
+                    <h2 id="snusListHeading" className="visually-hidden">List of Snus Products</h2>
+                    <ul className="snus--grid">
                         {currentItem.map((item) => (
-                            <SnusCard key={item.snusName} snus={item} />
+                            <li key={item.snusName}>
+                                <SnusCard snus={item} />
+                            </li>
                         ))}
-                    </div> 
+                    </ul> 
                     <Paginator 
                         first={firstItem}
                         rows={rows}
@@ -78,22 +81,28 @@ const SnusList = () => {
                             setFirstItem(e.first)
                             setRows(e.rows)
                         }}
+                        aria-label="Snus pagination controls"
                     />
-                </div>
+                </section>
             )
             : 
             (<p>Loading...</p>)}
-            <div className="snus--list-brandcontainer">
-                {brandImages.map((brand, index) => (
-                    <BrandLink 
-                        key={index}
-                        handleBrandChange={() => {handleBrandFilter(brand.altTxt)}}
-                        imgSrc={brand.imgSrc}
-                        altTxt={brand.altTxt}
-                    />
-                ))}
-            </div>
-        </div>
+            <nav className="snus--list-brandcontainer" aria-labelledby="brandFilterHeading">
+                <h2 id="brandFilterHeading" className="visually-hidden">Filter by Brand</h2>
+                <ul>
+                    {brandImages.map((brand, index) => (
+                        <li key={index}>
+                            <BrandLink 
+                                handleBrandChange={() => {handleBrandFilter(brand.altTxt)}}
+                                imgSrc={brand.imgSrc}
+                                altTxt={brand.altTxt}
+                                aria-label={`Filter by brand: ${brand.altTxt}`}
+                            />
+                        </li>
+                    ))}
+                </ul>
+            </nav>
+        </main>
     )
 }
 

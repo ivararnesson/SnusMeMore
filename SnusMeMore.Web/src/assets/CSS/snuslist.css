@@ -23,6 +23,7 @@
   width: 75rem;
   margin: 0 auto;
   padding: 1.25rem;
+  list-style: none;
 }
 
 .snus-card {
@@ -108,10 +109,25 @@
 }
 
 .snus--list-brandcontainer {
-  display: grid;
-  align-self: center;
+  display: flex;
+  justify-content: center;
   max-width: 75rem;
+  margin-top: 20px;
+}
+
+.snus--list-brandcontainer ul {
+  display: grid;
   grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.snus--list-brandcontainer li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .rating--list-h2-container {
@@ -143,6 +159,10 @@
 
 .snus--list-toprated-img:hover {
   transform: scale(1.2);
+}
+
+.visually-hidden {
+  display: none;
 }
 
 @media (max-width: 1200px) {
