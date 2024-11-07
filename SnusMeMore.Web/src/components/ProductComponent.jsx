@@ -102,8 +102,6 @@ const ProductView = () => {
                 </div>
             </section>
         </div>
-            <TopRatedSnus />
-        </div>
     );
 };
 
