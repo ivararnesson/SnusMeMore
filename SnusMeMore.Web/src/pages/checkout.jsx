@@ -93,27 +93,26 @@ const CheckoutPage = () => {
     const handleCloseModal = () => setShowModal(false);
 
     if (loading) {
-        return <p>Laddar din kundvagn...</p>; 
+        return <p aria-live="polite">Laddar din kundvagn...</p>; 
     }
 
     return (
-        <div className="page-container">
+        <div className="page-container" role="main" aria-labelledby="checkout-header">
+            <h1 id="checkout-header">Kassa</h1>
             <div className="unique-checkout-page-container">
-                {/* Check if the cart is empty */}
                 {cart.length === 0 ? (
-                    <p>Din kundvagn är tom. Vänligen lägg till produkter innan du fortsätter till kassan.</p>
+                    <p aria-live="polite">Din kundvagn är tom. Vänligen lägg till produkter innan du fortsätter till kassan.</p>
                 ) : (
                     <>
-                        {/* Cart Section */}
-                        <div className="unique-cart-section-container">
-                            <h2>Kundvagn</h2>
-                            <table className="unique-cart-table">
+                        <div className="unique-cart-section-container" role="region" aria-labelledby="cart-header">
+                            <h2 id="cart-header">Kundvagn</h2>
+                            <table className="unique-cart-table" aria-label="Kundvagnstabell med produkter, antal och pris">
                                 <thead>
                                     <tr>
-                                        <th>Produkt</th>
-                                        <th></th>
-                                        <th>Antal</th>
-                                        <th>Pris</th>
+                                        <th scope="col">Produkt</th>
+                                        <th scope="col"></th>
+                                        <th scope="col">Antal</th>
+                                        <th scope="col">Pris</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -123,16 +122,27 @@ const CheckoutPage = () => {
                                                 <div className="unique-product-info d-flex align-items-center">
                                                     <img src={item.imageUrl} alt={item.snusName} className="unique-product-image" />
                                                     <div>
-                                                        {item.snusName} <br />
+                                                        <span>{item.snusName}</span>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>{item.size}</td>
                                             <td>
                                                 <div className="unique-quantity-controls">
-                                                    <button onClick={() => handleQuantityChange(item.snusId, -1)} disabled={item.quantity <= 0}>-</button>
-                                                    <span>{item.quantity}</span>
-                                                    <button onClick={() => handleQuantityChange(item.snusId, 1)}>+</button>
+                                                    <button 
+                                                        onClick={() => handleQuantityChange(item.snusId, -1)} 
+                                                        disabled={item.quantity <= 0}
+                                                        aria-label={`Minska mängden av ${item.snusName}`}
+                                                    >
+                                                        -
+                                                    </button>
+                                                    <span aria-live="polite" aria-atomic="true">{item.quantity}</span>
+                                                    <button 
+                                                        onClick={() => handleQuantityChange(item.snusId, 1)}
+                                                        aria-label={`Öka mängden av ${item.snusName}`}
+                                                    >
+                                                        +
+                                                    </button>
                                                 </div>
                                             </td>
                                             <td>{(item.price * item.quantity).toFixed(2)} kr</td>
@@ -141,13 +151,12 @@ const CheckoutPage = () => {
                                 </tbody>
                             </table>
                             <div className="unique-subtotal-section">
-                                <p>Delsumma: {subtotal.toFixed(2)} kr</p>
-                                <p>Frakt: {shippingCosts[shippingMethod].toFixed(2)} kr</p>
-                                <h4>Totalt: {total.toFixed(2)} kr</h4>
+                                <p aria-live="polite" aria-atomic="true">Delsumma: {subtotal.toFixed(2)} kr</p>
+                                <p aria-live="polite" aria-atomic="true">Frakt: {shippingCosts[shippingMethod].toFixed(2)} kr</p>
+                                <h4 aria-live="polite" aria-atomic="true">Totalt: {total.toFixed(2)} kr</h4>
                             </div>
                         </div>
 
-                        {/* Checkout Section */}
                         <CheckoutSection
                             shippingMethod={shippingMethod}
                             setShippingMethod={setShippingMethod}
@@ -162,13 +171,12 @@ const CheckoutPage = () => {
                     </>
                 )}
 
-                {/* Confirmation Modal */}
-                <Modal isOpen={showModal} onClose={handleCloseModal}>
+                <Modal isOpen={showModal} onClose={handleCloseModal} aria-label="Orderbekräftelse" role="dialog" aria-modal="true">
                     <p>Din order är bekräftad!</p>
                 </Modal>
             </div>
 
-            <div className="unique-footer-container">
+            <div className="unique-footer-container" role="contentinfo">
                 <Footer />
             </div>
         </div>

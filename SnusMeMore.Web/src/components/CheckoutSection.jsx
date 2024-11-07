@@ -47,13 +47,16 @@ const CheckoutSection = ({
   };
 
   return (
-    <div className="unique-checkout-section w-25 p-3">
-      <h3>Betalning</h3>
-      <form onSubmit={handleFormSubmit}>
+    <div className="unique-checkout-section w-25 p-3" role="form" aria-labelledby="checkout-section-header">
+      <h3 id="checkout-section-header">Betalning</h3>
+      <form onSubmit={handleFormSubmit} aria-describedby="checkout-section-description">
+        <span id="checkout-section-description" className="sr-only">Ange dina leverans- och betalningsuppgifter för att slutföra beställningen.</span>
+
         {/* Shipping Method */}
-        <div className="unique-shipping-method mb-3">
-          <label>Välj fraktmetod:</label>
+        <div className="unique-shipping-method mb-3" role="group" aria-labelledby="shipping-method-label">
+          <label id="shipping-method-label" htmlFor="shipping-method">Välj fraktmetod:</label>
           <select
+            id="shipping-method"
             value={shippingMethod}
             onChange={(e) => setShippingMethod(e.target.value)}
             className="form-control mt-2 unique-shipping-select"
@@ -66,11 +69,12 @@ const CheckoutSection = ({
         </div>
 
         {/* Address Section */}
-        <div className="unique-address-section mb-3">
-          <h4>Leveransadress:</h4>
-          <label>Namn</label>
+        <div className="unique-address-section mb-3" role="group" aria-labelledby="address-section-header">
+          <h4 id="address-section-header">Leveransadress:</h4>
+          <label htmlFor="name">Namn</label>
           <input
             type="text"
+            id="name"
             value={address.name}
             onChange={(e) => setAddress({ ...address, name: e.target.value })}
             placeholder="Namn"
@@ -79,10 +83,14 @@ const CheckoutSection = ({
             required
             onInvalid={(e) => setCustomMessage(e, 'Ange ett giltigt namn med endast bokstäver.')}
             onInput={clearCustomMessage}
+            aria-describedby="name-error"
           />
-          <label>Adress</label>
+          <span id="name-error" className="sr-only">Ange ett giltigt namn med endast bokstäver.</span>
+
+          <label htmlFor="street">Adress</label>
           <input
             type="text"
+            id="street"
             value={address.street}
             onChange={(e) => setAddress({ ...address, street: e.target.value })}
             placeholder="Adress"
@@ -91,9 +99,11 @@ const CheckoutSection = ({
             onInvalid={(e) => setCustomMessage(e, 'Ange en giltig adress.')}
             onInput={clearCustomMessage}
           />
-          <label>Stad</label>
+
+          <label htmlFor="city">Stad</label>
           <input
             type="text"
+            id="city"
             value={address.city}
             onChange={(e) => setAddress({ ...address, city: e.target.value })}
             placeholder="Stad"
@@ -102,9 +112,11 @@ const CheckoutSection = ({
             onInvalid={(e) => setCustomMessage(e, 'Ange en giltig stad.')}
             onInput={clearCustomMessage}
           />
-          <label>Postnummer</label>
+
+          <label htmlFor="zipCode">Postnummer</label>
           <input
             type="text"
+            id="zipCode"
             value={address.zipCode}
             onChange={(e) => setAddress({ ...address, zipCode: e.target.value })}
             placeholder="Postnummer"
@@ -114,9 +126,11 @@ const CheckoutSection = ({
             onInvalid={(e) => setCustomMessage(e, 'Postnumret måste vara exakt 5 siffror.')}
             onInput={clearCustomMessage}
           />
-          <label>Land</label>
+
+          <label htmlFor="country">Land</label>
           <input
             type="text"
+            id="country"
             value={address.country}
             onChange={(e) => setAddress({ ...address, country: e.target.value })}
             placeholder="Land"
@@ -128,35 +142,39 @@ const CheckoutSection = ({
         </div>
 
         {/* Payment Method */}
-        <div className="unique-payment-method mb-3">
-          <h4>Betalningsmetod:</h4>
-          <div>
-            <label>
-              <input
-                type="radio"
-                checked={paymentMethod === 'mastercard'}
-                onChange={() => setPaymentMethod('mastercard')}
-                required
-              />
-              Mastercard
-            </label>
-            <label className="ml-3">
-              <input
-                type="radio"
-                checked={paymentMethod === 'visa'}
-                onChange={() => setPaymentMethod('visa')}
-                required
-              />
-              Visa
-            </label>
-          </div>
+        <div className="unique-payment-method mb-3" role="radiogroup" aria-labelledby="payment-method-header">
+          <h4 id="payment-method-header">Betalningsmetod:</h4>
+          <label>
+            <input
+              type="radio"
+              name="paymentMethod"
+              checked={paymentMethod === 'mastercard'}
+              onChange={() => setPaymentMethod('mastercard')}
+              required
+              aria-labelledby="mastercard-label"
+            />
+            <span id="mastercard-label">Mastercard</span>
+          </label>
+          <label className="ml-3">
+            <input
+              type="radio"
+              name="paymentMethod"
+              checked={paymentMethod === 'visa'}
+              onChange={() => setPaymentMethod('visa')}
+              required
+              aria-labelledby="visa-label"
+            />
+            <span id="visa-label">Visa</span>
+          </label>
         </div>
 
         {/* Card Details */}
-        <div className="unique-card-details mt-3">
-          <label>Namn på kortinnehavare</label>
+        <div className="unique-card-details mt-3" role="group" aria-labelledby="card-details-header">
+          <h4 id="card-details-header">Kortinformation:</h4>
+          <label htmlFor="cardholderName">Namn på kortinnehavare</label>
           <input
             type="text"
+            id="cardholderName"
             value={cardInfo.cardholderName}
             onChange={(e) => setCardInfo({ ...cardInfo, cardholderName: e.target.value })}
             placeholder="John Carter"
@@ -166,9 +184,11 @@ const CheckoutSection = ({
             onInvalid={(e) => setCustomMessage(e, 'Ange ett giltigt namn med endast bokstäver.')}
             onInput={clearCustomMessage}
           />
-          <label>Kortnummer</label>
+
+          <label htmlFor="cardNumber">Kortnummer</label>
           <input
             type="text"
+            id="cardNumber"
             value={cardInfo.cardNumber}
             onChange={(e) => setCardInfo({ ...cardInfo, cardNumber: e.target.value })}
             placeholder="**** **** **** 2153"
@@ -179,33 +199,37 @@ const CheckoutSection = ({
             onInput={clearCustomMessage}
           />
 
-          {/* Expiration Date Dropdowns */}
-          <label>Utgångsdatum</label>
+          <label htmlFor="expirationMonth">Utgångsdatum</label>
           <div className="unique-expiration-date-container">
             <select
+              id="expirationMonth"
               value={cardInfo.expirationMonth}
               onChange={(e) => setCardInfo({ ...cardInfo, expirationMonth: e.target.value })}
               className="form-control unique-expiration-select"
               required
+              aria-label="Utgångsmånad"
             >
               <option value="">Månad</option>
               {months}
             </select>
             <span className="unique-expiration-divider">/</span>
             <select
+              id="expirationYear"
               value={cardInfo.expirationYear}
               onChange={(e) => setCardInfo({ ...cardInfo, expirationYear: e.target.value })}
               className="form-control unique-expiration-select"
               required
+              aria-label="Utgångsår"
             >
               <option value="">År</option>
               {years}
             </select>
           </div>
 
-          <label>CVV</label>
+          <label htmlFor="cvv">CVV</label>
           <input
             type="text"
+            id="cvv"
             value={cardInfo.cvv}
             onChange={(e) => setCardInfo({ ...cardInfo, cvv: e.target.value })}
             placeholder="123"
@@ -217,7 +241,11 @@ const CheckoutSection = ({
           />
         </div>
 
-        <button className="btn btn-primary mt-4 w-100 unique-checkout-button" disabled={!shippingMethod || !paymentMethod}>
+        <button
+          className="btn btn-primary mt-4 w-100 unique-checkout-button"
+          disabled={!shippingMethod || !paymentMethod}
+          aria-label="Slutför beställning"
+        >
           Slutför
         </button>
       </form>
