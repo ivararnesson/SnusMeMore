@@ -12,18 +12,21 @@ const ProductView = () => {
     const [snusItem, setSnusItem] = useState(null);
     const [loading, setLoading] = useState(true);
     const location = useLocation();
-    const [averageRating, setAverageRating] = useState(0)
+    const [averageRating, setAverageRating] = useState(0);
 
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search);
         const snusName = queryParams.get("snusName");
 
         if (snusName) {
-            fetch(`${config.umbracoURL}/api/content/snusitem?snusName=${encodeURIComponent(snusName)}`)
+            fetch(
+                `${config.umbracoURL
+                }/api/content/snusitem?snusName=${encodeURIComponent(snusName)}`
+            )
                 .then((response) => response.json())
                 .then((result) => {
                     setSnusItem(result || null);
-                    setAverageRating(result.rating)
+                    setAverageRating(result.rating);
                 })
                 .catch((error) => console.error("Error fetching snus item:", error))
                 .finally(() => setLoading(false));
@@ -32,55 +35,71 @@ const ProductView = () => {
 
     const handleRatingSubmit = async () => {
         try {
-            const response = await fetch(config.umbracoURL + `/api/content/snusitem/${snusItem.snusId}/average-rating`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
+            const response = await fetch(
+                config.umbracoURL +
+                `/api/content/snusitem/${snusItem.snusId}/average-rating`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
                 }
-            });
+            );
 
             if (response.ok) {
-                const data = await response.json()
-                setAverageRating(data.averageRating)
+                const data = await response.json();
+                setAverageRating(data.averageRating);
+            } else {
+                console.error("Failed to fetch updated rating.");
             }
-            else {
-                console.error("Failed to fetch updated rating.")
-            }
+        } catch (error) {
+            console.error("Error fetching updated rating: ", error);
         }
-        catch (error){
-            console.error("Error fetching updated rating: ", error)
-        }
-    }
+    };
 
     if (loading) {
-        return <p>Loading...</p>;
+        return <p>Laddar...</p>;
     }
 
     if (!snusItem) {
-        return <p>Snus item not found.</p>;
+        return <p>Snuset hittades ej.</p>;
     }
 
     return (
         <div className="product-page">
-            <SnusCard snus={snusItem} />
-            <div className="info">
-                <p>Info om produkten:
-                    <a> {snusItem.description}</a>
-                </p>
-                <p>Styrka:
-                    <a> {snusItem.strength}</a>
-                </p>
-                <p>Märke:
-                    <a> {snusItem.brand}</a>
-                </p>
-                <p>Kategori:
-                    <a> {snusItem.category}</a>
-                </p>
-                <p>Rating:
-                    <a> {averageRating}</a>
-                </p>
-                <Rating key={snusItem.snusId} snusId={snusItem.snusId} onRatingSubmit={handleRatingSubmit} />
-            </div>
+            <section aria-labelledby="snus-name">
+                <SnusCard snus={snusItem} />
+            </section>
+
+            <section>
+                <h2 id="product-info">Produktinformation</h2>
+                <div className="info">
+                    <p>
+                        Info om produkten: <span>{snusItem.description}</span>
+                    </p>
+                    {/* <p>
+                        Styrka: <span>{snusItem.strength}</span>
+                    </p> */}
+                    <p>
+                        Märke: <span>{snusItem.brand}</span>
+                    </p>
+                    <p>
+                        Kategori: <span>{snusItem.category}</span>
+                    </p>
+
+                    {/* Rating sektion */}
+                    <p>
+                        Aktuellt betyg: <span>{averageRating}</span>
+                    </p>
+                    <div aria-live="polite">
+                        <Rating
+                            key={snusItem.snusId}
+                            snusId={snusItem.snusId}
+                            onRatingSubmit={handleRatingSubmit}
+                        />
+                    </div>
+                </div>
+            </section>
         </div>
     );
 };
