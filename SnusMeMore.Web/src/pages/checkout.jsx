@@ -3,6 +3,7 @@ import Modal from "../components/modal";
 import CheckoutSection from "../components/CheckoutSection"; 
 import "../assets/CSS/checkout.css";
 import { AuthContext } from '../AuthContext';
+import Footer from '../components/Footer';
 
 const CheckoutPage = () => {
     const { cart, getCart, addToCart, removeFromCart } = useContext(AuthContext);
@@ -92,78 +93,92 @@ const CheckoutPage = () => {
     const handleCloseModal = () => setShowModal(false);
 
     if (loading) {
-        return <p>Laddar din kundvagn...</p>; 
+        return <p aria-live="polite">Laddar din kundvagn...</p>; 
     }
 
     return (
-        <div className="unique-checkout-page-container d-flex justify-content-between">
-            {/* Check if the cart is empty */}
-            {cart.length === 0 ? (
-                <p>Din kundvagn är tom. Vänligen lägg till produkter innan du fortsätter till kassan.</p>
-            ) : (
-                <>
-                    {/* Cart Section */}
-                    <div className="unique-cart-section-container w-50">
-                        <h2>Kundvagn</h2>
-                        <table className="unique-cart-table">
-                            <thead>
-                                <tr>
-                                    <th>Produkt</th>
-                                    <th></th>
-                                    <th>Antal</th>
-                                    <th>Pris</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {cart.map(item => (
-                                    <tr key={item.snusId}>
-                                        <td>
-                                            <div className="unique-product-info d-flex align-items-center">
-                                                <img src={item.imageUrl} alt={item.snusName} className="unique-product-image" />
-                                                <div>
-                                                    {item.snusName} <br />
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>{item.size}</td>
-                                        <td>
-                                            <div className="unique-quantity-controls">
-                                                <button onClick={() => handleQuantityChange(item.snusId, -1)} disabled={item.quantity <= 0}>-</button>
-                                                <span>{item.quantity}</span>
-                                                <button onClick={() => handleQuantityChange(item.snusId, 1)}>+</button>
-                                            </div>
-                                        </td>
-                                        <td>{(item.price * item.quantity).toFixed(2)} kr</td>
+        <div className="page-container" role="main" aria-labelledby="checkout-header">
+            <h1 id="checkout-header">Kassa</h1>
+            <div className="unique-checkout-page-container">
+                {cart.length === 0 ? (
+                    <p aria-live="polite">Din kundvagn är tom. Vänligen lägg till produkter innan du fortsätter till kassan.</p>
+                ) : (
+                    <>
+                        <div className="unique-cart-section-container" role="region" aria-labelledby="cart-header">
+                            <h2 id="cart-header">Kundvagn</h2>
+                            <table className="unique-cart-table" aria-label="Kundvagnstabell med produkter, antal och pris">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Produkt</th>
+                                        <th scope="col"></th>
+                                        <th scope="col">Antal</th>
+                                        <th scope="col">Pris</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                        <div className="unique-subtotal-section">
-                            <p>Delsumma: {subtotal.toFixed(2)} kr</p>
-                            <p>Frakt: {shippingCosts[shippingMethod].toFixed(2)} kr</p>
-                            <h4>Totalt: {total.toFixed(2)} kr</h4>
+                                </thead>
+                                <tbody>
+                                    {cart.map(item => (
+                                        <tr key={item.snusId}>
+                                            <td>
+                                                <div className="unique-product-info d-flex align-items-center">
+                                                    <img src={item.imageUrl} alt={item.snusName} className="unique-product-image" />
+                                                    <div>
+                                                        <span>{item.snusName}</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>{item.size}</td>
+                                            <td>
+                                                <div className="unique-quantity-controls">
+                                                    <button 
+                                                        onClick={() => handleQuantityChange(item.snusId, -1)} 
+                                                        disabled={item.quantity <= 0}
+                                                        aria-label={`Minska mängden av ${item.snusName}`}
+                                                    >
+                                                        -
+                                                    </button>
+                                                    <span aria-live="polite" aria-atomic="true">{item.quantity}</span>
+                                                    <button 
+                                                        onClick={() => handleQuantityChange(item.snusId, 1)}
+                                                        aria-label={`Öka mängden av ${item.snusName}`}
+                                                    >
+                                                        +
+                                                    </button>
+                                                </div>
+                                            </td>
+                                            <td>{(item.price * item.quantity).toFixed(2)} kr</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                            <div className="unique-subtotal-section">
+                                <p aria-live="polite" aria-atomic="true">Delsumma: {subtotal.toFixed(2)} kr</p>
+                                <p aria-live="polite" aria-atomic="true">Frakt: {shippingCosts[shippingMethod].toFixed(2)} kr</p>
+                                <h4 aria-live="polite" aria-atomic="true">Totalt: {total.toFixed(2)} kr</h4>
+                            </div>
                         </div>
-                    </div>
 
-                    {/* Checkout Section */}
-                    <CheckoutSection
-                        shippingMethod={shippingMethod}
-                        setShippingMethod={setShippingMethod}
-                        address={address}
-                        setAddress={setAddress}
-                        paymentMethod={paymentMethod}
-                        setPaymentMethod={setPaymentMethod}
-                        cardInfo={cardInfo}
-                        setCardInfo={setCardInfo}
-                        handleCheckout={handleCheckout}
-                    />
-                </>
-            )}
+                        <CheckoutSection
+                            shippingMethod={shippingMethod}
+                            setShippingMethod={setShippingMethod}
+                            address={address}
+                            setAddress={setAddress}
+                            paymentMethod={paymentMethod}
+                            setPaymentMethod={setPaymentMethod}
+                            cardInfo={cardInfo}
+                            setCardInfo={setCardInfo}
+                            handleCheckout={handleCheckout}
+                        />
+                    </>
+                )}
 
-            {/* Confirmation Modal */}
-            <Modal isOpen={showModal} onClose={handleCloseModal}>
-                <p>Din order är bekräftad!</p>
-            </Modal>
+                <Modal isOpen={showModal} onClose={handleCloseModal} aria-label="Orderbekräftelse" role="dialog" aria-modal="true">
+                    <p>Din order är bekräftad!</p>
+                </Modal>
+            </div>
+
+            <div className="unique-footer-container" role="contentinfo">
+                <Footer />
+            </div>
         </div>
     );
 };

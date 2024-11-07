@@ -75,9 +75,11 @@ function Navbar() {
             </button>
             {dropdownState.dropdownOne && (
               <ul className="dropdown">
-                <li><Link to="/snuslist?category=Tobak">Tobakssnus</Link></li>
-                <li><Link to="/snuslist?category=VitTobak">Vit Tobakssnus</Link></li>
+                <li><Link to="/snuslist?category=Tobak">Portionssnus</Link></li>
+                <li><Link to="/snuslist?category=VitTobak">Vit Portion</Link></li>
                 <li><Link to="/snuslist?category=Lössnus">Lössnus</Link></li>
+                <li><Link to="/snuslist?category=VittSnus">Vitt snus</Link></li>
+                <li><Link to="/snuslist?category=Nikotinfritt">Nikotinfritt snus</Link></li>
               </ul>
             )}
           </li>
@@ -87,7 +89,7 @@ function Navbar() {
           </li> */}
 
           { }
-          <li className="master--nav-li" onClick={() => toggleDropdown('dropdownTwo')} onMouseLeave={() => handleMouseLeave('dropdownTwo')}>
+          {/* <li className="master--nav-li" onClick={() => toggleDropdown('dropdownTwo')} onMouseLeave={() => handleMouseLeave('dropdownTwo')}>
             <button className="master--nav-li-btn">
               {documentModel.optionTwo}
               <span className={`dropdown-arrow`}>&#9662;</span>
@@ -99,9 +101,9 @@ function Navbar() {
                 <li><Link to="#">Suboption 3</Link></li>
               </ul>
             )}
-          </li>
+          </li> */}
 
-          <li
+          {/* <li
             className="master--nav-li"
             onClick={() => toggleDropdown('dropdownThree')}
             onMouseLeave={() => handleMouseLeave('dropdownThree')} // Stäng dropdown när musen lämnar
@@ -117,7 +119,7 @@ function Navbar() {
                 <li><a href="#">Suboption 3</a></li>
               </ul>
             )}
-          </li>
+          </li> */}
           
           <li
             className="master--nav-li"

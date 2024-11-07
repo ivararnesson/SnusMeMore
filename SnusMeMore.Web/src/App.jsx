@@ -1,9 +1,9 @@
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Navbar from "./components/navbar";
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import "./assets/CSS/master.css"
-import TopRatedSnus from "./components/TopRatedSnus"
+import "./assets/CSS/master.css";
+import TopRatedSnus from "./components/TopRatedSnus";
 import SearchResults from './components/SearchResults';
-import SnusList from './components/SnusList'
+import SnusList from './components/SnusList';
 import Checkout from "./pages/checkout";
 import NotFound from "./pages/notFound";
 import LoginForm from "./components/LoginForm";
@@ -13,6 +13,16 @@ import Footer from "./components/Footer";
 function App() {
   return (
     <Router>
+      <AppContent />
+    </Router>
+  );
+}
+
+function AppContent() {
+  const location = useLocation();
+
+  return (
+    <>
       <Navbar />
       <TopRatedSnus />
       <Routes>
@@ -33,11 +43,10 @@ function App() {
         <Route path="/search/:query" element={<SearchResults />} />
         <Route path="/productpage" element={<ProductPage />} />
       </Routes>
-        <Footer />
-    </Router>
-  )
+
+      {location.pathname !== "/checkout" && <Footer />}
+    </>
+  );
 }
 
 export default App;
-
-

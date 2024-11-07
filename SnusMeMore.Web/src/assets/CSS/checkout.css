@@ -1,4 +1,11 @@
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 .unique-checkout-page-container {
+  flex: 1;
   display: flex;
   gap: 20px;
   padding: 20px;
@@ -99,8 +106,8 @@
 
 .unique-expiration-date-container {
   display: flex;
-  align-items: center; 
-  justify-content: flex-start; 
+  align-items: center;
+  justify-content: flex-start;
   gap: 5px;
   border: none;
 }
@@ -108,9 +115,9 @@
 .unique-expiration-divider {
   font-size: 1em;
   color: #333;
-  margin: 0; 
-  display: flex; 
-  align-items: center; 
+  margin: 0;
+  display: flex;
+  align-items: center;
 }
 
 .unique-payment-method label {
@@ -154,12 +161,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100px; 
+  width: 100px;
 }
 
 .unique-quantity-controls button {
   width: 30px;
-  height: 30px; 
+  height: 30px;
   background-color: transparent;
   color: #333;
   border: none;
@@ -171,13 +178,19 @@
   cursor: pointer;
 }
 
+.unique-footer-container {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 1rem;
+}
+
 @media (max-width: 768px) {
   .unique-checkout-page-container {
-      flex-direction: column;
+    flex-direction: column;
   }
 
   .unique-cart-section-container,
   .unique-checkout-section {
-      width: 100%;
+    width: 100%;
   }
 }
