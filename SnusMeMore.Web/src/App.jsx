@@ -9,6 +9,7 @@ import NotFound from "./pages/notFound";
 import LoginForm from "./components/LoginForm";
 import ProductPage from "./pages/SpecificSnusView";
 import Footer from "./components/Footer";
+import MainPage from './components/MainPage';
 
 function App() {
   return (
@@ -24,10 +25,9 @@ function AppContent() {
   return (
     <>
       <Navbar />
-      <TopRatedSnus />
       <Routes>
-        <Route path="/" element={<SnusList />} />
-        <Route path="/snuslist" element={<SnusList />} />
+        <Route path="/" element={<MainPage />} />
+        <Route path="/snuslist" element={<MainPage />} />
         <Route path="/login" element={<LoginForm />} />
         {/* <Route path="/tobakssnus" element={<SnusList categoryFilter="Tobak"brandFilter="all" />} />
         <Route path="/vittsnus" element={<SnusList categoryFilter="VittSnus" brandFilter="all" />} />

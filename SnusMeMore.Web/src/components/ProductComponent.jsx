@@ -7,6 +7,7 @@ import config from "../../config.js";
 import "../assets/CSS/productpage.css";
 import SnusCard from "../components/SnusCard.jsx";
 import Rating from "./Rating.jsx";
+import TopRatedSnus from "./TopRatedSnus.jsx";
 
 const ProductView = () => {
     const [snusItem, setSnusItem] = useState(null);
@@ -61,26 +62,29 @@ const ProductView = () => {
     }
 
     return (
-        <div className="product-page">
-            <SnusCard snus={snusItem} />
-            <div className="info">
-                <p>Info om produkten:
-                    <a> {snusItem.description}</a>
-                </p>
-                <p>Styrka:
-                    <a> {snusItem.strength}</a>
-                </p>
-                <p>Märke:
-                    <a> {snusItem.brand}</a>
-                </p>
-                <p>Kategori:
-                    <a> {snusItem.category}</a>
-                </p>
-                <p>Rating:
-                    <a> {averageRating}</a>
-                </p>
-                <Rating key={snusItem.snusId} snusId={snusItem.snusId} onRatingSubmit={handleRatingSubmit} />
+        <div>
+            <div className="product-page">
+                <SnusCard snus={snusItem} />
+                <div className="info">
+                    <p>Info om produkten:
+                        <a> {snusItem.description}</a>
+                    </p>
+                    <p>Styrka:
+                        <a> {snusItem.strength}</a>
+                    </p>
+                    <p>Märke:
+                        <a> {snusItem.brand}</a>
+                    </p>
+                    <p>Kategori:
+                        <a> {snusItem.category}</a>
+                    </p>
+                    <p>Rating:
+                        <a> {averageRating}</a>
+                    </p>
+                    <Rating key={snusItem.snusId} snusId={snusItem.snusId} onRatingSubmit={handleRatingSubmit} />
+                </div>
             </div>
+            <TopRatedSnus />
         </div>
     );
 };
