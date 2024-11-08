@@ -1,10 +1,10 @@
 import { useState, useEffect, useContext } from 'react';
-import "../assets/CSS/master.css";
+// import "../assets/CSS/master.css";
 import { Link } from 'react-router-dom';
 import  icon  from "../assets/images/18icons.png";
 import config from '../../config';
 import { AuthContext } from "../AuthContext"
-import "../assets/CSS/master.css";
+import "../assets/CSS/navbar.css";
 import SearchComponent from "./SearchComponent";
 import ShoppingCart from './ShoppingCart';
 
