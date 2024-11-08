@@ -194,3 +194,88 @@
     width: 100%;
   }
 }
+
+/* Gör layouten mer kompakt för mobiler */
+@media (max-width: 768px) {
+  .unique-checkout-page-container {
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .unique-cart-table th,
+  .unique-cart-table td {
+    padding: 10px;
+    font-size: 0.9em;
+  }
+
+  .unique-product-image {
+    width: 50px;
+    margin-right: 10px;
+  }
+
+  .unique-subtotal-section {
+    font-size: 0.9em;
+    margin-right: 1rem;
+  }
+
+  .unique-shipping-method .unique-shipping-select,
+  .unique-address-section .unique-address-input,
+  .unique-card-details .unique-card-input {
+    font-size: 0.8em;
+    padding: 8px;
+  }
+
+  .unique-checkout-section {
+    padding: 15px;
+    box-shadow: none;
+  }
+
+  .unique-checkout-button {
+    font-size: 0.9em;
+    height: 40px;
+  }
+
+  .unique-quantity-controls {
+    width: 80px;
+  }
+
+  .unique-quantity-controls button {
+    width: 25px;
+    height: 25px;
+  }
+
+  /* Justera sidfoten för mobil */
+  .unique-footer-container {
+    margin-top: 0.5rem;
+    font-size: 0.9em;
+  }
+}
+
+/* Ytterligare media query för mindre skärmar, som mobiltelefoner */
+@media (max-width: 480px) {
+  .unique-checkout-page-container {
+    padding: 5px;
+    gap: 5px;
+  }
+
+  .unique-cart-table th,
+  .unique-cart-table td {
+    font-size: 0.8em;
+    padding: 8px;
+  }
+
+  .unique-checkout-button {
+    font-size: 0.8em;
+    height: 35px;
+  }
+
+  .unique-quantity-controls {
+    width: 70px;
+  }
+
+  .unique-quantity-controls button {
+    width: 20px;
+    height: 20px;
+  }
+}
+
