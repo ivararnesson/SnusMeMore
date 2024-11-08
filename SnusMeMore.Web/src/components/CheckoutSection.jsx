@@ -50,7 +50,7 @@ const CheckoutSection = ({
     <div className="unique-checkout-section w-25 p-3" role="form" aria-labelledby="checkout-section-header">
       <h3 id="checkout-section-header">Betalning</h3>
       <form onSubmit={handleFormSubmit} aria-describedby="checkout-section-description">
-        <span id="checkout-section-description" className="sr-only">Ange dina leverans- och betalningsuppgifter för att slutföra beställningen.</span>
+        <span id="checkout-section-description" className="sr-only"></span>
 
         {/* Shipping Method */}
         <div className="unique-shipping-method mb-3" role="group" aria-labelledby="shipping-method-label">
@@ -85,7 +85,7 @@ const CheckoutSection = ({
             onInput={clearCustomMessage}
             aria-describedby="name-error"
           />
-          <span id="name-error" className="sr-only">Ange ett giltigt namn med endast bokstäver.</span>
+          <span id="name-error" className="sr-only"></span>
 
           <label htmlFor="street">Adress</label>
           <input

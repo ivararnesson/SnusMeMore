@@ -379,13 +379,6 @@ a:link, a:visited, a:hover, a:active {
   transition: color 0.3s ease;
 }
 
-.snus-rating {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-}
-
 @media (max-width: 950px) {
   .results-container {
     grid-template-columns: repeat(3, 1fr);
@@ -413,4 +406,4 @@ a:link, a:visited, a:hover, a:active {
     font-size: smaller;
   }
 }
-/*# sourceMappingURL=master.css.map */
+/*# sourceMappingURL=navbar.css.map */

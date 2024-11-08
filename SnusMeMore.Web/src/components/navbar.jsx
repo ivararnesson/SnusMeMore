@@ -1,9 +1,10 @@
 import { useState, useEffect, useContext } from 'react';
-import "../assets/CSS/master.css";
+// import "../assets/CSS/master.css";
 import { Link } from 'react-router-dom';
+import  icon  from "../assets/images/18icons.png";
 import config from '../../config';
 import { AuthContext } from "../AuthContext"
-import "../assets/CSS/master.css";
+import "../assets/CSS/navbar.css";
 import SearchComponent from "./SearchComponent";
 import ShoppingCart from './ShoppingCart';
 
@@ -27,6 +28,7 @@ function Navbar() {
         shoppingCartDropdown: false,
       };
       newState[dropdownName] = !prevState[dropdownName];
+      console.log("vi är inuti")
       return newState;
     });
   };
@@ -54,6 +56,7 @@ function Navbar() {
   return (
     <nav className="master--nav-container">
       <h1 className="master--nav-title">{documentModel.title}</h1>
+      <img src={icon} alt="over 18 icon" className='master--nav-over18' />
       <button 
       className="hamburger-menu-btn" 
       onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -69,7 +72,7 @@ function Navbar() {
           </li>
 
           <li
-            className="master--nav-li"
+            className={`master--nav-li ${dropdownState.dropdownOne ? 'show-dropdown' : ''}`}
             onClick={() => toggleDropdown('dropdownOne')}
             onMouseLeave={() => handleMouseLeave('dropdownOne')} // Stäng dropdown när musen lämnar
           >
