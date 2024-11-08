@@ -27,6 +27,7 @@ function Navbar() {
         shoppingCartDropdown: false,
       };
       newState[dropdownName] = !prevState[dropdownName];
+      console.log("vi är inuti")
       return newState;
     });
   };
@@ -69,7 +70,7 @@ function Navbar() {
           </li>
 
           <li
-            className="master--nav-li"
+            className={`master--nav-li ${dropdownState.dropdownOne ? 'show-dropdown' : ''}`}
             onClick={() => toggleDropdown('dropdownOne')}
             onMouseLeave={() => handleMouseLeave('dropdownOne')} // Stäng dropdown när musen lämnar
           >
