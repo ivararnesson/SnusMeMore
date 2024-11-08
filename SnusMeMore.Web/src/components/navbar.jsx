@@ -28,6 +28,7 @@ function Navbar() {
         shoppingCartDropdown: false,
       };
       newState[dropdownName] = !prevState[dropdownName];
+      console.log("vi är inuti")
       return newState;
     });
   };
@@ -56,7 +57,11 @@ function Navbar() {
     <nav className="master--nav-container">
       <h1 className="master--nav-title">{documentModel.title}</h1>
       <img src={icon} alt="over 18 icon" className='master--nav-over18' />
-      <button className="hamburger-menu-btn" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+      <button 
+      className="hamburger-menu-btn" 
+      onClick={() => setIsMenuOpen(!isMenuOpen)}
+      aria-label="Öppna meny"
+      >
         <span className="hamburger-icon">&#9776;</span>
       </button>
 
@@ -67,7 +72,7 @@ function Navbar() {
           </li>
 
           <li
-            className="master--nav-li"
+            className={`master--nav-li ${dropdownState.dropdownOne ? 'show-dropdown' : ''}`}
             onClick={() => toggleDropdown('dropdownOne')}
             onMouseLeave={() => handleMouseLeave('dropdownOne')} // Stäng dropdown när musen lämnar
           >
