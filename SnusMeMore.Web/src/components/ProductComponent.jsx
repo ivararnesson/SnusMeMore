@@ -73,7 +73,7 @@ const ProductView = () => {
             </section>
 
             <section>
-                <h2 id="product-info">Produktinformation</h2>
+                <h2 id="product-info" style={{textAlign: "center"}}>Produktinformation</h2>
                 <div className="info">
                     <p>
                         Info om produkten: <span>{snusItem.description}</span>
