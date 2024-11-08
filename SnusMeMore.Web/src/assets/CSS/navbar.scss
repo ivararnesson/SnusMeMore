@@ -10,6 +10,10 @@
   width: 100vw;
 }
 
+.login:hover {
+  color:#007BFF;
+}
+
 h1 {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
@@ -57,6 +61,23 @@ h1 {
   border-radius: 0.5rem;
   text-decoration: none;
   cursor: pointer;
+}
+
+.master--nav-li-btn-cart {
+  @extend .master--nav-li-btn;
+  background-color: white;
+  color: black;
+}
+
+.master--nav-li-btn-cart.purchaseEvent {
+  background-color: red;
+  transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+  color: white;
+}
+
+.master--nav-li-btn-cart:hover {
+  color: blue;
+  background-color: #f0f0f0;
 }
 
 a:link, a:visited, a:hover, a:active {

@@ -137,8 +137,7 @@ function Navbar() {
             onMouseLeave={() => handleMouseLeave('shoppingCartDropdown')} 
           >
             <button 
-              style={{ backgroundColor: purchaseEvent ? 'red' : 'white', color: purchaseEvent ? 'white' : 'black' }} 
-              className="master--nav-li-btn fade-background" 
+              className={`master--nav-li-btn-cart ${purchaseEvent ? 'purchaseEvent' : ''}`}
               onClick={() => toggleDropdown('shoppingCartDropdown')}
               aria-expanded={dropdownState.shoppingCartDropdown ? 'true' : 'false'}
               aria-controls="shoppingCartMenu"
