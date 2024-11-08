@@ -20,6 +20,10 @@ h1 {
   white-space: nowrap;
 }
 
+.master--nav-over18 {
+  width: 3.5rem;
+}
+
 /* Hamburgar-knappen för mindre skärmar */
 .hamburger-menu-btn {
   background: none;
