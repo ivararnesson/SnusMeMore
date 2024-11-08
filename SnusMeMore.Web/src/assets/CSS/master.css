@@ -4,7 +4,9 @@
   align-items: center;
   background-color: aquamarine;
   padding: 0.5rem;
-  position: relative;
+  position: fixed;
+  z-index: 1;
+  top: 0%;
 }
 
 h1 {
@@ -122,6 +124,9 @@ a:link, a:visited, a:hover, a:active {
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  .master--nav-container{
+    width: 100vw;
   }
   .master--nav-li-btn, .master--nav-btn {
     padding: 0.5rem;
