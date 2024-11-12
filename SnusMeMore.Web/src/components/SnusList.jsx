@@ -37,12 +37,12 @@ const SnusList = () => {
     const filterSnus = (items, search) => {
         const queryParams = new URLSearchParams(search)
         const category = queryParams.get('category') || "all"
-        const brand = queryParams.get('brand') || "allt snus"
+        const brand = queryParams.get('brand') || "Allt snus"
 
-        setBrandTitle(brand !== "all" ? brand.toUpperCase() : category.toUpperCase())
+        setBrandTitle(brand !== "all" ? brand : category)
 
         const filteredResult = items.filter(item => {
-            const matchesBrand = brand === "allt snus" || item.brand === brand
+            const matchesBrand = brand === "Allt snus" || item.brand === brand
             const matchesCategory = category === "all" || item.category === category
             return matchesBrand && matchesCategory
         });
