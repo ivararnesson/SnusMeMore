@@ -12,7 +12,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 const SnusList = () => {
     const [snusItems, setSnusItems] = useState([])
-    const [brandTitle, setBrandTitle] = useState("ALL SNUS")
+    const [brandTitle, setBrandTitle] = useState("all")
     const [filteredItems, setFilteredItems] = useState([])
     const [firstItem, setFirstItem] = useState(0)
     const [rows, setRows] = useState(8)
@@ -37,12 +37,12 @@ const SnusList = () => {
     const filterSnus = (items, search) => {
         const queryParams = new URLSearchParams(search)
         const category = queryParams.get('category') || "all"
-        const brand = queryParams.get('brand') || "all"
+        const brand = queryParams.get('brand') || "allt snus"
 
         setBrandTitle(brand !== "all" ? brand.toUpperCase() : category.toUpperCase())
 
         const filteredResult = items.filter(item => {
-            const matchesBrand = brand === "all" || item.brand === brand
+            const matchesBrand = brand === "allt snus" || item.brand === brand
             const matchesCategory = category === "all" || item.category === category
             return matchesBrand && matchesCategory
         });
