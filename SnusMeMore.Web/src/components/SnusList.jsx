@@ -4,7 +4,7 @@ import "primeicons/primeicons.css"
 import BrandLink from "./BrandLink"
 import { brandImages } from "../../brandImages.js"
 import { Paginator } from "primereact/paginator"
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import SnusCard from './SnusCard.jsx'
 import config from '../../config.js'
 import "../assets/CSS/snuslist.css"
@@ -18,6 +18,7 @@ const SnusList = () => {
     const [rows, setRows] = useState(8)
     const location = useLocation()
     const navigate = useNavigate()
+    const headingRef = useRef(null)
 
 
     useEffect(() => {
@@ -54,15 +55,29 @@ const SnusList = () => {
     const currentItem = filteredItems.slice(firstItem, firstItem + rows)
 
     const handleBrandFilter = (brand) => {
-        const queryParams = new URLSearchParams(location.search)
-        queryParams.set('brand', brand)
-        queryParams.set('category', 'all')
-        navigate(`/snuslist?${queryParams.toString()}`)
+        const queryParams = new URLSearchParams(location.search);
+        queryParams.set('brand', brand);
+        queryParams.set('category', 'all');
+        navigate(`/snuslist?${queryParams.toString()}`);
+    
+        setTimeout(() => {
+            // Scroll the element into view first
+            headingRef.current?.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+            });
+    
+            // Use window.scrollBy to adjust for navbar height after scrolling
+            setTimeout(() => {
+                const navbarHeight = 120; // Replace with your actual navbar height
+                window.scrollBy({ top: -navbarHeight, behavior: 'smooth' });
+            }, 300); // Adjust this delay if needed based on scroll speed
+        }, 100);
     };
 
     return (
         <main className="snus--list">
-            <h1 aria-live="polite">{brandTitle}</h1>
+            <h1 ref={headingRef} aria-live="polite">{brandTitle}</h1>
             {snusItems.length > 0 ? (
                 <section className="snus--list-container" role="region" aria-labelledby="snusListHeading">
                     <h2 id="snusListHeading" className="visually-hidden">List of Snus Products</h2>
