@@ -55,7 +55,11 @@ function Navbar() {
 
   return (
     <nav className="master--nav-container">
-      <h1 className="master--nav-title">{documentModel.title}</h1>
+      <h1 className="master--nav-title">
+        <div>
+        <Link to="/">{documentModel.title}</Link>
+        </div>
+        </h1>
       <img src={icon} alt="over 18 icon" className='master--nav-over18' />
       <button 
       className="hamburger-menu-btn" 

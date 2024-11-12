@@ -2,7 +2,8 @@
   display: flex;
   justify-content: space-around;
   margin: 3rem 0 0 0;
-  background-color: aquamarine;
+  background-color: bisque;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
 }
 
 .footer--list-container {

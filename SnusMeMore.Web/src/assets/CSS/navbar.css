@@ -2,12 +2,13 @@
 .master--nav-container {
   display: flex;
   align-items: center;
-  background-color: aquamarine;
+  background-color: bisque !important;
   padding: 0.5rem;
   position: fixed;
   z-index: 1;
   top: 0%;
   width: 100vw;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 .login:hover {
@@ -54,7 +55,7 @@ h1 {
 
 .master--nav-li-btn, .master--nav-li-btn-cart {
   border: none;
-  background-color: white;
+  background-color: bisque !important;
   padding: 1rem;
   margin-right: 1rem;
   margin-left: 1rem;
@@ -69,13 +70,13 @@ h1 {
 }
 
 .master--nav-li-btn-cart.purchaseEvent {
-  background-color: red;
+  background-color: red !important;
   transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
   color: white;
 }
 
 .master--nav-li-btn-cart:hover {
-  color: blue;
+  color: black !important;
   background-color: #f0f0f0;
 }
 
@@ -88,8 +89,8 @@ a:link, a:visited, a:hover, a:active {
 }
 
 .master--nav-li-btn:hover, .master--nav-li-btn-cart:hover, .master--nav-btn:hover {
-  color: blue;
-  background-color: #f0f0f0;
+  color: black !important;
+  background-color: #f0f0f0 !important;
 }
 
 .dropdown {
