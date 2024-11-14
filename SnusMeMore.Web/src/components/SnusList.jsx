@@ -40,7 +40,11 @@ const SnusList = () => {
         const category = queryParams.get('category') || "all"
         const brand = queryParams.get('brand') || "Allt snus"
 
-        setBrandTitle(brand !== "all" ? brand : category)
+        if (category !== "all") {
+            setBrandTitle(category)
+        } else {
+            setBrandTitle(brand !== "Allt snus" ? brand : "Allt snus")
+        }
 
         const filteredResult = items.filter(item => {
             const matchesBrand = brand === "Allt snus" || item.brand === brand
