@@ -1,9 +1,6 @@
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Navbar from "./components/navbar";
-import "./assets/CSS/master.css";
-import TopRatedSnus from "./components/TopRatedSnus";
 import SearchResults from './components/SearchResults';
-import SnusList from './components/SnusList';
 import Checkout from "./pages/checkout";
 import NotFound from "./pages/notFound";
 import LoginForm from "./components/LoginForm";
