@@ -46,7 +46,7 @@ const TopRatedSnus = () => {
     return (
         <div className="rating--list">
             <div className="rating--list-h2-container">
-                <h2 className="rating--list-h2">Topp rankat snus</h2>
+                <h1 className="rating--list-h2">Topp rankat snus</h1>
             </div>
             {topRated.length > 0 ? (
                 <div className="rating--list-card">

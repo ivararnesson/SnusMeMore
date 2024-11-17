@@ -1,5 +1,4 @@
 import { useState, useEffect, useContext } from 'react';
-// import "../assets/CSS/master.css";
 import { Link } from 'react-router-dom';
 import  icon  from "../assets/images/18icons.png";
 import config from '../../config';
@@ -28,7 +27,6 @@ function Navbar() {
         shoppingCartDropdown: false,
       };
       newState[dropdownName] = !prevState[dropdownName];
-      console.log("vi är inuti")
       return newState;
     });
   };
@@ -55,7 +53,11 @@ function Navbar() {
 
   return (
     <nav className="master--nav-container">
-      <h1 className="master--nav-title">{documentModel.title}</h1>
+      <h1 className="master--nav-title">
+        <div>
+        <Link to="/">{documentModel.title}</Link>
+        </div>
+        </h1>
       <img src={icon} alt="over 18 icon" className='master--nav-over18' />
       <button 
       className="hamburger-menu-btn" 
@@ -94,44 +96,6 @@ function Navbar() {
               </ul>
             )}
           </li>
-
-          {/* <li className="master--nav-li">
-            <SearchComponent />
-          </li> */}
-
-          { }
-          {/* <li className="master--nav-li" onClick={() => toggleDropdown('dropdownTwo')} onMouseLeave={() => handleMouseLeave('dropdownTwo')}>
-            <button className="master--nav-li-btn">
-              {documentModel.optionTwo}
-              <span className={`dropdown-arrow`}>&#9662;</span>
-            </button>
-            {dropdownState.dropdownTwo && (
-              <ul className="dropdown">
-                <li><Link to="/snuslist?category=VittSnus">Vitt snus</Link></li>
-                <li><Link to="#">Suboption 2</Link></li>
-                <li><Link to="#">Suboption 3</Link></li>
-              </ul>
-            )}
-          </li> */}
-
-          {/* <li
-            className="master--nav-li"
-            onClick={() => toggleDropdown('dropdownThree')}
-            onMouseLeave={() => handleMouseLeave('dropdownThree')} // Stäng dropdown när musen lämnar
-          >
-            <button className="master--nav-li-btn">
-              {documentModel.optionThree}
-              <span className={`dropdown-arrow`}>&#9662;</span>
-            </button>
-            {dropdownState.dropdownThree && (
-              <ul className="dropdown">
-                <li><Link to="/snuslist?category=Nikotinfritt">Nikotinfritt snus</Link></li>
-                <li><a href="#">Suboption 2</a></li>
-                <li><a href="#">Suboption 3</a></li>
-              </ul>
-            )}
-          </li> */}
-          
           <li
             className="master--nav-li"
             onMouseLeave={() => handleMouseLeave('shoppingCartDropdown')} 
